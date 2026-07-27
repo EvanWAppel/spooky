@@ -1,0 +1,6 @@
+# Shared ruff config for Evan's Python projects. Managed by orch apply-template.
+line-length = 90
+target-version = "py312"
+
+[lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
