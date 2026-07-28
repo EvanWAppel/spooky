@@ -17,6 +17,47 @@ _COLUMNS = cast(
     ],
 )
 
+# The DataTable does not inherit the page's CSS — without explicit style
+# props it renders its default light theme on the dark page (near-invisible
+# gray-on-white). Palette matches assets/styles.css.
+_BG = "#111417"
+_BG_HEADER = "#1a2019"
+_FG = "#f1f5f2"
+_FG_MUTED = "#9aa8a0"
+_BORDER = "#26302b"
+
+_STYLE_HEADER = {
+    "backgroundColor": _BG_HEADER,
+    "color": _FG,
+    "fontWeight": "600",
+    "borderBottom": f"1px solid {_BORDER}",
+}
+_STYLE_CELL = {
+    "backgroundColor": _BG,
+    "color": _FG,
+    "border": "none",
+    "borderBottom": f"1px solid {_BORDER}",
+    "padding": "8px 12px",
+    "fontFamily": "inherit",
+    "fontSize": "0.95rem",
+    "textAlign": "left",
+}
+_STYLE_FILTER = {
+    "backgroundColor": _BG_HEADER,
+    "color": _FG,
+    "borderBottom": f"1px solid {_BORDER}",
+}
+_STYLE_DATA_CONDITIONAL = [
+    {
+        "if": {"column_id": "contested_badge", "filter_query": "{contested_badge} ne ''"},
+        "color": "#f2b84b",
+        "fontWeight": "600",
+    },
+    {"if": {"state": "active"}, "backgroundColor": "#1f2a24", "border": "none"},
+    {"if": {"state": "selected"}, "backgroundColor": "#1f2a24", "border": "none"},
+    {"if": {"column_id": "rating"}, "fontVariantNumeric": "tabular-nums"},
+]
+
 
 def build_episode_table(df: pd.DataFrame) -> dash_table.DataTable:
     table_df = df.copy()
@@ -46,4 +87,29 @@ def build_episode_table(df: pd.DataFrame) -> dash_table.DataTable:
         page_action="native",
         page_size=12,
         style_as_list_view=True,
+        style_header=_STYLE_HEADER,
+        style_cell=_STYLE_CELL,
+        style_filter=_STYLE_FILTER,
+        style_data_conditional=cast(Any, _STYLE_DATA_CONDITIONAL),
+        style_table={"overflowX": "auto"},
+        css=[
+            # The filter inputs and the pagination controls are rendered by
+            # the table's own stylesheet; the props above cannot reach them.
+            {
+                "selector": ".dash-filter input",
+                "rule": f"color: {_FG} !important; background: transparent;",
+            },
+            {
+                "selector": ".dash-filter input::placeholder",
+                "rule": f"color: {_FG_MUTED} !important;",
+            },
+            {
+                "selector": ".previous-next-container",
+                "rule": f"color: {_FG_MUTED};",
+            },
+            {
+                "selector": ".previous-next-container button",
+                "rule": f"color: {_FG} !important;",
+            },
+        ],
     )

@@ -34,3 +34,19 @@ def test_build_episode_table_is_sortable_filterable_and_marks_contested(
     contested_rows = [row for row in props["data"] if row["contested_badge"]]
     assert len(contested_rows) >= 1
     assert contested_rows[0]["contested_badge"] == "Contested"
+
+
+def test_table_carries_explicit_dark_theme_styles(
+    episodes_df: pd.DataFrame,
+) -> None:
+    """The DataTable does not inherit page CSS — without explicit style
+    props it renders its default light theme on the dark page, near-invisible.
+    Every styled surface (header, cells, filter row) must set both a dark
+    background and a light foreground.
+    """
+    props = build_episode_table(episodes_df).to_plotly_json()["props"]
+
+    for style_key in ("style_header", "style_cell", "style_filter"):
+        style = props.get(style_key)
+        assert style, f"{style_key} not set — table falls back to light theme"
+        assert "backgroundColor" in style and "color" in style
