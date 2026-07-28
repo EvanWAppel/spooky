@@ -165,9 +165,9 @@ D ─────► E ─────► G ────────────
   - Verify: `uv run python build/people.py` → prints per-episode coverage; **0 episodes missing**. A naive sweep loses 10–15; if any are missing, the retry pass is broken.
 - [x] **D-12** Add a test asserting Writer-only filtering drops 11 episodes and the union drops none
   - Verify: `uv run pytest tests/test_people.py -q` → green
-- [ ] **D-13** Implement `build/articles.py` — **one** `Special:Export` POST with all 214 titles, `curonly=1`. Record each article's revision ID.
+- [x] **D-13** Implement `build/articles.py` — **one** `Special:Export` POST with all 214 titles, `curonly=1`. Record each article's revision ID.
   - Verify: `uv run python build/articles.py` → single request, ~4.1 MB XML, every article has a revision ID
-- [ ] **D-14** Extract level-2 `Production` and `Themes` sections plus every episode→episode wikilink into `data/raw/article_sections.json`
+- [x] **D-14** Extract level-2 `Production` and `Themes` sections plus every episode→episode wikilink into `data/raw/article_sections.json`
   - Verify: `uv run pytest tests/test_articles.py -q` → green; wikilink edge count printed
 - [ ] **D-15** Make `build/` a package: `build/__init__.py` + `build/__main__.py` driver running the steps in PRD §8 order (spine, wikipedia, wikidata, labels, people, articles, merge, loglines, emit), with `--only <step>` to run one. Run order lives **here**, not in filenames — modules were renamed from `01_spine.py`-style because digit-prefixed modules cannot be imported by tests.
   - Verify: `uv run python -c "import build.spine, build.merge"` → no error; `uv run python -m build --help` lists the steps in order

@@ -56,14 +56,21 @@ class HttpClient:
         )
 
     def get(self, url: str, params: dict[str, Any] | None = None) -> httpx.Response:
+        return self._request("GET", url, params=params)
+
+    def post(self, url: str, data: dict[str, Any] | None = None) -> httpx.Response:
+        return self._request("POST", url, data=data)
+
+    def _request(self, method: str, url: str, **kwargs: Any) -> httpx.Response:
         for attempt in range(self._retries):
             last_attempt = attempt == self._retries - 1
             self._throttle()
             try:
-                response = self._client.get(url, params=params)
+                response = self._client.request(method, url, **kwargs)
             except httpx.TransportError:
                 log.warning(
-                    "GET %s: transport error (attempt %d/%d)",
+                    "%s %s: transport error (attempt %d/%d)",
+                    method,
                     url,
                     attempt + 1,
                     self._retries,
@@ -75,7 +82,8 @@ class HttpClient:
 
             if response.status_code == 429 or response.status_code >= 500:
                 log.warning(
-                    "GET %s: HTTP %d (attempt %d/%d)",
+                    "%s %s: HTTP %d (attempt %d/%d)",
+                    method,
                     url,
                     response.status_code,
                     attempt + 1,
