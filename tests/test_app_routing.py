@@ -45,7 +45,7 @@ def chart_click(monkeypatch: pytest.MonkeyPatch) -> Any:
             "callback_context",
             SimpleNamespace(triggered_id="season-chart"),
         )
-        return app_module.write_url(click_data, None, None, pathname, search)
+        return app_module.write_url(click_data, None, [], None, pathname, search)
 
     return _invoke
 
@@ -79,13 +79,22 @@ def test_chart_click_writes_both_season_and_category(chart_click: Any) -> None:
 
 
 def test_chart_click_then_filter_returns_only_that_season(chart_click: Any) -> None:
-    """End-to-end through the real filter: one row, not four."""
+    """End-to-end through the real filter: season AND category both apply.
+
+    Expectations derive from the loaded corpus rather than hard-coded
+    titles, so the test holds for the real 220-record dataset.
+    """
     pathname, search = chart_click(
         {"points": [{"x": 5, "customdata": {"season": 5, "category": "mythology"}}]}
     )
     filtered = app_module._filter_episodes(pathname, search)
 
-    assert list(filtered["title"]) == ["Redux II"]
+    corpus = app_module.EPISODES
+    expected = corpus[(corpus["season"] == 5) & (corpus["label_derived"] == "mythology")]
+    assert len(filtered) == len(expected) > 0
+    assert (filtered["season"] == 5).all()
+    assert (filtered["label_derived"] == "mythology").all()
+    assert "Redux II" in set(filtered["title"])
 
 
 def test_chart_click_falls_back_to_point_x_without_customdata(
@@ -95,3 +104,24 @@ def test_chart_click_falls_back_to_point_x_without_customdata(
     pathname, _ = chart_click({"points": [{"x": 10}]})
 
     assert pathname == "/season/10"
+
+
+def test_contested_filter_matches_the_corpus_count() -> None:
+    """G-04: ?contested=1 returns exactly the contested records."""
+    corpus = app_module.EPISODES
+    expected = int(corpus["label_contested"].sum())
+
+    filtered = app_module._filter_episodes(None, "?contested=1")
+
+    assert expected > 0
+    assert len(filtered) == expected
+    assert filtered["label_contested"].all()
+
+
+def test_contested_filter_composes_with_season_and_category() -> None:
+    filtered = app_module._filter_episodes("/season/9", "?contested=1")
+
+    assert (filtered["season"] == 9).all()
+    assert filtered["label_contested"].all()
+    # The Truth two-parter is 2-1 contested mythology — it must be here.
+    assert (filtered["title"] == "The Truth").sum() == 2

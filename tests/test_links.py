@@ -15,10 +15,14 @@ def test_imdb_url_builds_title_link() -> None:
     assert imdb_url("tt0751141") == "https://www.imdb.com/title/tt0751141/"
 
 
-def test_tmdb_watch_url_builds_tv_season_link() -> None:
+def test_tmdb_watch_url_builds_show_level_link_for_episodes() -> None:
+    """Verified live (G-05): TMDB has NO season-level watch pages —
+    /season/5/watch 404s. The show-level /watch page is the sanctioned,
+    provider-agnostic where-to-watch target for every episode.
+    """
     assert (
         tmdb_watch_url(season=5, movie_id=None)
-        == "https://www.themoviedb.org/tv/4087-the-x-files/season/5/watch"
+        == "https://www.themoviedb.org/tv/4087-the-x-files/watch"
     )
 
 

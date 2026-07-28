@@ -25,7 +25,7 @@ def test_build_detail_panel_renders_episode_details_links_and_status(
     assert "Wikipedia:" in rendered
     assert "dom111:" in rendered
     assert "https://www.imdb.com/title/" in rendered
-    assert "https://www.themoviedb.org/tv/4087-the-x-files/season/5/watch" in rendered
+    assert "https://www.themoviedb.org/tv/4087-the-x-files/watch" in rendered
 
 
 def test_source_breakdown_never_renders_raw_nan(
@@ -59,6 +59,20 @@ def test_source_breakdown_distinguishes_no_data_from_not_listed(
     rendered = render_text(build_detail_panel(record))
 
     assert "Fox DVDs: not listed" in rendered
+
+
+def test_null_logline_never_renders_as_the_string_none(
+    episodes_df: pd.DataFrame,
+    render_text: Callable[[Any], str],
+) -> None:
+    """Real records ship with logline=null until Group F generates them —
+    the panel must omit the paragraph, not print "None"."""
+    record = episodes_df.iloc[0].to_dict()
+    record["logline"] = None
+
+    rendered = render_text(build_detail_panel(record))
+
+    assert "None" not in rendered.split()
 
 
 @pytest.mark.parametrize("missing", [None, float("nan"), pd.NA])

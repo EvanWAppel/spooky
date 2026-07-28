@@ -87,8 +87,9 @@ def tmp_data_dir(tmp_path: Path) -> Path:
 
 @pytest.fixture(scope="session")
 def sample_data_dir() -> Path:
-    """The 12 hand-built vertical-slice sample records."""
-    return REPO_ROOT / "data" / "episodes_sample"
+    """The 12 hand-built vertical-slice sample records (now a test fixture;
+    the app itself loads the real ``data/episodes/`` corpus)."""
+    return FIXTURES_DIR / "episodes_sample"
 
 
 @pytest.fixture(scope="session")

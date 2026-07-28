@@ -18,10 +18,13 @@ def build_detail_panel(record: dict[str, Any] | None) -> html.Div:
         return html.Div("Select an episode", id="detail-panel", className="detail-panel")
 
     links = _build_links(record)
+    logline = record.get("logline")
     children = [
         html.H2(str(record["title"])),
         html.Div(_format_position(record), className="episode-position"),
-        html.P(str(record["logline"]), className="logline"),
+        # Loglines arrive in Group F; until reviewed, show nothing rather
+        # than a literal "None" (or an unvetted machine draft).
+        html.P("" if is_missing(logline) else str(logline), className="logline"),
         html.Div(str(record["review_status"]), className="review-status"),
         html.Dl(
             [

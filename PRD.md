@@ -267,10 +267,12 @@ Two per episode:
 
 - **IMDb page** — `imdb.com/title/{imdb_id}/`, from Wikidata P345. Linking is
   unrestricted. The rating shown on *our* page is TVmaze's, never IMDb's.
-- **Where to watch** — TMDB season watch page,
-  `themoviedb.org/tv/4087-the-x-files/season/{n}/watch`. Sanctioned,
-  provider-agnostic, auto-updates as rights move, survives the Hulu→Disney+
-  merger expected late 2026.
+- **Where to watch** — the TMDB **show-level** watch page,
+  `themoviedb.org/tv/4087-the-x-files/watch`. Sanctioned, provider-agnostic,
+  auto-updates as rights move, survives the Hulu→Disney+ merger expected
+  late 2026. *(Corrected 2026-07-27 at G-05: research specified a season
+  watch page, but `/season/{n}/watch` 404s on every season — TMDB has no
+  season-level watch pages. Verified live against all 11.)*
 
 Films link to their own TMDB watch pages. Neither film is currently on any
 streaming service — the link must degrade gracefully.

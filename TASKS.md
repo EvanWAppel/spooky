@@ -191,9 +191,9 @@ D ─────► E ─────► G ────────────
   - Verify: `uv run pytest tests/test_provenance.py -q` → green; no field lacks a source
 - [x] **E-07** Run the full merge → `data/episodes/*.json`, 220 files, committed
   - Verify: `ls data/episodes/*.json | wc -l` → 220. Counts printed by the script must be **re-derived**, not hard-coded.
-- [ ] **E-08** Implement `build/emit.py` — writes `data/dist/spooky-episodes.json`, `.csv`, and `spooky.sqlite` with an FTS5 table over title + logline + tags
+- [x] **E-08** Implement `build/emit.py` — writes `data/dist/spooky-episodes.json`, `.csv`, and `spooky.sqlite` with an FTS5 table over title + logline + tags
   - Verify: `uv run python build/emit.py`; `sqlite3 spooky.sqlite "select count(*) from episodes"` → 220
-- [ ] **E-09** Write `data/README.md` — full field dictionary, source and license per field, CC BY-SA 4.0 statement, regeneration instructions
+- [x] **E-09** Write `data/README.md` — full field dictionary, source and license per field, CC BY-SA 4.0 statement, regeneration instructions
   - Verify: every field in `data/dist/spooky-episodes.json` appears in the dictionary. Diff the key sets programmatically.
 - [x] **E-10** Add the legal-shape test to CI — no `synopsis` key, no `image` key, no logline over 30 words, no IMDb rating field
   - Verify: `uv run pytest tests/test_legal.py -q` → green
@@ -227,15 +227,15 @@ D ─────► E ─────► G ────────────
 ## Group G — Real Data Integration
 > Depends on: E-07, Group C complete.
 
-- [ ] **G-01** Point `app.py` at `data/episodes/` instead of `data/episodes_sample/`; delete the sample directory
+- [x] **G-01** Point `app.py` at `data/episodes/` instead of `data/episodes_sample/`; delete the sample directory
   - Verify: app loads 220 records; `ls data/episodes_sample 2>&1` → no such directory
-- [ ] **G-02** Confirm the chart renders 11 season bars with three segments each and excludes both films
+- [x] **G-02** Confirm the chart renders 11 season bars with three segments each and excludes both films
   - Verify: run locally; paste per-season segment counts and confirm they match `data/dist/spooky-episodes.csv`
-- [ ] **G-03** Add the Films card — the two film records, outside the season chart
+- [x] **G-03** Add the Films card — the two film records, outside the season chart
   - Verify: `uv run pytest tests/test_films.py -q` → green; both films visible in the UI
-- [ ] **G-04** Add the contested filter toggle ("show contested only")
+- [x] **G-04** Add the contested filter toggle ("show contested only")
   - Verify: toggle on → row count equals the count of `label_contested == true`. Paste both numbers.
-- [ ] **G-05** Verify all 220 out-links resolve — spot-check 10 episodes and both films
+- [x] **G-05** Verify all 220 out-links resolve — spot-check 10 episodes and both films
   - Verify: paste the 12 URLs and their HTTP status codes. Films must degrade gracefully (not on any service).
 - [ ] **G-06** 📋 **OWNER TASK** — spot-check classifications against the Fox DVD volumes; adjudicate any contested episode you disagree with into `data/overrides/`
   - Verify: paste the list of episodes you changed and why

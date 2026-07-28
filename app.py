@@ -6,6 +6,7 @@ from urllib.parse import parse_qs, urlencode
 from dash import Dash, Input, Output, State, callback_context, dcc, html
 
 from components.chart import build_season_chart
+from components.films import build_films_card
 from components.panel import build_detail_panel
 from components.table import build_episode_table
 from spooky.loader import load_episodes
@@ -13,7 +14,7 @@ from spooky.logging_config import setup_logging
 
 setup_logging()
 
-EPISODES = load_episodes(Path("data/episodes_sample"))
+EPISODES = load_episodes(Path(__file__).resolve().parent / "data" / "episodes")
 
 app = Dash(__name__, title="spooky")
 server = app.server
@@ -65,6 +66,9 @@ def _filter_episodes(pathname: str | None, search: str | None):
     if text:
         df = df[df["title"].str.contains(text, case=False, na=False)]
 
+    if params.get("contested", [None])[0] == "1":
+        df = df[df["label_contested"]]
+
     return df
 
 
@@ -104,9 +108,12 @@ def _filter_chip(pathname: str | None, search: str | None) -> html.Div:
         if season_value.isdigit():
             season = f"Season {season_value}"
     category = _category_label(params.get("category", [None])[0])
+    parts = [season, category]
+    if params.get("contested", [None])[0] == "1":
+        parts.append("Contested only")
     return html.Div(
         [
-            html.Span(f"{season} · {category}"),
+            html.Span(" · ".join(parts)),
             dcc.Link("Clear", href="/", className="clear-filter"),
         ],
         className="filter-chip",
@@ -187,7 +194,23 @@ app.layout = html.Div(
                             figure=build_season_chart(EPISODES),
                             config={"displayModeBar": False},
                         ),
-                        html.Div(id="filter-chip"),
+                        html.Div(
+                            [
+                                html.Div(id="filter-chip"),
+                                dcc.Checklist(
+                                    id="contested-toggle",
+                                    options=[
+                                        {
+                                            "label": " Contested only",
+                                            "value": "contested",
+                                        }
+                                    ],
+                                    value=[],
+                                    className="contested-toggle",
+                                ),
+                            ],
+                            className="filter-row",
+                        ),
                     ],
                     className="chart-section",
                 ),
@@ -204,6 +227,7 @@ app.layout = html.Div(
                     ],
                     className="explorer",
                 ),
+                build_films_card(EPISODES),
             ]
         ),
         footer,
@@ -234,12 +258,13 @@ def sync_view(pathname: str | None, search: str | None):
     Output("url", "search"),
     Input("season-chart", "clickData"),
     Input("episode-table", "active_cell"),
+    Input("contested-toggle", "value"),
     State("episode-table", "data"),
     State("url", "pathname"),
     State("url", "search"),
     prevent_initial_call=True,
 )
-def write_url(click_data, active_cell, table_rows, pathname, search):
+def write_url(click_data, active_cell, toggle_value, table_rows, pathname, search):
     trigger = callback_context.triggered_id
     params = parse_qs((search or "").lstrip("?"))
 
@@ -249,6 +274,8 @@ def write_url(click_data, active_cell, table_rows, pathname, search):
         season = custom.get("season") or point.get("x")
         category = custom.get("category")
         params = {"category": [category]} if category else {}
+        if toggle_value:
+            params["contested"] = ["1"]
         return f"/season/{int(season)}", f"?{urlencode(params, doseq=True)}"
 
     if trigger == "episode-table" and active_cell and table_rows:
@@ -256,6 +283,13 @@ def write_url(click_data, active_cell, table_rows, pathname, search):
         if row_index is not None and row_index < len(table_rows):
             params["selected"] = [table_rows[row_index]["id"]]
             return pathname or "/", f"?{urlencode(params, doseq=True)}"
+
+    if trigger == "contested-toggle":
+        if toggle_value:
+            params["contested"] = ["1"]
+        else:
+            params.pop("contested", None)
+        return pathname or "/", f"?{urlencode(params, doseq=True)}"
 
     return pathname or "/", search or ""
 
