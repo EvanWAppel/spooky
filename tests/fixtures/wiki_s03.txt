@@ -1,0 +1,473 @@
+{{Use American English|date=May 2025}}
+{{Short description|Season of television series The X-Files}}
+{{Use mdy dates|date=November 2012}}
+{{Good article}}
+{{Infobox television season
+| season_number = 3
+| bgcolour      = #2D6161
+| image         = The X-Files Season 3.jpg
+| caption       = DVD cover
+| starring      = {{plainlist|
+* [[David Duchovny]]
+* [[Gillian Anderson]]}}
+| network       = [[Fox Broadcasting Company|Fox]]
+| first_aired   = {{Start date|1995|9|22}}
+| last_aired    = {{End date|1996|5|17}}
+| num_episodes  = 24
+| episode_list  = List of The X-Files episodes
+}}
+
+The third season of the American [[science fiction]] television series ''[[The X-Files]]'' commenced airing on [[Fox Broadcasting Company|Fox]] in the United States on September 22, 1995, concluded on the same channel on May 17, 1996, and contained 24 episodes. The season continues to follow the cases of [[Federal Bureau of Investigation|FBI]] special agents [[Fox Mulder]] and [[Dana Scully]], portrayed by [[David Duchovny]] and [[Gillian Anderson]] respectively, who investigate paranormal or supernatural cases, known as [[X-Files]] by the FBI.
+
+The season features the conclusion of several plot-lines introduced in [[The X-Files season 2|season two]], while also introducing several new plot elements. Major plot arcs include an elaborate conspiracy being discovered when an [[Alien Autopsy (1995 film)|alien autopsy]] video is acquired by Mulder, Scully's search for the killer of her sister, and the mystery surrounding [[X (The X-Files)|X]] ([[Steven Williams]]). Pivotal characters such as the [[First Elder]] ([[Don S. Williams]]) and the alien virus [[Black oil (The X-Files)|black oil]] were first introduced in this season. In addition, the season features a wide variety of "[[Villain of the week|Monster-of-the-Week]]" episodes, stand-alone stories not of influence to the wider [[Mythology of The X-Files|mythology]] of the series.
+
+The season attained higher ratings than season two, the highest viewing audience the series had yet achieved. Season premiere "[[The Blessing Way (The X-Files)|The Blessing Way]]"  debuted with a [[Nielsen rating|Nielsen household rating]] of 19.94, which more than doubled the premiere of the last season. The ratings consistently stayed above 15.0, making it one of the most watched series of the [[1995–96 United States network television schedule|1995–96]] television line-up. The season received generally positive reviews from television critics, winning five [[Primetime Emmy Award]]s. Many of the episodes written by writer [[Darin Morgan]] received critical acclaim, including the episodes "[[Clyde Bruckman's Final Repose]]" and "[[Jose Chung's From Outer Space|Jose Chung's ''From Outer Space'']]" which are often cited as some of the best of the series. Morgan left the series following this season, due to an inability to keep up with the fast-paced nature of the show.
+
+== Plot overview ==
+<!-- Don't include any summary from the non-mytharc episodes since they are stand alone episodes. -->
+{{See also|Mythology of The X-Files}}
+The show centers on [[Federal Bureau of Investigation|FBI]] special agents [[Fox Mulder]] ([[David Duchovny]]) and [[Dana Scully]] ([[Gillian Anderson]]) who work on cases linked to the paranormal, called [[X-File]]s. Mulder is later found in the desert following the events of the [[The X-Files season 2|second season]] [[Anasazi (The X-Files)|finale]] and nursed back to health by [[List of The X-Files characters#Albert Hosteen|Albert Hosteen]] ([[Floyd Red Crow Westerman]]).<ref name="Anasazi">{{cite episode |episode-link=Anasazi (The X-Files) |title=Anasazi |series=The X-Files |series-link=The X-Files |credits=[[R.W. Goodwin]] (director); [[Chris Carter (screenwriter)|Chris Carter]] (writer) |network=[[Fox Broadcasting Company|Fox]] |season=2 |number=25 |airdate=May 19, 1995}}</ref> Meanwhile, Scully investigates the possible involvement of the smallpox eradication program in human genetic experimentation, discovering that a Nazi scientist who defected during [[Operation Paperclip]] has been conducting human experimentation to create alien-human hybrids. Her sister Melissa ([[Melinda McGraw]]), however, is shot by assassins who mistake her for Dana, and dies in hospital that night.<ref name="The_Blessing_Way">{{cite episode |episode-link=The Blessing Way (The X-Files) |title=The Blessing Way |series=The X-Files |series-link=The X-Files |credits=[[R.W. Goodwin]] (director); [[Chris Carter (screenwriter)|Chris Carter]] (writer) |network=[[Fox Broadcasting Company|Fox]] |season=3 |number=1 |airdate=September 22, 1995}}</ref><ref name="Paper_Clip">{{cite episode |episode-link=Paper Clip |title=Paper Clip |series=The X-Files |series-link=The X-Files |credits=[[Rob Bowman (filmmaker)|Rob Bowman]] (director); [[Chris Carter (screenwriter)|Chris Carter]] (writer) |network=[[Fox Broadcasting Company|Fox]] |season=3 |number=2 |airdate=September 29, 1995}}</ref><ref>[[#Lowry|Lowry]] (1996), pp. 225–237</ref>
+
+Investigating evidence of an [[Alien Autopsy (1995 film)|alien autopsy]], Mulder infiltrates a secretive government train carriage carrying an alien-human hybrid. Mulder is almost killed by a [[Syndicate (The X-Files)|Syndicate]] operative guarding the hybrid, but is saved by his informant [[X (The X-Files)|X]] ([[Steven Williams]]). X had been tipped off about Mulder's activities by the agent's partner Dana Scully (Gillian Anderson). Scully, meanwhile, meets a group of women with abduction experiences similar to [[Ascension (The X-Files)|her own]], and meets another member of the Syndicate known as the [[First Elder]] ([[Don S. Williams]]), who claims during her abduction she was placed on a similar train car and experimented upon by the Japanese scientists.<ref name="nisei">{{cite episode |episode-link=Nisei (The X-Files) |title=Nisei |series=The X-Files |series-link=The X-Files |credits=[[Rob Bowman (filmmaker)|Rob Bowman]] (director); [[Frank Spotnitz]] (writer) |network=[[Fox Broadcasting Company|Fox]] |season=3 |number=9 |airdate=November 24, 1995}}</ref><ref name="seventhreeone">{{cite episode |episode-link=731 (The X-Files) |title=731 |series=The X-Files |series-link=The X-Files |credits=[[David Nutter]] (director); [[Chris Carter (screenwriter)|Chris Carter]], [[Howard Gordon]]  [[Frank Spotnitz]] (writers) |network=[[Fox Broadcasting Company|Fox]] |season=3 |number=10 |airdate=December 1, 1995}}</ref><ref>[[#Lovece|Lovece]] (1996), pp. 204–208</ref>
+
+The crew of a French salvage ship trying to raise a World War II-era submarine from the sea floor are stricken with massive radiation burns—except for one, who has been infected with a parasitic [[Black oil (The X-Files)|black oil]] discovered on the submarine. The oil is controlling the crewman's body, and after passing through several hosts, has overtaken [[Alex Krycek]] ([[Nicholas Lea]]), whom Mulder has been pursuing. Scully finds that the submarine had been involved in discovering the oil on the sea floor during World War II, under the guise of finding a sunken fighter plane. The infected Krycek makes his way to a missile silo used to hide a UFO, and the oil escapes his body to board the craft. Meanwhile, Scully has tracked down [[Luis Cardinal]], the man responsible for killing [[Melissa Scully|her sister]].<ref name="piper">{{cite episode |title=[[Piper Maru]] |series=The X-Files |series-link=The X-Files |credits=[[Rob Bowman (filmmaker)|Rob Bowman]] (director); [[Chris Carter (screenwriter)|Chris Carter]] & [[Frank Spotnitz]] (writers) |network=[[Fox Broadcasting Company|Fox]] |season=3 |number=15 |airdate=February 9, 1996}}</ref><ref name="apocrypha">{{cite episode |episode-link=Apocrypha (The X-Files) |title=Apocrypha |series=The X-Files |series-link=The X-Files |credits=[[Kim Manners]] (director); [[Chris Carter (screenwriter)|Chris Carter]] & [[Frank Spotnitz]] (writer) |network=[[Fox Broadcasting Company|Fox]] |season=3 |number=16 |airdate=February 16, 1996}}</ref><ref>[[#Lovece|Lovece]] (1996), pp. 211–212</ref>
+
+== Writing ==
+[[File:David Duchovny 2011 Shankbone.JPG|upright|thumb|As with season two, [[David Duchovny]] received two writing credits in season three, including for the season finale.]]
+
+Development of the first episode of the season, "The Blessing Way", began with the second-season finale "[[Anasazi (The X-Files)|Anasazi]]".<ref name="BBCdate">{{cite AV media notes |title=The X-Files: The Complete Second Season |last=Nutter|first=David|display-authors=etal |type=booklet |publisher=[[20th Century Studios|20th Century Fox]]|location=[[Los Angeles]]}}</ref> Both of those episodes, along with "[[Paper Clip]]", form a trilogy of episodes that began the third season.<ref name="DVD2" /> "Anasazi" was directed by [[R. W. Goodwin]], who later directed the season finale "[[Talitha Cumi (The X-Files)|Talitha Cumi]]", and "Paper Clip" was directed by [[Rob Bowman (filmmaker)|Rob Bowman]].<ref name="DVD2" /> Bowman directed a total of eight episodes for the season, followed by [[Kim Manners]] who directed seven. Series creator [[Chris Carter (screenwriter)|Chris Carter]] also served as [[executive producer]] and [[showrunner]] and wrote eight episodes, directing one.<ref name="EW" />
+
+Darin Morgan had a small involvement in the second season, and was asked to contribute more content for the third.<ref name=popmatters /> He first appeared in "[[The Host (The X-Files)|The Host]]" as the Flukeman, and was brought on by his brother [[Glen Morgan]] to help write the episode "[[Blood (The X-Files)|Blood]]".<ref name=popmatters /><ref name=shear>[[#Shearman|Shearman and Pearson]], p. 34</ref> Morgan's first sole credit as a writer came in the episode "[[Humbug (The X-Files)|Humbug]]", which received a positive reception by the staff.<ref name=popmatters>{{cite web |last=Kirby |first=Jonathan |title=Not Just a Fluke: How Darin Morgan Saved The X-Files |work=[[PopMatters]] |date=October 29, 2007 |url=http://www.popmatters.com/pm/feature/not-just-a-fluke-how-darin-morgan-saved-the-x-files/ |access-date=July 11, 2010 |archive-date=October 16, 2011 |archive-url=https://web.archive.org/web/20111016002429/http://www.popmatters.com/pm/feature/not-just-a-fluke-how-darin-morgan-saved-the-x-files |url-status=live }}</ref> David Duchovny expressed an enjoyment for working with Morgan, commenting "what I loved about his scripts was that he seemed to be trying to destroy the show."<ref name=popmatters /> 
+
+Morgan wrote three episodes, but later left the series because he could not keep up with the fast-paced nature of network television. He also expressed a negative opinion of the way his teleplays were handled, despite a positive reception by both critics and the crew of his work.<ref name="EW" /> He also contributed to the script for the episode "[[Quagmire (The X-Files)|Quagmire]]".<ref name="EW" /><ref name=popmatters /> After writing one episode the previous season, [[Vince Gilligan]] returned to write another solo episode for the season, now credited as a creative consultant.<ref name=vance /> Cast member [[David Duchovny]] collaborated with Howard Gordon and Chris Carter for two episodes, receiving story credit.<ref name="DVD2" />
+
+New writers in the third season included story editor [[Jeff Vlaming|Jeffrey Vlaming]] who wrote two episodes, supervising producer [[Charles Grant Craig]] who wrote a single episode, Kim Newtown who wrote two episodes, and staff writer [[John Shiban]] who wrote two episodes.<ref name="DVD2" /> All new writers except Shiban did not return after this season. Series visual effects producer Mat Beck also wrote an episode. Other producers included production manager and producer Joseph Patrick Finn and co-producer [[Paul Rabwin]].<ref name="DVD2" />
+
+== Themes ==
+"[[Nisei (The X-Files)|Nisei]]" and "[[731 (The X-Files)|731]]", show a darker side to the series, exploring the public's distrust in the government.<ref name="d181">[[#Delasara|Delasara]], p. 181</ref> Other episodes dealing with the wider mythology of the series—"[[Talitha Cumi (The X-Files)|Talitha Cumi]]", "[[Piper Maru]]" and "[[Apocrypha (The X-Files)|Apocrypha]]"—explore similar concepts, showcasing the [[shadow government (conspiracy)|shadow government]] plot line of the series.<ref name="3comp" /> Episodes like "[[2Shy]]" and "[[Pusher (The X-Files)|Pusher]]" feature sadistic villains, containing human beings capable of highly immoral acts despite their seemingly mundane appearances.<ref name=shear /> Another episode with a serial killer antagonist, "[[Grotesque (The X-Files)|Grotesque]]", revolves around the way that evil can change and influence people.<ref name=myth>{{cite news |url=http://www.entil2001.com/series/x-files/reviews/season3/3-14.html |title=Grotesque |last=Keegan |first=John |publisher=Critical Myth |access-date=May 21, 2012 |archive-date=February 20, 2012 |archive-url=https://web.archive.org/web/20120220070200/http://www.entil2001.com/series/x-files/reviews/season3/3-14.html |url-status=dead }}</ref> "[[Oubliette (The X-Files)|Oubliette]]" offers a sentimental and emotional plot driven by the kidnapping of a young girl.<ref name="p121">Lowry, p. 121</ref>  The episode features parallels to the real life [[Murder of Polly Klaas|Polly Klaas case]] and provides commentary on both [[stockholm syndrome]] and trauma.<ref name="L120">Lowry, p. 120</ref>
+
+Aliens and serial killers are not the only antagonists in the season; several episodes revolve around more traditional, [[B-movie]] inspired monsters, taking influence from horror films. These episodes include "[[War of the Coprophages]]" and "Quagmire", about killer cockroaches and a lake monster.<ref name=popmatters /> Several episodes have satirical elements, including "[[D.P.O.]]",  "[[Syzygy (The X-Files)|Syzygy]]" and "War of the Coprophages", with the latter two showcasing how the public can create panic out of need.<ref name=avclub>{{cite web |url=https://www.avclub.com/the-x-files-syzygy-grotesque-piper-maru-1798165592 |first=Emily |last=VanDerWerff |work=[[The A.V. Club]] |title=The X-Files: "Syzygy"/"Grotesque"/"Piper Maru" |date=August 1, 2010 |access-date=December 9, 2021 |archive-date=December 9, 2021 |archive-url=https://web.archive.org/web/20211209155114/https://www.avclub.com/the-x-files-syzygy-grotesque-piper-maru-1798165592 |url-status=live }}</ref><ref>{{cite web |url=https://www.denofgeek.com/tv/a-look-back-over-the-x-files-finest-stand-alone-episodes/ |title=The X-Files: Best Monster-of-the-Week Episodes |first=Juliette |last=Harrisson |publisher=Den of Geek |date=September 6, 2011 |access-date=December 9, 2021 |archive-date=December 10, 2022 |archive-url=https://web.archive.org/web/20221210031057/https://www.denofgeek.com/tv/a-look-back-over-the-x-files-finest-stand-alone-episodes/ |url-status=dead }}</ref> Both "Clyde Bruckman's Final Repose" and "Jose Chung's ''From Outer Space''" play against tropes and the established formula of the series, subverting themes the series usually followed.<ref name=avclub2>{{cite web |url=https://www.avclub.com/the-x-files-hell-money-jose-chungs-from-outer-space-1798165717 |first=Emily |last=VanDerWerff |work=[[The A.V. Club]] |title=The X-Files: "Hell Money"/"Jose Chung's From Outer Space"/"Avatar" |date=August 15, 2010 |access-date=December 9, 2021 |archive-date=December 9, 2021 |archive-url=https://web.archive.org/web/20211209155108/https://www.avclub.com/the-x-files-hell-money-jose-chungs-from-outer-space-1798165717 |url-status=live}}</ref>
+
+== Cast ==
+
+=== Main cast ===
+==== Starring ====
+* [[David Duchovny]] as Special Agent [[Fox Mulder]]
+* [[Gillian Anderson]] as Special Agent [[Dana Scully]]
+
+==== Also starring ====
+* [[Mitch Pileggi]] as [[Deputy Director of the Federal Bureau of Investigation|Deputy Director]] [[Walter Skinner]]
+
+=== Recurring cast ===
+{{Columns-list|colwidth=30em|
+* [[William B. Davis]] as [[Cigarette Smoking Man]]
+* [[Tom Braidwood]] as [[Melvin Frohike]]
+* [[Bruce Harwood]] as [[John Fitzgerald Byers]]
+* [[Dean Haglund]] as [[Richard Langly]]
+* [[Nicholas Lea]] as [[Alex Krycek]]
+* [[Brendan Beiser]] as [[Pendrell (The X-Files)|Pendrell]]
+* Lenno Britos as [[Luis Cardinal]]
+* [[Don S. Williams]] as [[First Elder]]
+* [[Steven Williams]] as [[X (The X-Files)|X]]
+* [[Sheila Larken]] as [[Margaret Scully]]
+* [[John Neville (actor)|John Neville]] as [[Well-Manicured Man]]
+* [[Rebecca Toolan]] as [[Teena Mulder]]
+}}
+
+=== Guest cast ===
+{{Columns-list|colwidth=30em|
+* [[Peter Donat]] as [[Bill Mulder|William Mulder]]
+* [[Jerry Hardin]] as [[Deep Throat (The X-Files)|Deep Throat]]
+* [[Melinda McGraw]] as [[Melissa Scully]]
+* [[Stephen McHattie]] as [[Men in Black (The X-Files)#Red-Haired Man|Red-Haired Man]]
+* [[Morris Panych]] as [[Men in Black (The X-Files)#Grey-Haired Man|Grey-Haired Man]]
+* [[Floyd Red Crow Westerman|Floyd Westerman]] as [[Albert Hosteen]]
+* [[Roy Thinnes]] as [[Jeremiah Smith (The X-Files)|Jeremiah Smith]]
+* [[Brian Thompson (actor)|Brian Thompson]] as [[Alien Bounty Hunter]]
+* [[Robert Wisden]] as Robert Patrick Modell
+}}
+
+== Episodes ==
+Episodes marked with a double dagger ({{Double-dagger}}) are episodes in the series' Alien Mythology arc.{{#tag:ref|The episodes were included in the DVD collections ''[[The X-Files Mythology, Volume 1 – Abduction]]'' and ''[[The X-Files Mythology, Volume 2 – Black Oil]]'', released by Fox.|group="nb"}}
+{{See also|List of The X-Files episodes}}
+<!--PER WIKIPEDIA'S GUIDELINES AND POLICIES REGARDING PLOTS, PLEASE DO NOT ADD ANY MORE THAN 4 TO 6 LINES OF INFORMATION. USE THE "PREVIEW" BUTTON TO SEE IF YOU MEET THE SIZE, BECAUSE 6 LINES IN "EDIT MODE" ISN'T EQUIVALENT TO 6 LINES IN THE PLOT SECTION!-->
+<onlyinclude>{{Episode table |background=#2D6161 |overall=5 |season=5 |title=23 |director=12 |writer=25 |airdate=13 |prodcode=7 |viewers=10 |country=U.S. |prodcodeR=<ref name="DVD2">{{cite AV media notes |title=The X-Files: The Complete Third Season |last=Goodwin|first=R. W.|display-authors=etal |type=booklet |publisher=[[20th Century Studios|20th Century Fox]]|location=[[Los Angeles]]}}</ref> |episodes=
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=50
+|EpisodeNumber2=1
+|Title=[[The Blessing Way (The X-Files)|The Blessing Way]]
+|RTitle={{Double-dagger}}
+|WrittenBy=[[Chris Carter (screenwriter)|Chris Carter]]
+|DirectedBy=[[R. W. Goodwin]]
+|OriginalAirDate={{Start date|1995|9|22}}
+|ProdCode=3X01
+|Viewers=19.94<ref name="3comp">[[#Lowry|Lowry]] (1996), p. 251</ref>
+|ShortSummary=The Cigarette Smoking Man works quickly to recover the stolen computer files, but finds himself thwarted by a man who he hoped was dead. Meanwhile, Scully finds herself at a loss for her next step and turns to her family for support, since Mulder is otherwise engaged fighting for survival.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=51
+|EpisodeNumber2=2
+|Title=[[Paper Clip]]
+|RTitle={{Double-dagger}}
+|WrittenBy=Chris Carter
+|DirectedBy=[[Rob Bowman (director)|Rob Bowman]]
+|OriginalAirDate={{Start date|1995|9|29}}
+|ProdCode=3X02
+|Viewers=17.20<ref name="3comp" />
+|ShortSummary=Mulder and Scully search for answers regarding the old photograph with his father and other unnamed men. Their search takes them to the abandoned Strughold Mining Facility where they uncover a dangerous secret.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=52
+|EpisodeNumber2=3
+|Title=[[D.P.O. (The X-Files)|D.P.O.]]
+|WrittenBy=[[Howard Gordon]]
+|DirectedBy=[[Kim Manners]]
+|OriginalAirDate={{Start date|1995|10|6}}
+|ProdCode=3X03
+|Viewers=15.57<ref name="3comp" />
+|ShortSummary=Mulder is skeptical over a coroner's report regarding the fifth person to be struck by lightning in a small [[Oklahoma]] town. Their investigation into the latest death seems to point to the only person to have survived a lightning strike, an emotionally charged youth.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=53
+|EpisodeNumber2=4
+|Title=[[Clyde Bruckman's Final Repose]]
+|WrittenBy=[[Darin Morgan]]
+|DirectedBy=[[David Nutter]]
+|OriginalAirDate={{Start date|1995|10|13}}
+|ProdCode=3X04
+|Viewers=15.38<ref name="3comp" />
+|ShortSummary=Skeptical of a famous psychic's predictions regarding the death of several prognosticators, Mulder instead finds someone whom he believes truly can predict the future. Catching the killer could prove difficult, though, particularly if the killer can also see into his future.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=54
+|EpisodeNumber2=5
+|Title=[[The List (The X-Files)|The List]]
+|WrittenBy=Chris Carter
+|DirectedBy=Chris Carter
+|OriginalAirDate={{Start date|1995|10|20}}
+|ProdCode=3X05
+|Viewers=16.72<ref name="3comp" />
+|ShortSummary=A [[death row]] inmate makes good on his promise to come back from the dead and kill the five people involved in his death. The fear of his retribution has everyone scrambling to determine if they are on the list, while Mulder and Scully attempt to determine how he has returned to execute his tormentors.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=55
+|EpisodeNumber2=6
+|Title=[[2Shy]]
+|WrittenBy=[[Jeff Vlaming|Jeffrey Vlaming]]
+|DirectedBy=David Nutter
+|OriginalAirDate={{Start date|1995|11|3}}
+|ProdCode=3X06
+|Viewers=14.83<ref name="3comp" />
+|ShortSummary=Meeting insecure women through an online service, a serial killer seduces his prey with the right words. However, Mulder and Scully determine these killings are far from ordinary by the presence of a strange substance coating the victims, a substance which seems to digest the fatty acids in flesh.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=56
+|EpisodeNumber2=7
+|Title=[[The Walk (The X-Files)|The Walk]]
+|WrittenBy=[[John Shiban]]
+|DirectedBy=Rob Bowman
+|OriginalAirDate={{Start date|1995|11|10}}
+|ProdCode=3X07
+|Viewers=15.91<ref name="3comp" />
+|ShortSummary=Another [[suicide attempt]] by a patient in a military hospital interests Mulder with the talk of a "phantom soldier" who has prevented the man's death. The general in charge is at first opposed to the FBI's involvement until the phantom soldier begins haunting him. When the primary suspect is a quadruple amputee, they are met with ridicule.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=57
+|EpisodeNumber2=8
+|Title=[[Oubliette (The X-Files)|Oubliette]]
+|WrittenBy=[[Charlie Craig (screenwriter)|Charles Grant Craig]]
+|DirectedBy=Kim Manners
+|OriginalAirDate={{Start date|1995|11|17}}
+|ProdCode=3X08
+|Viewers=15.90<ref name="3comp" />
+|ShortSummary=When a young teenage girl is kidnapped from her home, a fast food worker miles away collapses on the job, apparently experiencing exactly what the child is feeling. When Mulder learns that the woman was kidnapped and held hostage for years as a child, he begins to believe that she may be the key to help find the missing girl.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=58
+|EpisodeNumber2=9
+|Title=[[Nisei (The X-Files)|Nisei]]
+|RTitle={{Double-dagger}}
+|WrittenBy=Chris Carter & Howard Gordon & [[Frank Spotnitz]]
+|DirectedBy=David Nutter
+|OriginalAirDate={{Start date|1995|11|24}}
+|ProdCode=3X09
+|Viewers=16.36<ref name="3comp" />
+|ShortSummary=A mail order videotape of an alien autopsy blossoms into a much more complicated investigation when Mulder and Scully find the distributor of the tape killed in his own home apparently by a high-ranking Japanese diplomat. While Mulder's search for the video leads him to a train car, Scully investigates a [[Mutual UFO Network]] group and discovers several women who claim to know her.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=59
+|EpisodeNumber2=10
+|Title=[[731 (The X-Files)|731]]
+|RTitle={{Double-dagger}}
+|WrittenBy=Frank Spotnitz
+|DirectedBy=Rob Bowman
+|OriginalAirDate={{Start date|1995|12|1}}
+|ProdCode=3X10
+|Viewers=17.68<ref name="3comp" />
+|ShortSummary=Mulder is trapped on a train carriage that could be wired with a bomb, according to a killer who claims to be an NSA agent. Meanwhile, Scully digs deeper into the mystery surrounding her abduction.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=60
+|EpisodeNumber2=11
+|Title=[[Revelations (The X-Files)|Revelations]]
+|WrittenBy=Kim Newton
+|DirectedBy=David Nutter
+|OriginalAirDate={{Start date|1995|12|15}}
+|ProdCode=3X11
+|Viewers=15.25<ref name="3comp" />
+|ShortSummary=Mulder tracks a series of religiously motivated homicides. Each of the eleven victims claims to have been stigmatic but all turned out to be frauds. When Mulder and Scully discover a little boy displaying inexplicable wounds of religious significance, they try to protect him from the killer they know will be coming.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=61
+|EpisodeNumber2=12
+|Title=[[War of the Coprophages]]
+|WrittenBy=Darin Morgan
+|DirectedBy=Kim Manners
+|OriginalAirDate={{Start date|1996|1|5}}
+|ProdCode=3X12
+|Viewers=16.32<ref name="3comp" />
+|ShortSummary=A small town is plagued by deaths in which the bodies are found covered in [[cockroach]]es. Working from home, Scully has scientific explanations for all of them but Mulder—at the crime scene with an attractive bug expert—suspects the insects may not be organic, or earthly.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=62
+|EpisodeNumber2=13
+|Title=[[Syzygy (The X-Files)|Syzygy]]
+|WrittenBy=Chris Carter
+|DirectedBy=Rob Bowman
+|OriginalAirDate={{Start date|1996|1|26}}
+|ProdCode=3X13
+|Viewers=16.04<ref name="3comp" />
+|ShortSummary=Mulder and Scully investigate strange homicides in New Hampshire that may be due to a rare planetary alignment that affects people's behavior.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=63
+|EpisodeNumber2=14
+|Title=[[Grotesque (The X-Files)|Grotesque]]
+|WrittenBy=Howard Gordon
+|DirectedBy=Kim Manners
+|OriginalAirDate={{Start date|1996|2|2}}
+|ProdCode=3X14
+|Viewers=18.32<ref name="3comp" />
+|ShortSummary=Agents Mulder and Scully join Mulder's former mentor, the FBI's chief profiler, on a case involving a serial killer who claims to be possessed by a demonic force. The case gets even more mysterious when the suspect is apprehended and the killings continue. Mulder gets involved more deeply than expected and Scully as well as Skinner are deeply concerned.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=64
+|EpisodeNumber2=15
+|Title=[[Piper Maru]]
+|RTitle={{Double-dagger}}
+|WrittenBy=Frank Spotnitz & Chris Carter
+|DirectedBy=Rob Bowman
+|OriginalAirDate={{Start date|1996|2|9}}
+|ProdCode=3X15
+|Viewers=16.44<ref name="3comp" />
+|ShortSummary=When a French salvage ship sends a diving crew to recover a mysterious wreckage from World War II, the crew falls prey to a bizarre illness and Agents Mulder and Scully join the investigation. The investigation leads to the discovery of a familiar face, and to Skinner's life being threatened.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=65
+|EpisodeNumber2=16
+|Title=[[Apocrypha (The X-Files)|Apocrypha]]
+|RTitle={{Double-dagger}}
+|WrittenBy=Frank Spotnitz & Chris Carter
+|DirectedBy=Kim Manners
+|OriginalAirDate={{Start date|1996|2|16}}
+|ProdCode=3X16
+|Viewers=16.71<ref name="3comp" />
+|ShortSummary=While Mulder continues to investigate a bizarre illness that originated with the discovery of a mysterious World War II wreckage buried at sea, several government figures try to thwart their efforts. And as Skinner recovers from his shooting, Scully discovers that he is still in danger, from the man who killed her sister.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=66
+|EpisodeNumber2=17
+|Title=[[Pusher (The X-Files)|Pusher]]
+|WrittenBy=[[Vince Gilligan]]
+|DirectedBy=Rob Bowman
+|OriginalAirDate={{Start date|1996|2|23}}
+|ProdCode=3X17
+|Viewers=16.20<ref name="3comp" />
+|ShortSummary=Agents Mulder and Scully's assistance is requested for a case involving a man seemingly capable of bending people to his will. The suspect uses his mysterious abilities to manipulate Agent Mulder into a dangerous end game.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=67
+|EpisodeNumber2=18
+|Title=[[Teso Dos Bichos (The X-Files)|Teso Dos Bichos]]
+|WrittenBy=John Shiban
+|DirectedBy=Kim Manners
+|OriginalAirDate={{Start date|1996|3|8}}
+|ProdCode=3X18
+|Viewers=17.38<ref name="3comp" />
+|ShortSummary=A series of deaths occurs immediately after an ancient artifact is brought to Boston from an excavation site in [[Ecuador]]. According to Scully, the deaths appear to be the result of political terrorism, but Mulder suspects something more improbable.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=68
+|EpisodeNumber2=19
+|Title=[[Hell Money]]
+|WrittenBy=Jeffrey Vlaming
+|DirectedBy=[[Tucker Gates]]
+|OriginalAirDate={{Start date|1996|3|29}}
+|ProdCode=3X19
+|Viewers=14.86<ref name="3comp" />
+|ShortSummary=A string of mysterious deaths of recent [[Han Chinese|Chinese]] immigrants brings Agents Mulder and Scully to [[Chinatown, San Francisco|San Francisco's Chinatown]]. The Agents team up with a Chinese-American detective to better understand the language and customs of the Chinese culture, but one thing remains frighteningly clear—all of the bodies are missing various internal organs.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=69
+|EpisodeNumber2=20
+|Title=[[Jose Chung's From Outer Space|Jose Chung's ''From Outer Space'']]
+|WrittenBy=Darin Morgan
+|DirectedBy=Rob Bowman
+|OriginalAirDate={{Start date|1996|4|12}}
+|ProdCode=3X20
+|Viewers=16.08<ref name="3comp" />
+|ShortSummary=When a couple claims to have been abducted by aliens, Agents Mulder and Scully try to get at the truth but [[Rashomon effect|everyone has a different version of the story]], including the "aliens" themselves.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=70
+|EpisodeNumber2=21
+|Title=[[Avatar (The X-Files)|Avatar]]
+|WrittenBy={{WritingCredits|s=[[David Duchovny]] & Howard Gordon|t=Howard Gordon}}
+|DirectedBy=James Charleston
+|OriginalAirDate={{Start date|1996|4|26}}
+|ProdCode=3X21
+|Viewers=14.62<ref name="3comp" />
+|ShortSummary=During a difficult time in assistant director Skinner's life, he meets a woman in a bar and spends the night with her. The next morning, the woman is dead and he is accused of murder. Agents Mulder and Scully join the investigation to clear their supervisor's name. As they unravel the threads of a conspiracy, they also learn more about Skinner's personal affairs.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=71
+|EpisodeNumber2=22
+|Title=[[Quagmire (The X-Files)|Quagmire]]
+|WrittenBy=Kim Newton
+|DirectedBy=Kim Manners
+|OriginalAirDate={{Start date|1996|5|3}}
+|ProdCode=3X22
+|Viewers=16.00<ref name="3comp" />
+|ShortSummary=When a series of mysterious deaths and disappearances are reported near a lake in a small town, Agents Mulder and Scully are called in to investigate. With local folklore of a killer sea serpent running rampant amongst the locals, the agents must take their search for the truth to the water.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=72
+|EpisodeNumber2=23
+|Title=[[Wetwired]]
+|WrittenBy=Mat Beck
+|DirectedBy=Rob Bowman
+|OriginalAirDate={{Start date|1996|5|10}}
+|ProdCode=3X23
+|Viewers=14.48<ref name="3comp" />
+|ShortSummary=As the agents investigate a series of homicides committed by ordinary citizens angered after seeing illusory images, Scully's trust in Mulder is put to the ultimate test.
+|LineColor=2D6161
+}}
+{{Episode list/sublist|The X-Files season 3
+|EpisodeNumber=73
+|EpisodeNumber2=24
+|Title=[[Talitha Cumi (The X-Files)|Talitha Cumi]]
+|RTitle={{Double-dagger}}
+|WrittenBy={{WritingCredits|s=David Duchovny & Chris Carter|t=Chris Carter}}
+|DirectedBy=R. W. Goodwin
+|OriginalAirDate={{Start date|1996|5|17}}
+|ProdCode=3X24
+|Viewers=17.86<ref name="3comp" />
+|ShortSummary=Agents Mulder and Scully search for a man who seems to possess strange powers, which leads to the discovery of a dangerous secret from Mulder's past. The secret could bring Mulder and Scully to the brink of exposing the truth about alien existence.
+|LineColor=2D6161
+}}
+}}</onlyinclude>
+
+== Reception ==
+
+=== Ratings ===
+The third season of ''The X-Files'' debuted with "The Blessing Way" on September 22, 1995. The episode earned a [[Nielsen rating|Nielsen household rating]] of 12.3, with a 22 share, meaning that roughly 12.3 percent of all television-equipped households, and 22 percent of households watching television, were tuned in to the episode.<ref name="3comp" /> The episode was viewed by 19.94 million viewers.<ref name="3comp" /> "The Blessing Way" was, at the time, the highest-rated episode of ''The X-Files'' to air. The previous record belonged to the season two entry "[[Fresh Bones (The X-Files)|Fresh Bones]]", which scored an 11.3 rating with a 19 share.<ref name="3comp" /><ref name="2comp">[[#Lowry|Lowry]] (1995), p. 249</ref> As the season continued, ratings dropped slightly and stabilized.<ref name="3comp" /> After the season premiere, the highest-rated episode of the season was the finale, "Talitha Cumi", which was viewed by 17.86 million viewers. The season hit a low with the twenty-third and penultimate episode of the season, "[[Wetwired]]", which was viewed by 14.48 million viewers.<ref name="3comp" />
+
+The series was ranked as number 55 during the [[1995–96 United States network television schedule|1995–96]] television season,<ref name=thirdseasonranking>{{cite news |title=Season Winner NBC Coasts, While CBS Outrates ABC |newspaper=St. Paul Pioneer Press |date=May 30, 1996}}</ref> and was viewed by an average of 15.40 million viewers, an increase in almost seven percent when compared to the second season, which was viewed by 14.50.<ref name="lowryratings">[[#Lowry|Lowry]] (1996), p. 249–250</ref> In its third season, ''The X-Files'' became Fox's top-rated program in the 18- to 49-year-old demographic.<ref name="lowryratings" /> The third season of the show was the last to be aired on Friday nights. For its fourth season, the show was moved to Sunday.<ref name="lowryratings" />
+
+=== Reviews ===
+[[File:Vince Gilligan by Gage Skidmore.jpg|upright|thumb|"[[Pusher (The X-Files)|Pusher]]", which was written by [[Vince Gilligan]] has been called one of the best episodes of the season.]]
+
+Emily VanDerWerff of ''[[The A.V. Club]]'' called the third season ''The X-Files{{'}}'' "best season and maybe one of the greatest TV seasons of all time", noting it was consistent and "[swung] from strength to strength" between mythology and stand-alone episodes. However, she thought it "starts out kind of terribly" with "The Blessing Way".<ref>{{cite web |first=Emily |last=VanDerWerff |url=https://www.avclub.com/the-x-files-the-blessing-way-paper-clip-dpo-1798165404 |title=The X-Files: "The Blessing Way"/"Paper Clip"/"DPO" |work=[[The A.V. Club]] |date=July 4, 2010 |access-date=December 9, 2021 |archive-date=December 9, 2021 |archive-url=https://web.archive.org/web/20211209155107/https://www.avclub.com/the-x-files-the-blessing-way-paper-clip-dpo-1798165404 |url-status=live }}</ref> Zack Handlen, VanDerWerff's colleague, wrote that the third season was "one of the show's strongest, with the conspiracy arc still keeping tension high instead of just vamping for time. By this point, the sometimes awkward effects work of the early years is gone, and the overall direction is highly polished, giving even the season's weakest entries a cinematic feel". He stated that Morgan's "[[Clyde Bruckman's Final Repose]]" and "[[Jose Chung's From Outer Space|Jose Chung's ''From Outer Space'']]" were "''The X-Files''{{'s}} two greatest hours".<ref>{{cite web |first=Zack |last=Handlen |url=https://www.avclub.com/the-x-files-1798222164 |title=The X-Files |work=[[The A.V. Club]] |date=October 21, 2010 |access-date=December 9, 2021 |archive-date=December 9, 2021 |archive-url=https://web.archive.org/web/20211209155112/https://www.avclub.com/the-x-files-1798222164 |url-status=live }}</ref> 
+
+The writing credits provided by Morgan was widely cited as a highlight of the season. "War of the Coprophages" written by him received positive reviews, and ''[[Entertainment Weekly]]'' gave "War of the Coprophages" an A−, who praised the absurdity and entertainment value of the episode.<ref name="EW">{{cite magazine |url=https://ew.com/article/1996/11/29/ultimate-episode-guide-season-iii/ |title=X Cyclopedia: The Ultimate Episode Guide, Season III |magazine=[[Entertainment Weekly]] |date=November 29, 1996 |access-date=December 9, 2021 |archive-date=December 9, 2021 |archive-url=https://web.archive.org/web/20211209155105/https://ew.com/article/1996/11/29/ultimate-episode-guide-season-iii/ |url-status=live }}</ref> Another episode, "Quagmire" containing some writing credits by Morgan received positive reviews, with the 10-minute dialogue sequence featuring Mulder and Scully receiving highly positive reviews.<ref>{{cite web |first=Zack |last=Handlen |url=https://www.avclub.com/the-x-files-quagmire-wetwired-talitha-cumi-1798165780 |title=The X-Files: "Quagmire"/"Wetwired"/"Talitha Cumi" |work=[[The A.V. Club]] |date=August 22, 2010 |access-date=December 9, 2021 |archive-date=December 9, 2021 |archive-url=https://web.archive.org/web/20211209155115/https://www.avclub.com/the-x-files-quagmire-wetwired-talitha-cumi-1798165780 |url-status=live }}</ref><ref name=cinepaularev>{{cite journal |last=Vitaris |first=Paula |title=Episode Guide |journal=[[Cinefantastique]] |date=October 1996 |volume=28 |issue=3 |pages=18–40}}</ref>
+
+Gilligan's episode "Pusher" was also cited as one of the best episodes of the series by both [[IGN]] and Den of Geek, and Tom Kessenich, in his book ''Examination: An Unauthorized Look at Seasons 6–9 of the X-Files'', named the episode the third best episode of ''The X-Files'' and called it the "best MOTW ["monster-of-the-week"] in the series history"<ref>[[#Kessenich|Kessenich (2002)]], p. 219</ref><ref>{{cite web |first=Nina |last=Sordi |url=https://www.denofgeek.com/tv/top-10-x-files-episodes/ |title=Top 10 X-Files episodes |publisher=[[Dennis Publishing]] |work=Den of Geek |date=September 22, 2009 |access-date=December 9, 2021 |archive-date=October 6, 2020 |archive-url=https://web.archive.org/web/20201006185343/https://www.denofgeek.com/tv/top-10-x-files-episodes/ |url-status=live }}</ref><ref name="talk">{{cite web |url=http://www.dvdtalk.com/reviews/1869/x-files-season-three/ |title=X-Files: Season Three : DVD Talk Review of the DVD Video |first=Earl |last=Cressey |work=[[DVD Talk]] |date=April 18, 2001 |access-date=August 29, 2012 |archive-date=October 24, 2015 |archive-url=https://web.archive.org/web/20151024212005/http://www.dvdtalk.com/reviews/1869/x-files-season-three/ |url-status=live }}</ref> Duchovny considers his performance in "Oubliette" as his favorite of the season, an episode that received mostly positive reviews.<ref name="L120" /><ref name="shearpear">Shearman and Pearson, pp. 63–64</ref> Writing for [[DVD Talk]], Earl Cressey rated the season overall four-and-a-half stars out of five, finding that the series' increased budget meant that its production values and the quality of its guest appearances were better than previous seasons.<ref name="vance">{{cite web |last=Collura |first=Scott |title=IGN's 10 Favorite X-Files Standalone Episodes |url=http://tv.ign.com/articles/870/870608p1.html |work=[[IGN]] |date=May 12, 2008 |access-date=November 15, 2011|display-authors=etal |url-status=dead |archive-url=https://web.archive.org/web/20120106222106/http://tv.ign.com/articles/870/870608p1.html |archive-date=January 6, 2012 |df=mdy-all}}</ref>
+
+=== Accolades ===
+The third season earned the series eight [[Primetime Emmy Award]] nominations. It received its second consecutive nomination for Outstanding Drama Series, [[Gillian Anderson]] received her first nomination for Outstanding Lead Actress in a Drama Series, and the episode "Jose Chung's ''From Outer Space''" was nominated for Outstanding Individual Achievement in Art Direction for a Series. The series won five awards, including Outstanding Individual Achievement in Writing for a Drama Series, for the episode "Clyde Bruckman's Final Repose" written by Darin Morgan. [[Peter Boyle]] won for Outstanding Guest Actor in a Drama Series for his performance in that same episode. The episode "Nisei" won for both Outstanding Individual Achievement in Sound Editing for a Series and Outstanding Individual Achievement in Sound Mixing for a Drama Series. John S. Bartley won for Outstanding Individual Achievement in Cinematography for a Series due to the episode "Grotesque".<ref>{{cite web |url=https://www.emmys.com/shows/x-files |title=The X-Files |publisher=Emmys.com |access-date=December 17, 2011 |archive-date=August 28, 2020 |archive-url=https://web.archive.org/web/20200828023208/https://www.emmys.com/shows/x-files |url-status=live }}</ref>  Duchovny and Anderson were each nominated for a [[Golden Globe Award]] for their performances.<ref>{{cite web |url=https://www.goldenglobes.com/tv-show/x-files |title=X-Files, The |publisher=Hollywood Foreign Press Association |work=GoldenGlobes.com |access-date=June 27, 2018 |archive-date=June 27, 2018 |archive-url=https://web.archive.org/web/20180627144740/https://www.goldenglobes.com/tv-show/x-files |url-status=live }}</ref>
+
+== DVD release ==
+{| class="wikitable" style="font-size: 95%;"
+|- style="background:#2D6161; color:#fff;"
+| colspan="8" | '''''The X-Files – The Complete Third Season'''''
+|-  style="vertical-align:top; text-align:center;"
+|  style="width:400px;" colspan="4"| '''Set details'''<ref name="DVD2" />
+|  style="width:400px; " colspan="4"|'''Special features'''<ref name="DVD2" />
+|- valign="top"
+| colspan="4"  style="text-align:left; width:400px;"|
+* 24 episodes
+* 7-disc set
+* 1.33:1 aspect ratio
+* Subtitles: English, Spanish
+* English (Dolby Digital 2.0 Surround)
+| colspan="4"  style="text-align:left; width:400px;"|
+* "The Truth About Season Three" documentary
+* Chris Carter talks about 12 episodes: "The Blessing Way", "Paper Clip", "Clyde Bruckman's Final Repose", "Nisei", "731", "War of the Coprophages", "Piper Maru", "Apocrypha", "Pusher", "Jose Chung's ''From Outer Space''", "Wetwired" and "Talitha Cumi"
+* Audio commentaries for "Aprocrypha" by Kim Manners and Chris Carter, and for ""Jose Chung's ''From Outer Space''" by Rob Bowman and Darin Morgan
+* Selected special effects clips with commentary by Mat Beck
+* Deleted scenes with optional commentary by Chris Carter
+* 17 "Behind-the-truth" spots from F/X
+* TV promos for every episode
+* DVD-ROM game: "Unholy Alliances"
+|-
+| colspan="8" style="text-align:center;"| '''Release dates'''
+|- style="text-align:center;"
+| colspan="2"| [[DVD region code#Region codes and countries|Region 1]]
+| colspan="2"| Region 2
+| colspan="2"| Region 3
+|-
+| colspan="2" style="text-align:center; text-align:center;"| {{Start date|2001|5|8}}
+| colspan="2" style="text-align:center; text-align:center;"| {{Start date|2001|11|26}}
+| colspan="2" style="text-align:center; text-align:center;"| {{Start date|2001|11|12}}
+|}
+
+== Notes ==
+<references group="nb" />
+
+== References ==
+
+{{reflist|3}}
+
+== Bibliography ==
+* {{Cite book |title=X-Files Confidential |first=Ted |last=Edwards |publisher=Little, Brown and Company |year=1996 |isbn=0-316-21808-1 |ref=Edwards |url=https://archive.org/details/xfilesconfidenti00edwa_0}}
+* {{Cite book |title=The X-Files Declassified |first=Frank |last=Lovece |publisher=Citadel Press |year=1996 |isbn=0-8065-1745-X |ref=Lovece |url=https://archive.org/details/xfilesdeclassifi00love}}
+* {{cite book |year=1995 |author=Lowry, Brian |title=The Truth is Out There: The Official Guide to the X-Files |url=https://archive.org/details/truthisoutthere00lowr |url-access=registration |publisher=Harper Prism |isbn=0-06-105330-9 |ref=Lowry2}}
+* {{cite book |year=1996 |last=Lowry |first=Brian |title=Trust No One: The Official Guide to the X-Files |url=https://archive.org/details/trustnooneoffici00lowr |url-access=registration |isbn=0-06-105353-8 |publisher=Harper Prism |ref=Lowry}}
+* {{cite book |year=2002 |last=Kessenich |first=Tom |title=Examination: An Unauthorized Look at Seasons 6–9 of the X-Files |publisher=Trafford Publishing |isbn=978-1-55369-812-8 |ref=Kessenich |url-access=registration |url=https://archive.org/details/examinationsunau0000kess }}
+* {{cite book |year=2009 |first1=Robert |last1=Shearman |first2=Lars |last2=Pearson |title=Wanting to Believe: A Critical Guide to The X-Files, Millennium & The Lone Gunmen |publisher=Mad Norwegian Press |isbn=978-0-9759446-9-1 |ref=Shearman}}
+* {{Cite book |publisher=Mcfarland & Co |first=Jan |last=Delasara |title=PopLit, PopCult and The X-Files: A Critical Exploration |year=2000 |isbn=0-7864-0789-1 |ref=Delasara}}
+
+== External links ==
+{{Wikiquote|The_X-Files|TXF Season 3}}
+* {{IMDb episodes|0106179|The X-Files|season=3}}
+
+{{X-Files}}
+{{The X-Files episodes|3}}
+{{GoldenGlobeTVDrama 1990–2009}}
+
+{{DEFAULTSORT:X-Files Season 3}}
+[[Category:The X-Files seasons| ]]
+[[Category:1995 American television seasons]]
+[[Category:1996 American television seasons]]

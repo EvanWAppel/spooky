@@ -58,21 +58,21 @@ D ─────► E ─────► G ────────────
 ## Group B — Test Scaffolding & Fixtures
 > Depends on: A-01, A-03. Runs alongside A and D. TDD red phase — these are written before implementation.
 
-- [ ] **B-01** **Extend** the existing `tests/conftest.py` (it already holds the app-layer fixtures `sample_data_dir`, `episodes_df`, `contested_record`, `render_text`) with pipeline fixtures: `sample_tvmaze_episode`, `sample_wiki_season_wikitext`, `sample_wikidata_row`, `sample_dom111_record`, `tmp_data_dir`. Do not replace the file.
+- [x] **B-01** **Extend** the existing `tests/conftest.py` (it already holds the app-layer fixtures `sample_data_dir`, `episodes_df`, `contested_record`, `render_text`) with pipeline fixtures: `sample_tvmaze_episode`, `sample_wiki_season_wikitext`, `sample_wikidata_row`, `sample_dom111_record`, `tmp_data_dir`. Do not replace the file.
   - Verify: `uv run pytest --fixtures tests/ | grep -c sample_` → at least 4; `uv run pytest -q` still green
-- [ ] **B-02** Record a real TVmaze payload once into `tests/fixtures/tvmaze_episodes.json` via a one-off script; commit it
+- [x] **B-02** Record a real TVmaze payload once into `tests/fixtures/tvmaze_episodes.json` via a one-off script; commit it
   - Verify: `uv run python -c "import json;d=json.load(open('tests/fixtures/tvmaze_episodes.json'));print(len(d))"` → 218
-- [ ] **B-03** Record real Wikipedia wikitext for **seasons 3, 10, and 11** into `tests/fixtures/wiki_s03.txt`, `wiki_s10.txt`, `wiki_s11.txt`. S3 is the template-capitalization edge case; S10+S11 are the revival rows (6 + 10 episodes — both are needed to make 16).
+- [x] **B-03** Record real Wikipedia wikitext for **seasons 3, 10, and 11** into `tests/fixtures/wiki_s03.txt`, `wiki_s10.txt`, `wiki_s11.txt`. S3 is the template-capitalization edge case; S10+S11 are the revival rows (6 + 10 episodes — both are needed to make 16).
   - Verify: all three files exist and are non-empty; `grep -ci 'double.dagger' tests/fixtures/wiki_s03.txt` → at least 1
-- [ ] **B-04** Write `tests/test_spine.py` — `fetch_episodes()` returns 218 records, each with `id`, `season`, `number`, `airdate`, `rating`
+- [x] **B-04** Write `tests/test_spine.py` — `fetch_episodes()` returns 218 records, each with `id`, `season`, `number`, `airdate`, `rating`
   - Verify: `uv run pytest tests/test_spine.py -q` → fails (red), function not implemented
-- [ ] **B-05** Write `tests/test_spine.py` — asserts the request URL contains **no** `specials=1` parameter
+- [x] **B-05** Write `tests/test_spine.py` — asserts the request URL contains **no** `specials=1` parameter
   - Verify: `uv run pytest tests/test_spine.py -q` → fails (red)
-- [ ] **B-06** Write `tests/test_wikipedia.py` — brace-balanced extractor returns **6 rows** from the S10 fixture and **10 rows** from the S11 fixture, 16 combined (regex-based parsers drop these)
+- [x] **B-06** Write `tests/test_wikipedia.py` — brace-balanced extractor returns **6 rows** from the S10 fixture and **10 rows** from the S11 fixture, 16 combined (regex-based parsers drop these)
   - Verify: `uv run pytest tests/test_wikipedia.py -q` → fails (red)
-- [ ] **B-07** Write `tests/test_wikipedia.py` — dagger detection is case-insensitive, matches `/double[- ]dagger/i` on `RTitle`, and finds all flagged rows in the S3 fixture
+- [x] **B-07** Write `tests/test_wikipedia.py` — dagger detection is case-insensitive, matches `/double[- ]dagger/i` on `RTitle`, and finds all flagged rows in the S3 fixture
   - Verify: `uv run pytest tests/test_wikipedia.py -q` → fails (red)
-- [ ] **B-08** Write `tests/test_wikipedia.py` — multi-value fields split on `<hr>` into a list
+- [x] **B-08** Write `tests/test_wikipedia.py` — multi-value fields split on `<hr>` into a list
   - Verify: `uv run pytest tests/test_wikipedia.py -q` → fails (red)
 - [ ] **B-09** Write `tests/test_classify.py` — the vote-based rules of PRD §5.3 (**null = abstain**): 3-vote unanimous, 2–1 split (contested), 2-vote revival records (always contested), 1-vote film record (*Fight the Future* → mythology, contested), 1–1 tie → creature rule, zero votes → raises, plus `label_contested` asserted in every case
   - Verify: `uv run pytest tests/test_classify.py -q` → fails (red), 7+ tests collected
@@ -84,7 +84,7 @@ D ─────► E ─────► G ────────────
   - Verify: `uv run pytest tests/test_review_guard.py -q` → fails (red)
 - [ ] **B-13** Write `tests/test_legal.py` — asserts no record contains a `synopsis` or `image` key, and no field value exceeds the 30-word logline cap
   - Verify: `uv run pytest tests/test_legal.py -q` → fails (red)
-- [ ] **B-14** Add `network` marker to `pyproject.toml` under `[tool.pytest.ini_options]` with `markers = ["network: hits real APIs, excluded from CI"]`
+- [x] **B-14** Add `network` marker to `pyproject.toml` under `[tool.pytest.ini_options]` with `markers = ["network: hits real APIs, excluded from CI"]`
   - Verify: `uv run pytest -m network --collect-only -q` runs without an unknown-marker warning
 
 ---
@@ -141,17 +141,17 @@ D ─────► E ─────► G ────────────
 > Depends on: A-01…A-05, B-01…B-08. Runs in parallel with Group C.
 > Read PRD §8.1 before writing any fetcher — each step has a documented landmine.
 
-- [ ] **D-01** Implement `build/spine.py` — `GET https://api.tvmaze.com/shows/430/episodes`, no key, **no `specials=1`**, writes `data/raw/tvmaze_episodes.json`
+- [x] **D-01** Implement `build/spine.py` — `GET https://api.tvmaze.com/shows/430/episodes`, no key, **no `specials=1`**, writes `data/raw/tvmaze_episodes.json`
   - Verify: `uv run pytest tests/test_spine.py -q` → green
-- [ ] **D-02** Add `@pytest.mark.network` test hitting the live TVmaze endpoint, asserting 218 records
+- [x] **D-02** Add `@pytest.mark.network` test hitting the live TVmaze endpoint, asserting 218 records
   - Verify: `uv run pytest -m network tests/test_spine.py -q` → passes
-- [ ] **D-03** Implement a shared `build/_http.py` client — descriptive User-Agent from `WIKI_USER_AGENT`, ~1 req/sec throttle, explicit retry with backoff. **Never swallow an exception** (CLAUDE.md).
+- [x] **D-03** Implement a shared `build/_http.py` client — descriptive User-Agent from `WIKI_USER_AGENT`, ~1 req/sec throttle, explicit retry with backoff. **Never swallow an exception** (CLAUDE.md).
   - Verify: `uv run pytest tests/test_http.py -q` → green; confirm a 429 raises rather than returning None
-- [ ] **D-04** Implement the brace-balanced template extractor in `build/wikitext.py`. **Not a regex** — a regex drops all 16 S10/S11 rows.
+- [x] **D-04** Implement the brace-balanced template extractor in `build/wikitext.py`. **Not a regex** — a regex drops all 16 S10/S11 rows.
   - Verify: `uv run pytest tests/test_wikipedia.py -q -k balanced` → green, 6 rows from the S10 fixture + 10 from S11
-- [ ] **D-05** Implement case-insensitive dagger detection on `RTitle` matching `/double[- ]dagger/i`
+- [x] **D-05** Implement case-insensitive dagger detection on `RTitle` matching `/double[- ]dagger/i`
   - Verify: `uv run pytest tests/test_wikipedia.py -q -k dagger` → green
-- [ ] **D-06** Implement `<hr>` multi-value splitting for director/writer fields
+- [x] **D-06** Implement `<hr>` multi-value splitting for director/writer fields
   - Verify: `uv run pytest tests/test_wikipedia.py -q -k split` → green
 - [ ] **D-07** Implement `build/wikipedia.py` — 11 **serial** requests to `action=parse&page=The X-Files season N&prop=wikitext`. **Do not parse `List_of_The_X-Files_episodes`** (transcluded; contains only film rows).
   - Verify: `uv run python build/wikipedia.py` writes 11 files; total extracted rows printed and re-derived, not hard-coded

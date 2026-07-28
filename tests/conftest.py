@@ -18,6 +18,61 @@ from dash.development.base_component import Component
 from spooky.loader import load_episodes
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+FIXTURES_DIR = REPO_ROOT / "tests" / "fixtures"
+
+
+# --- pipeline fixtures (recorded real payloads — see tests/fixtures/README.md) ---
+
+
+@pytest.fixture(scope="session")
+def tvmaze_payload() -> list[dict[str, Any]]:
+    """The full recorded TVmaze episodes payload (218 records)."""
+    import json
+
+    return json.loads((FIXTURES_DIR / "tvmaze_episodes.json").read_text())
+
+
+@pytest.fixture
+def sample_tvmaze_episode(tvmaze_payload: list[dict[str, Any]]) -> dict[str, Any]:
+    """One real TVmaze episode record (the pilot)."""
+    return dict(tvmaze_payload[0])
+
+
+@pytest.fixture(scope="session")
+def sample_wiki_season_wikitext() -> dict[int, str]:
+    """Recorded Wikipedia wikitext keyed by season (the parser edge cases)."""
+    return {
+        season: (FIXTURES_DIR / f"wiki_s{season:02d}.txt").read_text()
+        for season in (3, 10, 11)
+    }
+
+
+@pytest.fixture
+def sample_wikidata_row() -> dict[str, Any]:
+    """Shape of one Wikidata SPARQL result row (refined at D-08)."""
+    return {
+        "qid": "Q2342086",
+        "enwiki_title": "Pilot (The X-Files)",
+        "imdb_id": "tt0751141",
+        "tmdb_id": 4087,
+    }
+
+
+@pytest.fixture
+def sample_dom111_record() -> dict[str, Any]:
+    """Shape of one dom111/xfiles-episode-picker record (refined at D-09)."""
+    return {"title": "Squeeze", "season": 1, "episode": 3, "type": "motw"}
+
+
+@pytest.fixture
+def tmp_data_dir(tmp_path: Path) -> Path:
+    """A throwaway data/ layout for pipeline write tests."""
+    for sub in ("raw", "episodes", "overrides", "dist"):
+        (tmp_path / sub).mkdir()
+    return tmp_path
+
+
+# --- app-layer fixtures ---
 
 
 @pytest.fixture(scope="session")

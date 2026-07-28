@@ -26,3 +26,7 @@ dev = [
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
+markers = [
+    "network: hits real APIs, excluded from CI",
+]
+addopts = "-m 'not network'"
