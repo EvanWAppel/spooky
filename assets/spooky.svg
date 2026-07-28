@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="spooky mark">
+  <!-- Original work for this project: a flashlight beam in the dark.
+       Deliberately NOT derived from the X-Files wordmark or X-glyph
+       (CLAUDE.md C2 / TASKS H-09) — a single beam, never a cross form. -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#1a2019" stroke="#26302b" stroke-width="2"/>
+  <polygon points="21,45 40,13 55,25 29,51" fill="#7fd4a0" opacity="0.16"/>
+  <polygon points="20,46 43,17 51,24 26,50" fill="#7fd4a0" opacity="0.85"/>
+  <circle cx="17" cy="48" r="4" fill="#f1f5f2"/>
+</svg>

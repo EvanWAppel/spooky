@@ -245,23 +245,23 @@ D ─────► E ─────► G ────────────
 ## Group H — Polish, A11y, Docs
 > Depends on: Group G. Runs in parallel with F.
 
-- [ ] **H-01** Apply the visual identity — dark theme, restrained modern, subtle X-Files signals. **No show imagery, no wordmark, no X-glyph** (CLAUDE.md C2). Original SVG/CSS only.
+- [x] **H-01** Apply the visual identity — dark theme, restrained modern, subtle X-Files signals. **No show imagery, no wordmark, no X-glyph** (CLAUDE.md C2). Original SVG/CSS only.
   - Verify: `grep -riE "\.(jpg|jpeg|png|webp)" --include='*.py' --include='*.css' --exclude-dir='.venv' --exclude-dir='.git' . | wc -l` → 0
-- [ ] **H-02** Verify the categorical palette is colorblind-safe; simulate deuteranopia and protanopia
+- [x] **H-02** Verify the categorical palette is colorblind-safe; simulate deuteranopia and protanopia
   - Verify: paste the three hex values and the simulation result
-- [ ] **H-03** Responsive layout — chart, table, and panel usable at 375px width
+- [x] **H-03** Responsive layout — chart, table, and panel usable at 375px width
   - Verify: load at 375px; no horizontal body scroll; all controls reachable
-- [ ] **H-04** Keyboard navigation across chart, table, and panel; visible focus states
+- [x] **H-04** Keyboard navigation across chart, table, and panel; visible focus states
   - Verify: tab through the whole app without a mouse; paste the focus order
-- [ ] **H-05** Add the screen-reader data-table alternative to the chart
+- [x] **H-05** Add the screen-reader data-table alternative to the chart
   - Verify: `uv run pytest tests/test_a11y.py -q` → green
-- [ ] **H-06** Contrast audit — all text at WCAG AA
+- [x] **H-06** Contrast audit — all text at WCAG AA
   - Verify: paste the lowest contrast ratio found and its location
-- [ ] **H-07** Write `README.md` — what it is, the classification-disagreement story, data provenance, how to rebuild, licenses, screenshots-free
+- [x] **H-07** Write `README.md` — what it is, the classification-disagreement story, data provenance, how to rebuild, licenses, screenshots-free
   - Verify: a reader with no context can state what the site does after 30 seconds
-- [ ] **H-08** Add a `/about` view explaining the ternary classification and *why sources disagree*
+- [x] **H-08** Add a `/about` view explaining the ternary classification and *why sources disagree*
   - Verify: page renders; names all three label sources
-- [ ] **H-09** Add `spooky.svg` — original mark, **not** derived from the X-Files wordmark or X-glyph
+- [x] **H-09** Add `spooky.svg` — original mark, **not** derived from the X-Files wordmark or X-glyph
   - Verify: confirm in writing it is original work
 
 ---

@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 from urllib.parse import parse_qs, urlencode
 
 from dash import Dash, Input, Output, State, callback_context, dcc, html
 
-from components.chart import build_season_chart
+from components.about import build_about
+from components.chart import build_season_chart, build_season_summary_table
 from components.films import build_films_card
 from components.panel import build_detail_panel
 from components.table import build_episode_table
@@ -15,6 +17,17 @@ from spooky.logging_config import setup_logging
 setup_logging()
 
 EPISODES = load_episodes(Path(__file__).resolve().parent / "data" / "episodes")
+
+# Wildcard aria-* props are legal on Dash HTML components at runtime but
+# absent from the generated stubs — routed through a typed-as-Any dict so
+# ty stays clean without an ignore comment.
+_CHART_ARIA: dict[str, Any] = {
+    "aria-label": (
+        "Stacked bar chart of episodes per season, split into mythology, "
+        "monster-of-the-week, and standalone. A data table with the same "
+        "numbers follows."
+    )
+}
 
 app = Dash(__name__, title="spooky")
 server = app.server
@@ -175,59 +188,98 @@ app.layout = html.Div(
         dcc.Location(id="url", refresh=False),
         html.Header(
             [
-                html.P("The X-Files episode data explorer", className="eyebrow"),
-                html.H1("spooky"),
+                html.Div(
+                    [
+                        html.Img(
+                            src="/assets/spooky.svg",
+                            alt="",
+                            className="site-mark",
+                            role="presentation",
+                        ),
+                        html.Div(
+                            [
+                                html.P(
+                                    "The X-Files episode data explorer",
+                                    className="eyebrow",
+                                ),
+                                html.H1("spooky"),
+                            ]
+                        ),
+                    ],
+                    className="masthead",
+                ),
                 html.P(
                     "A tested, source-aware view of how the series balances mythology, "
                     "monster cases, and standalone stories.",
                     className="lede",
+                ),
+                html.Nav(
+                    [
+                        dcc.Link("Explore", href="/", className="nav-link"),
+                        dcc.Link("About", href="/about", className="nav-link"),
+                    ],
+                    className="site-nav",
                 ),
             ],
             className="site-header",
         ),
         html.Main(
             [
-                html.Section(
+                html.Div(
                     [
-                        dcc.Graph(
-                            id="season-chart",
-                            figure=build_season_chart(EPISODES),
-                            config={"displayModeBar": False},
-                        ),
-                        html.Div(
+                        html.Section(
                             [
-                                html.Div(id="filter-chip"),
-                                dcc.Checklist(
-                                    id="contested-toggle",
-                                    options=[
-                                        {
-                                            "label": " Contested only",
-                                            "value": "contested",
-                                        }
+                                html.Div(
+                                    dcc.Graph(
+                                        id="season-chart",
+                                        figure=build_season_chart(EPISODES),
+                                        config={
+                                            "displayModeBar": False,
+                                            "responsive": True,
+                                        },
+                                    ),
+                                    role="img",
+                                    **_CHART_ARIA,
+                                ),
+                                build_season_summary_table(EPISODES),
+                                html.Div(
+                                    [
+                                        html.Div(id="filter-chip"),
+                                        dcc.Checklist(
+                                            id="contested-toggle",
+                                            options=[
+                                                {
+                                                    "label": " Contested only",
+                                                    "value": "contested",
+                                                }
+                                            ],
+                                            value=[],
+                                            className="contested-toggle",
+                                        ),
                                     ],
-                                    value=[],
-                                    className="contested-toggle",
+                                    className="filter-row",
                                 ),
                             ],
-                            className="filter-row",
+                            className="chart-section",
                         ),
+                        html.Section(
+                            [
+                                html.Div(
+                                    build_episode_table(EPISODES),
+                                    className="table-wrap",
+                                ),
+                                html.Div(
+                                    build_detail_panel(EPISODES.iloc[0].to_dict()),
+                                    id="detail-panel-container",
+                                ),
+                            ],
+                            className="explorer",
+                        ),
+                        build_films_card(EPISODES),
                     ],
-                    className="chart-section",
+                    id="explore-view",
                 ),
-                html.Section(
-                    [
-                        html.Div(
-                            build_episode_table(EPISODES),
-                            className="table-wrap",
-                        ),
-                        html.Div(
-                            build_detail_panel(EPISODES.iloc[0].to_dict()),
-                            id="detail-panel-container",
-                        ),
-                    ],
-                    className="explorer",
-                ),
-                build_films_card(EPISODES),
+                build_about(),
             ]
         ),
         footer,
@@ -240,16 +292,21 @@ app.layout = html.Div(
     Output("episode-table", "data"),
     Output("filter-chip", "children"),
     Output("detail-panel-container", "children"),
+    Output("explore-view", "style"),
+    Output("about-section", "style"),
     Input("url", "pathname"),
     Input("url", "search"),
 )
 def sync_view(pathname: str | None, search: str | None):
+    on_about = (pathname or "/").rstrip("/") == "/about"
     filtered = _filter_episodes(pathname, search)
     data = _table_data(filtered)
     return (
         _table_data(filtered),
         _filter_chip(pathname, search),
         build_detail_panel(_selected_record(search, data)),
+        {"display": "none"} if on_about else {},
+        {} if on_about else {"display": "none"},
     )
 
 

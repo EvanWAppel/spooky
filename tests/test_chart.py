@@ -19,6 +19,21 @@ def test_build_season_chart_returns_three_named_traces(
     ]
 
 
+def test_chart_palette_is_the_audited_colorblind_safe_trio(
+    episodes_df: pd.DataFrame,
+) -> None:
+    """Okabe-Ito colors, audited in tools/audit_colors.py: pairwise ΔE ≥ 48.9
+    under simulated protanopia and deuteranopia, ≥ 5.4:1 against the page
+    background. Changing them means re-running the audit (TASKS H-02)."""
+    fig = build_season_chart(episodes_df)
+
+    assert [trace.marker.color for trace in fig.data] == [
+        "#56B4E9",
+        "#E69F00",
+        "#009E73",
+    ]
+
+
 def test_build_season_chart_excludes_films(episodes_df: pd.DataFrame) -> None:
     film = episodes_df.iloc[0].copy()
     film["id"] = "film-1998"
