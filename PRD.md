@@ -562,12 +562,18 @@ ground under fan-adjacent projects.*
 
 ### 11.4 API keys
 
-Needed: **TMDB** (IDs and watch-page construction) and **Anthropic** (logline and
-tag drafting). Both offline-only, in local `.env`, plus GitHub Actions secrets
-for the scheduled refresh.
+Needed: **Anthropic** only (logline drafting, Group F). Offline-only, in local
+`.env`, plus a GitHub Actions secret if the scheduled refresh ever regenerates
+drafts.
 
-**No longer needed:** OMDb (IMDb ratings are barred — C1) and YouTube Data API
-(video extras dropped — §12).
+**No longer needed:**
+
+- **TMDB** *(corrected 2026-07-27)* — the pipeline as built uses TVmaze,
+  Wikipedia, and Wikidata; the TMDB watch links are static URLs constructed
+  without any API call. A TMDB key returns only if v2/v3 features need the
+  API (e.g. per-episode producer credits).
+- OMDb (IMDb ratings are barred — C1) and YouTube Data API (video extras
+  dropped — §12).
 
 ---
 
