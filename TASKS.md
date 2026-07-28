@@ -58,24 +58,24 @@ D ─────► E ─────► G ────────────
 ## Group B — Test Scaffolding & Fixtures
 > Depends on: A-01, A-03. Runs alongside A and D. TDD red phase — these are written before implementation.
 
-- [ ] **B-01** Create `tests/conftest.py` with fixtures: `sample_tvmaze_episode`, `sample_wiki_season_wikitext`, `sample_wikidata_row`, `sample_dom111_record`, `tmp_data_dir`
-  - Verify: `uv run pytest --fixtures tests/ | grep -c sample_` → at least 4
+- [ ] **B-01** **Extend** the existing `tests/conftest.py` (it already holds the app-layer fixtures `sample_data_dir`, `episodes_df`, `contested_record`, `render_text`) with pipeline fixtures: `sample_tvmaze_episode`, `sample_wiki_season_wikitext`, `sample_wikidata_row`, `sample_dom111_record`, `tmp_data_dir`. Do not replace the file.
+  - Verify: `uv run pytest --fixtures tests/ | grep -c sample_` → at least 4; `uv run pytest -q` still green
 - [ ] **B-02** Record a real TVmaze payload once into `tests/fixtures/tvmaze_episodes.json` via a one-off script; commit it
   - Verify: `uv run python -c "import json;d=json.load(open('tests/fixtures/tvmaze_episodes.json'));print(len(d))"` → 218
-- [ ] **B-03** Record real Wikipedia wikitext for **season 3 and season 10** into `tests/fixtures/wiki_s03.txt` and `wiki_s10.txt`. These two are the known edge cases (S3 template capitalization, S10 revival rows).
-  - Verify: both files exist and are non-empty; `grep -ci 'double.dagger' tests/fixtures/wiki_s03.txt` → at least 1
+- [ ] **B-03** Record real Wikipedia wikitext for **seasons 3, 10, and 11** into `tests/fixtures/wiki_s03.txt`, `wiki_s10.txt`, `wiki_s11.txt`. S3 is the template-capitalization edge case; S10+S11 are the revival rows (6 + 10 episodes — both are needed to make 16).
+  - Verify: all three files exist and are non-empty; `grep -ci 'double.dagger' tests/fixtures/wiki_s03.txt` → at least 1
 - [ ] **B-04** Write `tests/test_spine.py` — `fetch_episodes()` returns 218 records, each with `id`, `season`, `number`, `airdate`, `rating`
   - Verify: `uv run pytest tests/test_spine.py -q` → fails (red), function not implemented
 - [ ] **B-05** Write `tests/test_spine.py` — asserts the request URL contains **no** `specials=1` parameter
   - Verify: `uv run pytest tests/test_spine.py -q` → fails (red)
-- [ ] **B-06** Write `tests/test_wikipedia.py` — brace-balanced extractor returns **16 rows** from the combined S10+S11 fixture (regex-based parsers drop these)
+- [ ] **B-06** Write `tests/test_wikipedia.py` — brace-balanced extractor returns **6 rows** from the S10 fixture and **10 rows** from the S11 fixture, 16 combined (regex-based parsers drop these)
   - Verify: `uv run pytest tests/test_wikipedia.py -q` → fails (red)
 - [ ] **B-07** Write `tests/test_wikipedia.py` — dagger detection is case-insensitive, matches `/double[- ]dagger/i` on `RTitle`, and finds all flagged rows in the S3 fixture
   - Verify: `uv run pytest tests/test_wikipedia.py -q` → fails (red)
 - [ ] **B-08** Write `tests/test_wikipedia.py` — multi-value fields split on `<hr>` into a list
   - Verify: `uv run pytest tests/test_wikipedia.py -q` → fails (red)
-- [ ] **B-09** Write `tests/test_classify.py` — all five `label_derived` rules from PRD §5.3, one test per rule, plus `label_contested` set correctly for each
-  - Verify: `uv run pytest tests/test_classify.py -q` → fails (red), 6+ tests collected
+- [ ] **B-09** Write `tests/test_classify.py` — the vote-based rules of PRD §5.3 (**null = abstain**): 3-vote unanimous, 2–1 split (contested), 2-vote revival records (always contested), 1-vote film record (*Fight the Future* → mythology, contested), 1–1 tie → creature rule, zero votes → raises, plus `label_contested` asserted in every case
+  - Verify: `uv run pytest tests/test_classify.py -q` → fails (red), 7+ tests collected
 - [ ] **B-10** Write `tests/test_merge.py` — "The Truth" resolves to **2 rows** (TVmaze shape) with Wikipedia values duplicated across both
   - Verify: `uv run pytest tests/test_merge.py -q` → fails (red)
 - [ ] **B-11** Write `tests/test_merge.py` — `The Sixth Extinction II: Amor Fati` (Wikipedia) joins to `The Sixth Extinction: Amor Fati` (TVmaze) without a reported miss
@@ -141,56 +141,58 @@ D ─────► E ─────► G ────────────
 > Depends on: A-01…A-05, B-01…B-08. Runs in parallel with Group C.
 > Read PRD §8.1 before writing any fetcher — each step has a documented landmine.
 
-- [ ] **D-01** Implement `build/01_spine.py` — `GET https://api.tvmaze.com/shows/430/episodes`, no key, **no `specials=1`**, writes `data/raw/tvmaze_episodes.json`
+- [ ] **D-01** Implement `build/spine.py` — `GET https://api.tvmaze.com/shows/430/episodes`, no key, **no `specials=1`**, writes `data/raw/tvmaze_episodes.json`
   - Verify: `uv run pytest tests/test_spine.py -q` → green
 - [ ] **D-02** Add `@pytest.mark.network` test hitting the live TVmaze endpoint, asserting 218 records
   - Verify: `uv run pytest -m network tests/test_spine.py -q` → passes
 - [ ] **D-03** Implement a shared `build/_http.py` client — descriptive User-Agent from `WIKI_USER_AGENT`, ~1 req/sec throttle, explicit retry with backoff. **Never swallow an exception** (CLAUDE.md).
   - Verify: `uv run pytest tests/test_http.py -q` → green; confirm a 429 raises rather than returning None
 - [ ] **D-04** Implement the brace-balanced template extractor in `build/wikitext.py`. **Not a regex** — a regex drops all 16 S10/S11 rows.
-  - Verify: `uv run pytest tests/test_wikipedia.py -q -k balanced` → green, 16 rows from the S10 fixture
+  - Verify: `uv run pytest tests/test_wikipedia.py -q -k balanced` → green, 6 rows from the S10 fixture + 10 from S11
 - [ ] **D-05** Implement case-insensitive dagger detection on `RTitle` matching `/double[- ]dagger/i`
   - Verify: `uv run pytest tests/test_wikipedia.py -q -k dagger` → green
 - [ ] **D-06** Implement `<hr>` multi-value splitting for director/writer fields
   - Verify: `uv run pytest tests/test_wikipedia.py -q -k split` → green
-- [ ] **D-07** Implement `build/02_wikipedia.py` — 11 **serial** requests to `action=parse&page=The X-Files season N&prop=wikitext`. **Do not parse `List_of_The_X-Files_episodes`** (transcluded; contains only film rows).
-  - Verify: `uv run python build/02_wikipedia.py` writes 11 files; total extracted rows printed and re-derived, not hard-coded
-- [ ] **D-08** Implement `build/03_wikidata.py` — one SPARQL query for enwiki title, IMDb ID (P345), TMDB ID. Reconcile the three "The Truth" duplicates by hand into `data/overrides/wikidata_dupes.json`.
-  - Verify: `uv run python build/03_wikidata.py` → prints item count; `data/raw/wikidata.json` has no duplicate `qid`
-- [ ] **D-09** Implement `build/04_labels.py` — fetch dom111 raw JSON once, **pin the blob SHA** in the script, fail loudly if the SHA no longer resolves
-  - Verify: `uv run python build/04_labels.py` → 143 MOTW + 75 mythology, 0 nulls. Paste the counts.
+- [ ] **D-07** Implement `build/wikipedia.py` — 11 **serial** requests to `action=parse&page=The X-Files season N&prop=wikitext`. **Do not parse `List_of_The_X-Files_episodes`** (transcluded; contains only film rows).
+  - Verify: `uv run python build/wikipedia.py` writes 11 files; total extracted rows printed and re-derived, not hard-coded
+- [ ] **D-08** Implement `build/wikidata.py` — one SPARQL query for enwiki title, IMDb ID (P345), TMDB ID. Reconcile the three "The Truth" duplicates by hand into `data/overrides/wikidata_dupes.json`.
+  - Verify: `uv run python build/wikidata.py` → prints item count; `data/raw/wikidata.json` has no duplicate `qid`
+- [ ] **D-09** Implement `build/labels.py` — fetch dom111 raw JSON once, **pin the blob SHA** in the script, fail loudly if the SHA no longer resolves
+  - Verify: `uv run python build/labels.py` → 143 MOTW + 75 mythology, 0 nulls. Paste the counts.
 - [ ] **D-10** Create `data/overrides/fox_dvd.json` — the Fox "Mythology" box-set episode lists, hand-entered from the four volumes, each entry citing its volume
   - Verify: `uv run python -c "import json;d=json.load(open('data/overrides/fox_dvd.json'));print(len(d))"` → count matches the volumes; every entry has a `source_volume`
-- [ ] **D-11** Implement `build/05_people.py` — 218 `/guestcast` + 218 `/guestcrew` calls, throttled ~20/10s, **with an explicit retry pass**. Parse crew as the **union of Writer, Story, Teleplay**.
-  - Verify: `uv run python build/05_people.py` → prints per-episode coverage; **0 episodes missing**. A naive sweep loses 10–15; if any are missing, the retry pass is broken.
+- [ ] **D-11** Implement `build/people.py` — 218 `/guestcast` + 218 `/guestcrew` calls, throttled ~20/10s, **with an explicit retry pass**. Parse crew as the **union of Writer, Story, Teleplay**.
+  - Verify: `uv run python build/people.py` → prints per-episode coverage; **0 episodes missing**. A naive sweep loses 10–15; if any are missing, the retry pass is broken.
 - [ ] **D-12** Add a test asserting Writer-only filtering drops 11 episodes and the union drops none
   - Verify: `uv run pytest tests/test_people.py -q` → green
-- [ ] **D-13** Implement `build/06_articles.py` — **one** `Special:Export` POST with all 214 titles, `curonly=1`. Record each article's revision ID.
-  - Verify: `uv run python build/06_articles.py` → single request, ~4.1 MB XML, every article has a revision ID
+- [ ] **D-13** Implement `build/articles.py` — **one** `Special:Export` POST with all 214 titles, `curonly=1`. Record each article's revision ID.
+  - Verify: `uv run python build/articles.py` → single request, ~4.1 MB XML, every article has a revision ID
 - [ ] **D-14** Extract level-2 `Production` and `Themes` sections plus every episode→episode wikilink into `data/raw/article_sections.json`
   - Verify: `uv run pytest tests/test_articles.py -q` → green; wikilink edge count printed
+- [ ] **D-15** Make `build/` a package: `build/__init__.py` + `build/__main__.py` driver running the steps in PRD §8 order (spine, wikipedia, wikidata, labels, people, articles, merge, loglines, emit), with `--only <step>` to run one. Run order lives **here**, not in filenames — modules were renamed from `01_spine.py`-style because digit-prefixed modules cannot be imported by tests.
+  - Verify: `uv run python -c "import build.spine, build.merge"` → no error; `uv run python -m build --help` lists the steps in order
 
 ---
 
 ## Group E — Merge, Classify, Emit
 > Depends on: Group D complete, B-09…B-13.
 
-- [ ] **E-01** Implement `spooky/classify.py::derive_label(fox, wiki, dom111, has_creature)` — the five rules of PRD §5.3, returning `(label_derived, contested, rationale)`
+- [ ] **E-01** Implement `spooky/classify.py::derive_label(fox, wiki, dom111, has_creature)` — the vote-based rules of PRD §5.3 (**null = abstain**), returning `(label_derived, contested, rationale)`. Tests must cover: 3-vote unanimous, 2–1 split, 2-vote revival records (always contested), 1-vote film records (*Fight the Future* → mythology), 1–1 tie → creature rule, and zero votes → raises
   - Verify: `uv run pytest tests/test_classify.py -q` → all green
 - [ ] **E-02** Create `data/overrides/creature.json` — `has_creature` boolean per episode, AI-seeded from titles and credits, **flagged for owner review**
   - Verify: file has 220 entries; every entry has `source: "ai-seeded"` or `"human-reviewed"`
-- [ ] **E-03** Implement `build/07_merge.py` — joins all sources on TVmaze `id`, applies the two-parter policy (TVmaze shape, 218 rows, Wikipedia values duplicated), special-cases the Amor Fati title join
+- [ ] **E-03** Implement `build/merge.py` — joins all sources on TVmaze `id`, applies the two-parter policy (TVmaze shape, 218 rows, Wikipedia values duplicated), special-cases the Amor Fati title join
   - Verify: `uv run pytest tests/test_merge.py -q` → green
 - [ ] **E-04** Hand-enter the two film records into `data/overrides/films.json` from Wikipedia — nullable season/episode/production code; *Fight the Future* mythology, *I Want to Believe* not
   - Verify: `uv run python -c "import json;print(len(json.load(open('data/overrides/films.json'))))"` → 2
-- [ ] **E-05** Implement the sacred-edits guard in `build/07_merge.py` — refuse to write `logline` when `review_status == "human-reviewed"`; emit a diff and raise instead
+- [ ] **E-05** Implement the sacred-edits guard in `build/merge.py` — refuse to write `logline` when `review_status == "human-reviewed"`; emit a diff and raise instead
   - Verify: `uv run pytest tests/test_review_guard.py -q` → green
 - [ ] **E-06** Implement per-field provenance — every field carries its source and license per PRD §8.2
   - Verify: `uv run pytest tests/test_provenance.py -q` → green; no field lacks a source
 - [ ] **E-07** Run the full merge → `data/episodes/*.json`, 220 files, committed
   - Verify: `ls data/episodes/*.json | wc -l` → 220. Counts printed by the script must be **re-derived**, not hard-coded.
-- [ ] **E-08** Implement `build/09_emit.py` — writes `data/dist/spooky-episodes.json`, `.csv`, and `spooky.sqlite` with an FTS5 table over title + logline + tags
-  - Verify: `uv run python build/09_emit.py`; `sqlite3 spooky.sqlite "select count(*) from episodes"` → 220
+- [ ] **E-08** Implement `build/emit.py` — writes `data/dist/spooky-episodes.json`, `.csv`, and `spooky.sqlite` with an FTS5 table over title + logline + tags
+  - Verify: `uv run python build/emit.py`; `sqlite3 spooky.sqlite "select count(*) from episodes"` → 220
 - [ ] **E-09** Write `data/README.md` — full field dictionary, source and license per field, CC BY-SA 4.0 statement, regeneration instructions
   - Verify: every field in `data/dist/spooky-episodes.json` appears in the dictionary. Diff the key sets programmatically.
 - [ ] **E-10** Add the legal-shape test to CI — no `synopsis` key, no `image` key, no logline over 30 words, no IMDb rating field
@@ -205,7 +207,7 @@ D ─────► E ─────► G ────────────
 
 - [ ] **F-01** Write `tests/test_loglines.py` — generated loglines are ≤30 words and contain no verbatim run of >8 words from any source text
   - Verify: `uv run pytest tests/test_loglines.py -q` → fails (red)
-- [ ] **F-02** Implement `build/08_loglines.py` — drafts one logline per record via the Anthropic API from **factual inputs only** (title, credits, air date, classification, Wikipedia Production/Themes). Writes `logline_generated`, sets `review_status: "ai-drafted"`. **Never writes `logline` directly.**
+- [ ] **F-02** Implement `build/loglines.py` — drafts one logline per record via the Anthropic API from **factual inputs only** (title, credits, air date, classification, Wikipedia Production/Themes). Writes `logline_generated`, sets `review_status: "ai-drafted"`. **Never writes `logline` directly.**
   - Verify: `uv run pytest tests/test_loglines.py -q` → green
 - [ ] **F-03** Write `tests/test_review_cli.py` — approve promotes to `human-reviewed` and copies `logline_generated` → `logline`; edit stores the edited text; reject sets `needs-work` with the note
   - Verify: `uv run pytest tests/test_review_cli.py -q` → fails (red)
@@ -213,7 +215,7 @@ D ─────► E ─────► G ────────────
   - Verify: `uv run pytest tests/test_review_cli.py -q` → green
 - [ ] **F-05** Add `--status` flag printing review progress (`147 / 220 human-reviewed`)
   - Verify: `uv run python tools/review.py --status` → prints counts
-- [ ] **F-06** Add a regeneration-safety test — re-running `08_loglines.py` after review changes zero human-reviewed records
+- [ ] **F-06** Add a regeneration-safety test — re-running `loglines.py` after review changes zero human-reviewed records
   - Verify: `uv run pytest tests/test_review_guard.py -q -k regen` → green
 - [ ] **F-07** 📋 **OWNER TASK** — review all 220 loglines through the CLI
   - Verify: `uv run python tools/review.py --status` → `220 / 220 human-reviewed`

@@ -279,28 +279,25 @@ recommendations.
 
 ## D. Open items needing your decision
 
-### OPEN-01 — The classification derivation rules are logically incomplete 🔴
-**Blocks:** the Execute phase, at Group E.
+### OPEN-01 — ✅ RESOLVED 2026-07-27: null = abstain
+**Evan's ruling:** a null source label abstains. Majority over non-null votes;
+any record with fewer than 3 votes is automatically `contested = true`; zero
+votes makes the build fail loudly and demand a hand-ruled override.
 
-PRD §5.3's five rules assume three non-null source labels, but:
-- §5.2 permits `label_fox_dvd: null`, and rule 2 ("≥2 of 3") is undefined when a
-  vote is missing.
-- The **two films have no Wikipedia dagger and no dom111 label**, yet §5.2 types
-  those fields as non-nullable — so films cannot be classified at all as written.
-- §5.3's rules classify *Fight the Future* as **monster-of-the-week**, while
-  §8.1 and task E-04 both assert it is **mythology**. A direct contradiction.
-- Rule 4 depends on a hand-maintained `has_creature` flag, but no task ever
-  confirms it and the review CLI is specified for loglines only.
+**Applied:** PRD §5.2 (all three labels nullable, null ≠ "not-listed"), §5.3
+(rewritten as vote-based rules), TASKS B-09 and E-01 (test cases enumerated).
 
-**My recommendation:** treat a null source as *abstaining* — compute the majority
-over non-null votes only, and mark any record with fewer than three votes
-`contested = true` automatically. Films then classify on dom111 alone (or a
-hand override), which is honest and visible in the UI. This needs your ruling
-because it changes what the headline chart shows.
+A bonus discovered while applying it: §8.1 records that Wikipedia's list page
+*does* dagger-flag *Fight the Future*, so films carry exactly one vote and the
+old §5.3-vs-§8.1 contradiction dissolves — *Fight the Future* now derives
+`mythology` from that vote with no film special case. One deliberate behavior
+change worth knowing: a lone mythology vote among three no longer forces
+`monster-of-the-week`; the `has_creature` flag decides MOTW vs standalone.
 
-### OPEN-02 — The $5/month is not yet authorized 🟡
-D-16 commits you to ~$5/mo for always-on Railway. I decided that for you on
-engineering grounds. **Confirm, or accept cold-start 502s and keep it free.**
+### OPEN-02 — ✅ RESOLVED 2026-07-27: always-on approved
+**Evan's answer:** already paying for Railway for a different app (mccoy runs
+there). The account exists, the billing objection is moot, and always-on is
+approved. C-19 (deploy) is unblocked; D-16 stands as decided.
 
 ### OPEN-03 — The no-imagery posture is conservative, not required 🟡
 D-18 is my risk judgment, not settled law. A site with zero show imagery looks
@@ -317,17 +314,16 @@ feature you added to v1 is substantially gone.
 still a complete, correct, deployed product; (b) pull viewership back into v1
 and pay for the hand-QA; (c) pull a v2 feature forward to give v1 more substance.
 
-### OPEN-05 — What to do with the 175 unverified review findings 🟡
-An adversarial review produced 175 findings (37 blockers). **None were ever
-verified** — that pass died on the session limit. Of the five I checked by hand,
-**two were plain wrong** (§E.1).
+### OPEN-05 — ✅ RESOLVED 2026-07-27: findings batch retired
+**Evan's ruling:** retire the 175-finding batch. The confirmed handful are
+fixed (§E.1, §E.2), the `build/NN_*.py` naming problem is now applied (§E.3),
+and the rest are dropped. New issues get adjudicated on contact during
+Group D — not by re-reading stale review output.
 
-**My recommendation:** retire them as a batch. See §E.6 for the reasoning. Adopt
-the handful already confirmed, keep §E.3 (the `build/NN_*.py` naming problem) as
-a live item, and let the rest go.
-
-**Your call**, because the alternative — a fresh full triage — is a real token
-spend that I'd rather put into Group D.
+Also fixed on the way out, because arithmetic confirmed them without any
+re-triage: B-03/B-06/D-04 claimed "16 rows from the S10 fixture," but season
+10 has 6 episodes and season 11 has 10 — B-03 now records S11 as well, and the
+row counts are stated per season.
 
 ---
 
@@ -364,20 +360,19 @@ only passed when pytest ran from the repo root.
 - `episodes_df` hands out a deep copy per test, so `test_chart`'s film-injection
   cannot leak into another test.
 
-### E.3 — Still open, latent, will bite at Group D 🔴
+### E.3 — ✅ APPLIED 2026-07-27: build modules renamed
 
-**`build/NN_*.py` module names are not importable.** TASKS.md specifies
-`build/01_spine.py` … `build/09_emit.py`. A Python identifier cannot begin with a
-digit, so `import build.01_spine` is a syntax error and no test can import them —
-which makes every *"→ green"* Verify in Groups D–F impossible as written.
+**Was:** TASKS.md specified `build/01_spine.py` … `build/09_emit.py`. A Python
+identifier cannot begin with a digit, so no test could import them — every
+*"→ green"* Verify in Groups D–F was impossible as written. Latent only because
+`build/` was still empty.
 
-Not yet a problem only because `build/` is still empty. **My recommendation:**
-rename to `build/spine.py`, `build/wikipedia.py`, `build/merge.py`, `build/emit.py`,
-and keep run order in an explicit driver (`build/__main__.py`) rather than encoding
-it in filenames. Ordering belongs in code, not in a naming convention that fights
-the language.
-
-*Not yet applied — this rewrites task IDs across four groups, so it wants your nod.*
+**Applied under Evan's OPEN-05 ruling** ("keep the naming item live"): all nine
+modules renamed to `build/spine.py`, `wikipedia.py`, `wikidata.py`, `labels.py`,
+`people.py`, `articles.py`, `merge.py`, `loglines.py`, `emit.py` across PRD §8
+and TASKS Groups D–F, plus a new task **D-15**: `build/__main__.py` driver
+carrying the run order (`uv run python -m build`). Ordering lives in code, not
+in filenames that fight the language.
 
 ### E.4 — Three real bugs found by driving the running app 🐞
 

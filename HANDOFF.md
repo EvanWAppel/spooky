@@ -10,11 +10,12 @@
    legal constraints, not style. Violating them is a real problem.
 2. **`PRD.md`** — the full spec. §2 (constraints), §5 (classification), §8
    (pipeline landmines), and §13 (known unknowns) are the load-bearing sections.
-3. **`TASKS.md`** — the execution plan. Group A is done; **Group C**, the
-   vertical slice, is in progress.
+3. **`TASKS.md`** — the execution plan. Groups A and C-01…C-18 are done and
+   verified; next up are **Group B/D** (the ingest pipeline) and **C-19** (deploy).
 4. **`DECISIONS.md`** — the decision register: who decided what, what else was
-   considered, and which calls Claude made on Evan's behalf. **§D lists open
-   items that still need Evan's ruling — one of them (OPEN-01) blocks Group E.**
+   considered, and which calls Claude made on Evan's behalf. §D's blocking
+   items are all resolved as of 2026-07-27; OPEN-03 and OPEN-04 remain open
+   but block nothing.
 5. This file — the *why* behind decisions that look arbitrary.
 
 ## The 60-second version
@@ -117,52 +118,42 @@ The feasibility study lost 13 of 57 agents to network errors. These areas are
 
 *Verified against disk 2026-07-27.*
 
-**Done — Group A complete (A-01 … A-13), 13 of 122 tasks.**
+**Done — Groups A and C-01…C-18 verified, 31 of 123 tasks.**
 
-- Git repo initialized, remote `github.com/EvanWAppel/spooky.git`, on branch
-  **`init-scaffold`**. One commit: *Initialize spooky scaffold*. Do not push to `main`.
-- `pyproject.toml` exists with runtime + dev deps, and sets
-  `[tool.pytest.ini_options] pythonpath = ["."]`.
-- Registered in `../projects.toml`. CI workflow, ruff, prek hooks, `Procfile`,
-  `.env.example` all in place.
-- `spooky/` is a real package: `__init__.py`, `logging_config.py`, `links.py`,
-  `loader.py`.
+- Branch **`init-scaffold`**, remote `github.com/EvanWAppel/spooky.git`. Do not
+  push to `main`. Commits: *Initialize spooky scaffold*, *Vertical slice…*.
+- The vertical slice **works and was verified in a live browser**: chart-click
+  → season+category filter, row-click → detail panel, URL routing pre-applies
+  on first paint. 29 tests passing, ruff/ty clean, prek hooks green.
+- `tests/conftest.py` exists (app-layer fixtures: `sample_data_dir`,
+  `episodes_df`, `contested_record`, `render_text`); suite passes from any cwd.
+- `spooky/values.py` holds the null-handling layer — **read its docstring
+  before writing any pipeline code.** JSON `null` arrives as `NaN`/`pd.NA`
+  through pandas, never `None`; three bugs came from that this session.
 
-**In progress — Group C, the vertical slice. Uncommitted.**
-
-- `app.py`, `components/{chart,table,panel}.py`, `assets/`
-- `tests/{test_chart,test_links,test_loader,test_panel,test_table}.py`
-- `data/episodes_sample/` — 12 hand-built sample records
-- **`uv run pytest` → 11 passed.** The slice runs.
+**Open — C-19/C-20:** deploy to Railway (always-on approved — the account
+already hosts mccoy), then the Group C gate.
 
 **Not started**
 
-- `build/` and `tools/` exist but are **empty**. The entire ingest pipeline
-  (Groups D–G) is unwritten.
-- No real data — everything so far runs on the 12 sample records.
+- `build/` and `tools/` are **empty**. The entire ingest pipeline (Groups D–G)
+  is unwritten. Module names are `build/spine.py` … `build/emit.py` with run
+  order in `build/__main__.py` (task D-15) — **not** the old `01_`-prefixed
+  names, which tests cannot import.
+- No real data — everything runs on the 12 sample records.
 
-**Known problems right now**
+**Rulings already made — do not re-open** (full detail in `DECISIONS.md` §D):
 
-- ⚠️ **No `tests/conftest.py`.** CLAUDE.md requires *"use pytest fixtures in
-  conftest.py to DRY"* and five test files exist without one. Fix before Group D
-  multiplies the duplication.
-- ⚠️ **`build/NN_*.py` module names are not importable.** TASKS.md specifies
-  `build/01_spine.py` … `build/09_emit.py`, but a Python identifier cannot start
-  with a digit, so no test can `import` them. This is latent — it bites the
-  moment Group D starts. Rename to `build/spine.py` etc. (keeping order in a
-  driver), or import via `importlib`.
-- ⚠️ **Verify lines using `--include=*.py` are broken in zsh.** Confirmed:
-  `zsh:1: no matches found: --include=*.py`. Quote the glob. Affects C-10, H-01, J-01.
-- ⚠️ **Verify lines that `curl … | grep` the running Dash app cannot work.**
-  Dash renders client-side; the served HTML is a React mount point. Affects
-  C-14, C-18, H-08, J-06.
-- 🔴 **PRD §5.3's classification rules are logically incomplete** and contradict
-  §8.1 on *Fight the Future*. See `DECISIONS.md` OPEN-01. **This blocks Group E**
-  and needs Evan's ruling.
+- **Classification nulls abstain** (OPEN-01). PRD §5.3 is vote-based; films
+  carry one Wikipedia vote; <3 votes ⇒ contested; zero votes ⇒ build fails.
+- **Railway always-on approved** (OPEN-02).
+- **The 175-finding review batch is retired** (OPEN-05). Confirmed items are
+  fixed; do not re-litigate the rest.
 
 **API keys needed:** **TMDB** and **Anthropic**. OMDb and YouTube are *not*
 needed — don't let anyone re-add them. Note that no task yet creates a populated
-local `.env`; only `.env.example` exists.
+local `.env`; only `.env.example` exists — Group F (loglines) will stall on the
+Anthropic key without an owner step.
 
 ## Ground rules for whoever continues
 

@@ -157,36 +157,65 @@ Each record stores **three independent source labels** plus a derived label:
 ```json
 {
   "label_fox_dvd":    "mythology" | "not-listed" | null,
-  "label_wikipedia":  "mythology" | "not-flagged",
-  "label_dom111":     "mythology" | "motw",
+  "label_wikipedia":  "mythology" | "not-flagged" | null,
+  "label_dom111":     "mythology" | "motw"       | null,
   "label_derived":    "mythology" | "monster-of-the-week" | "standalone",
   "label_contested":  true | false,
   "label_rationale":  "string — why derived landed where it did"
 }
 ```
 
-`label_contested` is true wherever the three sources do not agree. Contested
-episodes render with a badge in the table and a per-source breakdown in the
-detail panel: *"Fox DVDs: not listed · Wikipedia: mythology · dom111: MOTW."*
+All three source labels are nullable. **`null` means the source does not cover
+the record at all** — the Fox DVD sets predate the revival (all of seasons
+10–11 are null there), and dom111 covers only the 218 TV episodes (both films
+are null there). A null is *not* the same as `"not-listed"`/`"not-flagged"`,
+which mean the source covered the record and declined to flag it. The UI
+renders null as **"no data"** and never collapses the two.
+
+`label_contested` is true wherever the available sources disagree **or fewer
+than three sources cover the record**. Contested episodes render with a badge
+in the table and a per-source breakdown in the detail panel:
+*"Fox DVDs: not listed · Wikipedia: mythology · dom111: MOTW."*
 
 **This is the single most important design decision in the project.** It converts
 an unwinnable argument into the most interesting thing on the site.
 
 ### 5.3 Deriving `label_derived`
 
-Deterministic, implemented in `build/07_merge.py`, fully unit-tested:
+Deterministic, implemented in `spooky/classify.py` (called from
+`build/merge.py`), fully unit-tested. **A null source label abstains** — it is
+neither a yes nor a no. *(Decided 2026-07-27, DECISIONS.md OPEN-01. The
+alternative — counting absence as "not mythology" — would let a source that
+never saw the revival outvote the two that did.)*
 
-1. All three sources say mythology → `mythology`
-2. Majority (≥2 of 3) say mythology → `mythology`, `contested = true`
-3. Exactly one says mythology → `monster-of-the-week`, `contested = true`
-4. None say mythology **and** the episode features a non-recurring paranormal
-   antagonist → `monster-of-the-week`
-5. Otherwise → `standalone`
+1. **Votes** = the non-null values among the three source labels.
+   `"not-listed"` and `"not-flagged"` are votes — negative ones.
+2. `label_contested = true` whenever the votes disagree **or** there are fewer
+   than 3 votes. Incomplete evidence is disclosed, never smoothed over.
+3. **Zero votes → the build fails loudly** and demands a hand-ruled entry in
+   `data/overrides/classification.json` (rationale required). No silent
+   default. (No current record should hit this — films carry a Wikipedia
+   vote — so reaching it means the ingest broke.)
+4. A strict majority of votes says mythology → `mythology`.
+5. Otherwise: the episode features a non-recurring paranormal antagonist
+   (`has_creature`) → `monster-of-the-week`; else → `standalone`. Ties (1–1)
+   land here, contested via rule 2.
 
-Rule 4 needs a `has_creature` boolean. It is **not** derivable from any source
+Rule 5 needs a `has_creature` boolean. It is **not** derivable from any source
 and must be hand-maintained in `data/overrides/creature.json`, seeded by an AI
 pass over factual credits/titles and then confirmed by the owner through the
-review CLI. Every rule-4 and rule-5 assignment records its rationale.
+review CLI. Every assignment records how it was reached in `label_rationale`.
+
+Consequences worth naming, because they will show in the chart:
+
+- **Every season 10–11 episode is contested** (2 votes — the Fox DVDs abstain).
+  Honest: the revival's classification rests on thinner evidence.
+- ***Fight the Future* derives `mythology`** from its single Wikipedia vote
+  (contested, 1 vote). This resolves the old rules' contradiction with §8.1
+  step 07 — no film special case exists anymore.
+- Under the old rules a lone mythology vote forced `monster-of-the-week`;
+  now the `has_creature` flag decides MOTW vs standalone for those episodes,
+  which is what the flag is for.
 
 > **Open item for the Execute phase:** the ~60/70/71/~80 counts above must be
 > **re-derived at build time**, not trusted. Wikipedia's tables are transcluded
@@ -347,17 +376,24 @@ Wikimedia request carries a descriptive User-Agent with contact info — generic
 agents get blocked without notice.
 
 ```
-build/
-  01_spine.py      TVmaze          → data/raw/tvmaze_episodes.json
-  02_wikipedia.py  MediaWiki parse → data/raw/wiki_seasons/*.json
-  03_wikidata.py   SPARQL          → data/raw/wikidata.json
-  04_labels.py     dom111 (pinned) → data/raw/dom111.json
-  05_people.py     TVmaze          → data/raw/guestcast.json, guestcrew.json
-  06_articles.py   Special:Export  → data/raw/articles.xml
-  07_merge.py      → data/episodes/*.json   ← SOURCE OF TRUTH, committed
-  08_loglines.py   Anthropic API   → logline_generated field
-  09_emit.py       → data/dist/*.{json,csv} + spooky.sqlite
+build/                 (a package: __init__.py + one module per step)
+  spine.py      TVmaze          → data/raw/tvmaze_episodes.json
+  wikipedia.py  MediaWiki parse → data/raw/wiki_seasons/*.json
+  wikidata.py   SPARQL          → data/raw/wikidata.json
+  labels.py     dom111 (pinned) → data/raw/dom111.json
+  people.py     TVmaze          → data/raw/guestcast.json, guestcrew.json
+  articles.py   Special:Export  → data/raw/articles.xml
+  merge.py      → data/episodes/*.json   ← SOURCE OF TRUTH, committed
+  loglines.py   Anthropic API   → logline_generated field
+  emit.py       → data/dist/*.{json,csv} + spooky.sqlite
+  __main__.py   the driver: runs the steps in exactly the order above
 ```
+
+Run order lives in `build/__main__.py` (`uv run python -m build`, or
+`-m build --only spine` for one step) — **not** in the filenames. The modules
+were originally numbered `01_spine.py` … `09_emit.py`, but a Python identifier
+cannot start with a digit, so numbered modules can't be imported by tests —
+which would have made every pipeline test in Groups D–F impossible to write.
 
 ### 8.1 Step notes — these are landmines, not suggestions
 
