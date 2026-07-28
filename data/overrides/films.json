@@ -1,0 +1,33 @@
+[
+  {
+    "_comment": "TASKS E-04. Identifiers verified against Wikidata 2026-07-27 (film QIDs resolved by label+P31, not memory). label_wikipedia: the List of The X-Files episodes page daggers Fight the Future (PRD §8.1 step 07); label_fox_dvd and label_dom111 are null — the box sets and dom111 cover TV episodes only, so both sources abstain (PRD §5.3).",
+    "id": "film-1998",
+    "title": "The X-Files: Fight the Future",
+    "release_date": "1998-06-19",
+    "runtime": 121,
+    "wikidata_qid": "Q1129381",
+    "imdb_id": "tt0120902",
+    "tmdb_movie_id": 846,
+    "enwiki_title": "The X-Files (film)",
+    "label_fox_dvd": null,
+    "label_wikipedia": "mythology",
+    "label_dom111": null,
+    "director": ["Rob Bowman"],
+    "writers": ["Chris Carter"]
+  },
+  {
+    "id": "film-2008",
+    "title": "The X-Files: I Want to Believe",
+    "release_date": "2008-07-24",
+    "runtime": 104,
+    "wikidata_qid": "Q421875",
+    "imdb_id": "tt0443701",
+    "tmdb_movie_id": 8836,
+    "enwiki_title": "The X-Files: I Want to Believe",
+    "label_fox_dvd": null,
+    "label_wikipedia": "not-flagged",
+    "label_dom111": null,
+    "director": ["Chris Carter"],
+    "writers": ["Chris Carter", "Frank Spotnitz"]
+  }
+]

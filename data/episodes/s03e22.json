@@ -1,0 +1,125 @@
+{
+ "id": "s03e22",
+ "tvmaze_id": 40490,
+ "season": 3,
+ "episode": 22,
+ "title": "Quagmire",
+ "air_date": "1996-05-03",
+ "production_code": "3X22",
+ "runtime": 60,
+ "rating": 7.8,
+ "label_fox_dvd": "not-listed",
+ "label_wikipedia": "not-flagged",
+ "label_dom111": "motw",
+ "label_derived": "monster-of-the-week",
+ "label_contested": false,
+ "label_rationale": "0 of 3 voting sources say mythology; features a non-recurring paranormal antagonist.",
+ "imdb_id": "tt0751184",
+ "wikidata_qid": "Q7268462",
+ "enwiki_title": "Quagmire (The X-Files)",
+ "tmdb_id": 4087,
+ "tmdb_movie_id": null,
+ "director": [
+  "Kim Manners"
+ ],
+ "writers": [
+  "Kim Newton"
+ ],
+ "guest_cast": [
+  "Timothy Webber",
+  "Chris Ellis",
+  "Murray Lowry",
+  "Tyler Labine",
+  "Nicole Parker",
+  "Mark Acheson",
+  "Peter Hanlon",
+  "R. Nelson Brown",
+  "Terrance Leigh"
+ ],
+ "logline_generated": null,
+ "logline": null,
+ "review_status": "unreviewed",
+ "reviewed_at": null,
+ "review_note": null,
+ "provenance": {
+  "tvmaze_id": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "season": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "episode": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "air_date": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "runtime": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "rating": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "guest_cast": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "director": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "writers": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_dom111": {
+   "source": "dom111/xfiles-episode-picker (TVmaze-derived)",
+   "license": "MIT wrapper, data CC BY-SA 4.0"
+  },
+  "label_derived": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_contested": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_rationale": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "title": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1346173628
+  },
+  "production_code": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1346173628
+  },
+  "label_wikipedia": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1346173628
+  },
+  "label_fox_dvd": {
+   "source": "Fox Mythology DVD sets, via their Wikipedia articles",
+   "license": "CC BY-SA 4.0"
+  },
+  "imdb_id": {
+   "source": "Wikidata",
+   "license": "CC0"
+  },
+  "wikidata_qid": {
+   "source": "Wikidata",
+   "license": "CC0"
+  }
+ }
+}

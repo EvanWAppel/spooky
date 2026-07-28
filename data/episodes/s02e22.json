@@ -1,0 +1,131 @@
+{
+ "id": "s02e22",
+ "tvmaze_id": 40465,
+ "season": 2,
+ "episode": 22,
+ "title": "F. Emasculata",
+ "air_date": "1995-04-28",
+ "production_code": "2X22",
+ "runtime": 60,
+ "rating": 8.1,
+ "label_fox_dvd": "not-listed",
+ "label_wikipedia": "not-flagged",
+ "label_dom111": "motw",
+ "label_derived": "monster-of-the-week",
+ "label_contested": false,
+ "label_rationale": "0 of 3 voting sources say mythology; features a non-recurring paranormal antagonist.",
+ "imdb_id": "tt0751119",
+ "wikidata_qid": "Q5423885",
+ "enwiki_title": "F. Emasculata",
+ "tmdb_id": 4087,
+ "tmdb_movie_id": null,
+ "director": [
+  "Rob Bowman"
+ ],
+ "writers": [
+  "Howard Gordon",
+  "Chris Carter"
+ ],
+ "guest_cast": [
+  "Mitch Pileggi",
+  "William B. Davis",
+  "John Pyper-Ferguson",
+  "Dean Norris",
+  "Charles Martin Smith",
+  "Angelo Vacco",
+  "Lynda Boyd",
+  "John Tench",
+  "Alvin Sanders",
+  "Chilton Crane",
+  "Kim Kondrashoff",
+  "Jude Zachary",
+  "Morris Panych",
+  "Bill Rowat"
+ ],
+ "logline_generated": null,
+ "logline": null,
+ "review_status": "unreviewed",
+ "reviewed_at": null,
+ "review_note": null,
+ "provenance": {
+  "tvmaze_id": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "season": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "episode": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "air_date": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "runtime": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "rating": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "guest_cast": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "director": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "writers": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_dom111": {
+   "source": "dom111/xfiles-episode-picker (TVmaze-derived)",
+   "license": "MIT wrapper, data CC BY-SA 4.0"
+  },
+  "label_derived": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_contested": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_rationale": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "title": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1346172531
+  },
+  "production_code": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1346172531
+  },
+  "label_wikipedia": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1346172531
+  },
+  "label_fox_dvd": {
+   "source": "Fox Mythology DVD sets, via their Wikipedia articles",
+   "license": "CC BY-SA 4.0"
+  },
+  "imdb_id": {
+   "source": "Wikidata",
+   "license": "CC0"
+  },
+  "wikidata_qid": {
+   "source": "Wikidata",
+   "license": "CC0"
+  }
+ }
+}

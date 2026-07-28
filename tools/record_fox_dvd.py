@@ -22,7 +22,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 from build._http import HttpClient  # noqa: E402
-from build.wikitext import extract_episode_rows, parse_wikilinks  # noqa: E402
+from build.wikitext import (  # noqa: E402
+    extract_episode_rows,
+    parse_wikilinks,
+    strip_refs,
+)
 
 log = logging.getLogger(__name__)
 
@@ -73,7 +77,8 @@ def main() -> None:
         )
         for row in rows:
             titles = parse_wikilinks(row.get("Title", ""))
-            prod_code = row.get("ProdCode", "").strip()
+            # Volume 2 appends <ref> citations to its production codes.
+            prod_code = strip_refs(row.get("ProdCode", ""))
             with_prodcode += bool(prod_code)
             entries.append(
                 {

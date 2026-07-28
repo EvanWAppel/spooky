@@ -1,0 +1,41 @@
+{
+ "id": "film-1998",
+ "tvmaze_id": null,
+ "season": null,
+ "episode": null,
+ "title": "The X-Files: Fight the Future",
+ "air_date": "1998-06-19",
+ "production_code": null,
+ "runtime": 121,
+ "rating": null,
+ "label_fox_dvd": null,
+ "label_wikipedia": "mythology",
+ "label_dom111": null,
+ "label_derived": "mythology",
+ "label_contested": true,
+ "label_rationale": "1 of 1 voting sources say mythology. Fox DVDs, dom111 do not cover this record and abstain.",
+ "imdb_id": "tt0120902",
+ "wikidata_qid": "Q1129381",
+ "enwiki_title": "The X-Files (film)",
+ "tmdb_id": null,
+ "tmdb_movie_id": 846,
+ "director": [
+  "Rob Bowman"
+ ],
+ "writers": [
+  "Chris Carter"
+ ],
+ "guest_cast": [],
+ "logline_generated": null,
+ "logline": null,
+ "review_status": "unreviewed",
+ "reviewed_at": null,
+ "review_note": null,
+ "provenance": {
+  "all_fields": {
+   "source": "hand-entered by the owner",
+   "license": "CC BY-SA 4.0",
+   "note": "hand-entered from Wikipedia/Wikidata, see films.json"
+  }
+ }
+}

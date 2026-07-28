@@ -76,13 +76,13 @@ D ─────► E ─────► G ────────────
   - Verify: `uv run pytest tests/test_wikipedia.py -q` → fails (red)
 - [x] **B-09** Write `tests/test_classify.py` — the vote-based rules of PRD §5.3 (**null = abstain**): 3-vote unanimous, 2–1 split (contested), 2-vote revival records (always contested), 1-vote film record (*Fight the Future* → mythology, contested), 1–1 tie → creature rule, zero votes → raises, plus `label_contested` asserted in every case
   - Verify: `uv run pytest tests/test_classify.py -q` → fails (red), 7+ tests collected
-- [ ] **B-10** Write `tests/test_merge.py` — "The Truth" resolves to **2 rows** (TVmaze shape) with Wikipedia values duplicated across both
+- [x] **B-10** Write `tests/test_merge.py` — "The Truth" resolves to **2 rows** (TVmaze shape) with Wikipedia values duplicated across both
   - Verify: `uv run pytest tests/test_merge.py -q` → fails (red)
-- [ ] **B-11** Write `tests/test_merge.py` — `The Sixth Extinction II: Amor Fati` (Wikipedia) joins to `The Sixth Extinction: Amor Fati` (TVmaze) without a reported miss
+- [x] **B-11** Write `tests/test_merge.py` — `The Sixth Extinction II: Amor Fati` (Wikipedia) joins to `The Sixth Extinction: Amor Fati` (TVmaze) without a reported miss
   - Verify: `uv run pytest tests/test_merge.py -q` → fails (red)
-- [ ] **B-12** Write `tests/test_review_guard.py` — **the sacred-edits test.** Any merge/refresh run must raise rather than modify `logline` when `review_status == "human-reviewed"`
+- [x] **B-12** Write `tests/test_review_guard.py` — **the sacred-edits test.** Any merge/refresh run must raise rather than modify `logline` when `review_status == "human-reviewed"`
   - Verify: `uv run pytest tests/test_review_guard.py -q` → fails (red)
-- [ ] **B-13** Write `tests/test_legal.py` — asserts no record contains a `synopsis` or `image` key, and no field value exceeds the 30-word logline cap
+- [x] **B-13** Write `tests/test_legal.py` — asserts no record contains a `synopsis` or `image` key, and no field value exceeds the 30-word logline cap
   - Verify: `uv run pytest tests/test_legal.py -q` → fails (red)
 - [x] **B-14** Add `network` marker to `pyproject.toml` under `[tool.pytest.ini_options]` with `markers = ["network: hits real APIs, excluded from CI"]`
   - Verify: `uv run pytest -m network --collect-only -q` runs without an unknown-marker warning
@@ -169,7 +169,7 @@ D ─────► E ─────► G ────────────
   - Verify: `uv run python build/articles.py` → single request, ~4.1 MB XML, every article has a revision ID
 - [x] **D-14** Extract level-2 `Production` and `Themes` sections plus every episode→episode wikilink into `data/raw/article_sections.json`
   - Verify: `uv run pytest tests/test_articles.py -q` → green; wikilink edge count printed
-- [ ] **D-15** Make `build/` a package: `build/__init__.py` + `build/__main__.py` driver running the steps in PRD §8 order (spine, wikipedia, wikidata, labels, people, articles, merge, loglines, emit), with `--only <step>` to run one. Run order lives **here**, not in filenames — modules were renamed from `01_spine.py`-style because digit-prefixed modules cannot be imported by tests.
+- [x] **D-15** Make `build/` a package: `build/__init__.py` + `build/__main__.py` driver running the steps in PRD §8 order (spine, wikipedia, wikidata, labels, people, articles, merge, loglines, emit), with `--only <step>` to run one. Run order lives **here**, not in filenames — modules were renamed from `01_spine.py`-style because digit-prefixed modules cannot be imported by tests.
   - Verify: `uv run python -c "import build.spine, build.merge"` → no error; `uv run python -m build --help` lists the steps in order
 
 ---
@@ -179,25 +179,25 @@ D ─────► E ─────► G ────────────
 
 - [x] **E-01** Implement `spooky/classify.py::derive_label(fox, wiki, dom111, has_creature)` — the vote-based rules of PRD §5.3 (**null = abstain**), returning `(label_derived, contested, rationale)`. Tests must cover: 3-vote unanimous, 2–1 split, 2-vote revival records (always contested), 1-vote film records (*Fight the Future* → mythology), 1–1 tie → creature rule, and zero votes → raises
   - Verify: `uv run pytest tests/test_classify.py -q` → all green
-- [ ] **E-02** Create `data/overrides/creature.json` — `has_creature` boolean per episode, AI-seeded from titles and credits, **flagged for owner review**
+- [x] **E-02** Create `data/overrides/creature.json` — `has_creature` boolean per episode, AI-seeded from titles and credits, **flagged for owner review**
   - Verify: file has 220 entries; every entry has `source: "ai-seeded"` or `"human-reviewed"`
-- [ ] **E-03** Implement `build/merge.py` — joins all sources on TVmaze `id`, applies the two-parter policy (TVmaze shape, 218 rows, Wikipedia values duplicated), special-cases the Amor Fati title join
+- [x] **E-03** Implement `build/merge.py` — joins all sources on TVmaze `id`, applies the two-parter policy (TVmaze shape, 218 rows, Wikipedia values duplicated), special-cases the Amor Fati title join
   - Verify: `uv run pytest tests/test_merge.py -q` → green
-- [ ] **E-04** Hand-enter the two film records into `data/overrides/films.json` from Wikipedia — nullable season/episode/production code; *Fight the Future* mythology, *I Want to Believe* not
+- [x] **E-04** Hand-enter the two film records into `data/overrides/films.json` from Wikipedia — nullable season/episode/production code; *Fight the Future* mythology, *I Want to Believe* not
   - Verify: `uv run python -c "import json;print(len(json.load(open('data/overrides/films.json'))))"` → 2
-- [ ] **E-05** Implement the sacred-edits guard in `build/merge.py` — refuse to write `logline` when `review_status == "human-reviewed"`; emit a diff and raise instead
+- [x] **E-05** Implement the sacred-edits guard in `build/merge.py` — refuse to write `logline` when `review_status == "human-reviewed"`; emit a diff and raise instead
   - Verify: `uv run pytest tests/test_review_guard.py -q` → green
-- [ ] **E-06** Implement per-field provenance — every field carries its source and license per PRD §8.2
+- [x] **E-06** Implement per-field provenance — every field carries its source and license per PRD §8.2
   - Verify: `uv run pytest tests/test_provenance.py -q` → green; no field lacks a source
-- [ ] **E-07** Run the full merge → `data/episodes/*.json`, 220 files, committed
+- [x] **E-07** Run the full merge → `data/episodes/*.json`, 220 files, committed
   - Verify: `ls data/episodes/*.json | wc -l` → 220. Counts printed by the script must be **re-derived**, not hard-coded.
 - [ ] **E-08** Implement `build/emit.py` — writes `data/dist/spooky-episodes.json`, `.csv`, and `spooky.sqlite` with an FTS5 table over title + logline + tags
   - Verify: `uv run python build/emit.py`; `sqlite3 spooky.sqlite "select count(*) from episodes"` → 220
 - [ ] **E-09** Write `data/README.md` — full field dictionary, source and license per field, CC BY-SA 4.0 statement, regeneration instructions
   - Verify: every field in `data/dist/spooky-episodes.json` appears in the dictionary. Diff the key sets programmatically.
-- [ ] **E-10** Add the legal-shape test to CI — no `synopsis` key, no `image` key, no logline over 30 words, no IMDb rating field
+- [x] **E-10** Add the legal-shape test to CI — no `synopsis` key, no `image` key, no logline over 30 words, no IMDb rating field
   - Verify: `uv run pytest tests/test_legal.py -q` → green
-- [ ] **E-11** Print and record the **re-derived** classification counts; compare against the PRD §5.1 table and document any drift
+- [x] **E-11** Print and record the **re-derived** classification counts; compare against the PRD §5.1 table and document any drift
   - Verify: paste actual counts. If mythology ≠ 70 TV episodes for Wikipedia, investigate before proceeding.
 
 ---

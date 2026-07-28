@@ -1,0 +1,127 @@
+{
+ "id": "s11e03",
+ "tvmaze_id": 1373400,
+ "season": 11,
+ "episode": 3,
+ "title": "Plus One",
+ "air_date": "2018-01-17",
+ "production_code": "2AYW03",
+ "runtime": 60,
+ "rating": 6.6,
+ "label_fox_dvd": null,
+ "label_wikipedia": "not-flagged",
+ "label_dom111": "motw",
+ "label_derived": "monster-of-the-week",
+ "label_contested": true,
+ "label_rationale": "0 of 2 voting sources say mythology; features a non-recurring paranormal antagonist. Fox DVDs do not cover this record and abstain.",
+ "imdb_id": "tt6803102",
+ "wikidata_qid": "Q47498350",
+ "enwiki_title": "Plus One (The X-Files)",
+ "tmdb_id": 4087,
+ "tmdb_movie_id": null,
+ "director": [
+  "Kevin Hooks"
+ ],
+ "writers": [
+  "Chris Carter"
+ ],
+ "guest_cast": [
+  "Karin Konoval",
+  "Karin Konoval",
+  "Ben Wilkinson",
+  "Jared Ager-Foster",
+  "Alison Araya",
+  "Denise Dowse",
+  "Lossen Chambers",
+  "Thabo Ketshabetswe",
+  "Elizabeth Lavender",
+  "Kathryn Kirkpatrick",
+  "Rhett Spencer"
+ ],
+ "logline_generated": null,
+ "logline": null,
+ "review_status": "unreviewed",
+ "reviewed_at": null,
+ "review_note": null,
+ "provenance": {
+  "tvmaze_id": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "season": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "episode": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "air_date": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "runtime": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "rating": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "guest_cast": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "director": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "writers": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_dom111": {
+   "source": "dom111/xfiles-episode-picker (TVmaze-derived)",
+   "license": "MIT wrapper, data CC BY-SA 4.0"
+  },
+  "label_derived": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_contested": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_rationale": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "title": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1365376806
+  },
+  "production_code": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1365376806
+  },
+  "label_wikipedia": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1365376806
+  },
+  "label_fox_dvd": {
+   "source": "Fox Mythology DVD sets, via their Wikipedia articles",
+   "license": "CC BY-SA 4.0"
+  },
+  "imdb_id": {
+   "source": "Wikidata",
+   "license": "CC0"
+  },
+  "wikidata_qid": {
+   "source": "Wikidata",
+   "license": "CC0"
+  }
+ }
+}

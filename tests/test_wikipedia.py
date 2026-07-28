@@ -87,6 +87,31 @@ def test_legend_line_never_counts_as_a_flagged_row(
     assert sum(1 for row in rows if is_mythology_flagged(row)) == 7
 
 
+def test_dagger_detection_handles_the_literal_character() -> None:
+    """Season 1 flags mythology with a literal ``‡`` (U+2021), not the
+    template — found live: 5 season-1 episodes, the difference between
+    counting 65 and the expected 70.
+    """
+    assert is_mythology_flagged({"RTitle": "‡"})
+    assert is_mythology_flagged({"RTitle": " ‡ "})
+
+
+def test_footnote_rtitle_is_not_a_dagger() -> None:
+    """Rm9sbG93ZXJz's RTitle is a Base64 footnote, not a mythology flag."""
+    assert not is_mythology_flagged(
+        {"RTitle": '{{#tag:ref|This is [[Base64]] for "Followers".}}'}
+    )
+
+
+def test_strip_refs_removes_citation_markup() -> None:
+    """Fox volume articles append ``<ref>`` citations to production codes."""
+    from build.wikitext import strip_refs
+
+    assert strip_refs('3X09<ref name="S3date">{{cite AV media notes}}</ref>') == "3X09"
+    assert strip_refs('3X10<ref name="S3date"/>') == "3X10"
+    assert strip_refs("1X79") == "1X79"
+
+
 def test_split_multi_value_on_hr_variants() -> None:
     # Mid-run seasons join multi-director rows with <hr>; the recorded
     # fixture seasons happen not to, so this documents the contract.

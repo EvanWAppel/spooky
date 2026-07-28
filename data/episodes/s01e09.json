@@ -1,0 +1,126 @@
+{
+ "id": "s01e09",
+ "tvmaze_id": 40428,
+ "season": 1,
+ "episode": 9,
+ "title": "Space",
+ "air_date": "1993-11-12",
+ "production_code": "1X08",
+ "runtime": 60,
+ "rating": 7,
+ "label_fox_dvd": "not-listed",
+ "label_wikipedia": "not-flagged",
+ "label_dom111": "motw",
+ "label_derived": "monster-of-the-week",
+ "label_contested": false,
+ "label_rationale": "0 of 3 voting sources say mythology; features a non-recurring paranormal antagonist.",
+ "imdb_id": "tt0751207",
+ "wikidata_qid": "Q1459905",
+ "enwiki_title": "Space (The X-Files)",
+ "tmdb_id": 4087,
+ "tmdb_movie_id": null,
+ "director": [
+  "William Graham"
+ ],
+ "writers": [
+  "Chris Carter"
+ ],
+ "guest_cast": [
+  "Susanna Thompson",
+  "Ed Lauter",
+  "Norma Wick",
+  "Tom McBeath",
+  "Alfred E. Humphreys",
+  "David Cameron",
+  "Terry David Mulligan",
+  "French Tickner",
+  "Paul Desroches",
+  "Tyronne L'Hirondelle"
+ ],
+ "logline_generated": null,
+ "logline": null,
+ "review_status": "unreviewed",
+ "reviewed_at": null,
+ "review_note": null,
+ "provenance": {
+  "tvmaze_id": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "season": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "episode": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "air_date": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "runtime": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "rating": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "guest_cast": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "director": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "writers": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_dom111": {
+   "source": "dom111/xfiles-episode-picker (TVmaze-derived)",
+   "license": "MIT wrapper, data CC BY-SA 4.0"
+  },
+  "label_derived": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_contested": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_rationale": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "title": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1330098495
+  },
+  "production_code": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1330098495
+  },
+  "label_wikipedia": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1330098495
+  },
+  "label_fox_dvd": {
+   "source": "Fox Mythology DVD sets, via their Wikipedia articles",
+   "license": "CC BY-SA 4.0"
+  },
+  "imdb_id": {
+   "source": "Wikidata",
+   "license": "CC0"
+  },
+  "wikidata_qid": {
+   "source": "Wikidata",
+   "license": "CC0"
+  }
+ }
+}

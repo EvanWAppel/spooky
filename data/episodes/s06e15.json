@@ -1,0 +1,126 @@
+{
+ "id": "s06e15",
+ "tvmaze_id": 40551,
+ "season": 6,
+ "episode": 15,
+ "title": "Arcadia",
+ "air_date": "1999-03-07",
+ "production_code": "6ABX13",
+ "runtime": 60,
+ "rating": 8.3,
+ "label_fox_dvd": "not-listed",
+ "label_wikipedia": "not-flagged",
+ "label_dom111": "motw",
+ "label_derived": "monster-of-the-week",
+ "label_contested": false,
+ "label_rationale": "0 of 3 voting sources say mythology; features a non-recurring paranormal antagonist.",
+ "imdb_id": "tt0751076",
+ "wikidata_qid": "Q4785122",
+ "enwiki_title": "Arcadia (The X-Files)",
+ "tmdb_id": 4087,
+ "tmdb_movie_id": null,
+ "director": [
+  "Michael W. Watkins"
+ ],
+ "writers": [
+  "Daniel Arkin"
+ ],
+ "guest_cast": [
+  "Abraham Benrubi",
+  "Debra Christofferson",
+  "Marnie McPhail",
+  "Peter White",
+  "Tom Gallop",
+  "Roger Morrissey",
+  "Tim Bagley",
+  "Tom Virtue",
+  "Juliana Donald",
+  "Mark Matthias"
+ ],
+ "logline_generated": null,
+ "logline": null,
+ "review_status": "unreviewed",
+ "reviewed_at": null,
+ "review_note": null,
+ "provenance": {
+  "tvmaze_id": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "season": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "episode": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "air_date": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "runtime": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "rating": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "guest_cast": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "director": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "writers": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_dom111": {
+   "source": "dom111/xfiles-episode-picker (TVmaze-derived)",
+   "license": "MIT wrapper, data CC BY-SA 4.0"
+  },
+  "label_derived": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_contested": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_rationale": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "title": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1345740558
+  },
+  "production_code": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1345740558
+  },
+  "label_wikipedia": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1345740558
+  },
+  "label_fox_dvd": {
+   "source": "Fox Mythology DVD sets, via their Wikipedia articles",
+   "license": "CC BY-SA 4.0"
+  },
+  "imdb_id": {
+   "source": "Wikidata",
+   "license": "CC0"
+  },
+  "wikidata_qid": {
+   "source": "Wikidata",
+   "license": "CC0"
+  }
+ }
+}

@@ -16,9 +16,11 @@ from __future__ import annotations
 
 import re
 
-_DAGGER = re.compile(r"double[- ]dagger", re.IGNORECASE)
+# Season 1 uses the literal ‡ character; later seasons use the template.
+_DAGGER = re.compile(r"double[- ]dagger|‡", re.IGNORECASE)
 _HR = re.compile(r"<hr\s*/?>", re.IGNORECASE)
 _WIKILINK = re.compile(r"\[\[([^\]|]+)(?:\|([^\]]+))?\]\]")
+_REF = re.compile(r"<ref[^>]*/>|<ref[^>]*>.*?</ref>", re.DOTALL)
 
 
 def extract_templates(wikitext: str, prefix: str = "Episode list") -> list[str]:
@@ -105,6 +107,11 @@ def extract_episode_rows(wikitext: str) -> list[dict[str, str]]:
 def is_mythology_flagged(row: dict[str, str]) -> bool:
     """True when the row's ``RTitle`` carries the mythology dagger."""
     return bool(_DAGGER.search(row.get("RTitle", "")))
+
+
+def strip_refs(value: str) -> str:
+    """Drop ``<ref>…</ref>`` / ``<ref …/>`` citation markup from a value."""
+    return _REF.sub("", value).strip()
 
 
 def split_multi_value(value: str) -> list[str]:

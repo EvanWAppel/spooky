@@ -1,0 +1,128 @@
+{
+ "id": "s01e06",
+ "tvmaze_id": 40425,
+ "season": 1,
+ "episode": 6,
+ "title": "Shadows",
+ "air_date": "1993-10-22",
+ "production_code": "1X05",
+ "runtime": 60,
+ "rating": 7.3,
+ "label_fox_dvd": "not-listed",
+ "label_wikipedia": "not-flagged",
+ "label_dom111": "motw",
+ "label_derived": "monster-of-the-week",
+ "label_contested": false,
+ "label_rationale": "0 of 3 voting sources say mythology; features a non-recurring paranormal antagonist.",
+ "imdb_id": "tt0751201",
+ "wikidata_qid": "Q2648415",
+ "enwiki_title": "Shadows (The X-Files)",
+ "tmdb_id": 4087,
+ "tmdb_movie_id": null,
+ "director": [
+  "Michael Katleman"
+ ],
+ "writers": [
+  "James Wong",
+  "Glen Morgan"
+ ],
+ "guest_cast": [
+  "Lisa Waltz",
+  "Barry Primus",
+  "Veena Sood",
+  "Tom Heaton",
+  "Nora McLellan",
+  "Deryl Hayes",
+  "Kelli Fox",
+  "Lorena Gale",
+  "Tom Pickett",
+  "Janie Woods-Morris",
+  "Anna Ferguson"
+ ],
+ "logline_generated": null,
+ "logline": null,
+ "review_status": "unreviewed",
+ "reviewed_at": null,
+ "review_note": null,
+ "provenance": {
+  "tvmaze_id": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "season": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "episode": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "air_date": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "runtime": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "rating": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "guest_cast": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "director": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "writers": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_dom111": {
+   "source": "dom111/xfiles-episode-picker (TVmaze-derived)",
+   "license": "MIT wrapper, data CC BY-SA 4.0"
+  },
+  "label_derived": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_contested": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_rationale": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "title": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1330098495
+  },
+  "production_code": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1330098495
+  },
+  "label_wikipedia": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1330098495
+  },
+  "label_fox_dvd": {
+   "source": "Fox Mythology DVD sets, via their Wikipedia articles",
+   "license": "CC BY-SA 4.0"
+  },
+  "imdb_id": {
+   "source": "Wikidata",
+   "license": "CC0"
+  },
+  "wikidata_qid": {
+   "source": "Wikidata",
+   "license": "CC0"
+  }
+ }
+}

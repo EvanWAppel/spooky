@@ -1,0 +1,130 @@
+{
+ "id": "s08e21",
+ "tvmaze_id": 40601,
+ "season": 8,
+ "episode": 21,
+ "title": "Existence",
+ "air_date": "2001-05-20",
+ "production_code": "8ABX21",
+ "runtime": 60,
+ "rating": 8.6,
+ "label_fox_dvd": "mythology",
+ "label_wikipedia": "mythology",
+ "label_dom111": "mythology",
+ "label_derived": "mythology",
+ "label_contested": false,
+ "label_rationale": "3 of 3 voting sources say mythology.",
+ "imdb_id": "tt0751118",
+ "wikidata_qid": "Q5420344",
+ "enwiki_title": "Existence (The X-Files)",
+ "tmdb_id": 4087,
+ "tmdb_movie_id": null,
+ "director": [
+  "Kim Manners"
+ ],
+ "writers": [
+  "Chris Carter"
+ ],
+ "guest_cast": [
+  "Mitch Pileggi",
+  "Tom Braidwood",
+  "Bruce Harwood",
+  "Dean Haglund",
+  "Annabeth Gish",
+  "Nicholas Lea",
+  "James Pickens, Jr.",
+  "Adam Baldwin",
+  "Kirk B.R. Woller",
+  "Zachary Ansley",
+  "Dale Dickey",
+  "Austin Tichenor",
+  "Jerry Shiban",
+  "Tom Martin"
+ ],
+ "logline_generated": null,
+ "logline": null,
+ "review_status": "unreviewed",
+ "reviewed_at": null,
+ "review_note": null,
+ "provenance": {
+  "tvmaze_id": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "season": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "episode": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "air_date": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "runtime": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "rating": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "guest_cast": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "director": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "writers": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_dom111": {
+   "source": "dom111/xfiles-episode-picker (TVmaze-derived)",
+   "license": "MIT wrapper, data CC BY-SA 4.0"
+  },
+  "label_derived": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_contested": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_rationale": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "title": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1355346471
+  },
+  "production_code": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1355346471
+  },
+  "label_wikipedia": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1355346471
+  },
+  "label_fox_dvd": {
+   "source": "Fox Mythology DVD sets, via their Wikipedia articles",
+   "license": "CC BY-SA 4.0"
+  },
+  "imdb_id": {
+   "source": "Wikidata",
+   "license": "CC0"
+  },
+  "wikidata_qid": {
+   "source": "Wikidata",
+   "license": "CC0"
+  }
+ }
+}

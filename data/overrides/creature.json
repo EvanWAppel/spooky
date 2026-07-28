@@ -1,0 +1,1542 @@
+[
+ {
+  "id": "s01e01",
+  "title": "Pilot",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s01e02",
+  "title": "Deep Throat",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s01e03",
+  "title": "Squeeze",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e04",
+  "title": "Conduit",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s01e05",
+  "title": "The Jersey Devil",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e06",
+  "title": "Shadows",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e07",
+  "title": "Ghost in the Machine",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e08",
+  "title": "Ice",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e09",
+  "title": "Space",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e10",
+  "title": "Fallen Angel",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s01e11",
+  "title": "Eve",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e12",
+  "title": "Fire",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e13",
+  "title": "Beyond the Sea",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e14",
+  "title": "Genderbender",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e15",
+  "title": "Lazarus",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e16",
+  "title": "Young at Heart",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e17",
+  "title": "E.B.E.",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s01e18",
+  "title": "Miracle Man",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e19",
+  "title": "Shapes",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e20",
+  "title": "Darkness Falls",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e21",
+  "title": "Tooms",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e22",
+  "title": "Born Again",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e23",
+  "title": "Roland",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s01e24",
+  "title": "The Erlenmeyer Flask",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s02e01",
+  "title": "Little Green Men",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s02e02",
+  "title": "The Host",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e03",
+  "title": "Blood",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e04",
+  "title": "Sleepless",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s02e05",
+  "title": "Duane Barry",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s02e06",
+  "title": "Ascension",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s02e07",
+  "title": "3",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e08",
+  "title": "One Breath",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s02e09",
+  "title": "Firewalker",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e10",
+  "title": "Red Museum",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s02e11",
+  "title": "Excelsis Dei",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e12",
+  "title": "Aubrey",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e13",
+  "title": "Irresistible",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e14",
+  "title": "Die Hand die Verletzt",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e15",
+  "title": "Fresh Bones",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e16",
+  "title": "Colony",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s02e17",
+  "title": "End Game",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s02e18",
+  "title": "Fearful Symmetry",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e19",
+  "title": "D\u00f8d Kalm",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e20",
+  "title": "Humbug",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e21",
+  "title": "The Calusari",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e22",
+  "title": "F. Emasculata",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e23",
+  "title": "Soft Light",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e24",
+  "title": "Our Town",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s02e25",
+  "title": "Anasazi",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s03e01",
+  "title": "The Blessing Way",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s03e02",
+  "title": "Paper Clip",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s03e03",
+  "title": "D.P.O.",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e04",
+  "title": "Clyde Bruckman's Final Repose",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e05",
+  "title": "The List",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e06",
+  "title": "2Shy",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e07",
+  "title": "The Walk",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e08",
+  "title": "Oubliette",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e09",
+  "title": "Nisei (1)",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s03e10",
+  "title": "731 (2)",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s03e11",
+  "title": "Revelations",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e12",
+  "title": "War of the Coprophages",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e13",
+  "title": "Syzygy",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e14",
+  "title": "Grotesque",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e15",
+  "title": "Piper Maru",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s03e16",
+  "title": "Apocrypha",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s03e17",
+  "title": "Pusher",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e18",
+  "title": "Teso dos Bichos",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e19",
+  "title": "Hell Money",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e20",
+  "title": "Jose Chung's 'From Outer Space'",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "unreliable-narration comedy; no antagonist"
+ },
+ {
+  "id": "s03e21",
+  "title": "Avatar",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e22",
+  "title": "Quagmire",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e23",
+  "title": "Wetwired",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s03e24",
+  "title": "Talitha Cumi",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s04e01",
+  "title": "Herrenvolk",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s04e02",
+  "title": "Home",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s04e03",
+  "title": "Teliko",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s04e04",
+  "title": "Unruhe",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s04e05",
+  "title": "The Field Where I Died",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "cult standoff; antagonist is human"
+ },
+ {
+  "id": "s04e06",
+  "title": "Sanguinarium",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s04e07",
+  "title": "Musings of a Cigarette-Smoking Man",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "CSM biography; no antagonist"
+ },
+ {
+  "id": "s04e08",
+  "title": "Tunguska",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s04e09",
+  "title": "Terma",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s04e10",
+  "title": "Paper Hearts",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s04e11",
+  "title": "El Mundo Gira",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s04e12",
+  "title": "Leonard Betts",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s04e13",
+  "title": "Never Again",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s04e14",
+  "title": "Memento Mori",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s04e15",
+  "title": "Kaddish",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s04e16",
+  "title": "Unrequited",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s04e17",
+  "title": "Tempus Fugit",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s04e18",
+  "title": "Max",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s04e19",
+  "title": "Synchrony",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s04e20",
+  "title": "Small Potatoes",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s04e21",
+  "title": "Zero Sum",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s04e22",
+  "title": "Elegy",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s04e23",
+  "title": "Demons",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s04e24",
+  "title": "Gethsemane",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s05e01",
+  "title": "Redux (1)",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s05e02",
+  "title": "Redux (2)",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s05e03",
+  "title": "Unusual Suspects",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "Lone Gunmen origin story; no antagonist"
+ },
+ {
+  "id": "s05e04",
+  "title": "Detour",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s05e05",
+  "title": "The Post-Modern Prometheus",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s05e06",
+  "title": "Christmas Carol",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s05e07",
+  "title": "Emily",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s05e08",
+  "title": "Kitsunegari",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s05e09",
+  "title": "Schizogeny",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s05e10",
+  "title": "Chinga",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s05e11",
+  "title": "Kill Switch",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s05e12",
+  "title": "Bad Blood",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s05e13",
+  "title": "Patient X",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s05e14",
+  "title": "The Red and the Black",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s05e15",
+  "title": "Travelers",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s05e16",
+  "title": "Mind's Eye",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s05e17",
+  "title": "All Souls",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s05e18",
+  "title": "The Pine Bluff Variant",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "bioterrorism thriller; antagonists are human"
+ },
+ {
+  "id": "s05e19",
+  "title": "Folie a Deux",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s05e20",
+  "title": "The End",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s06e01",
+  "title": "The Beginning",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s06e02",
+  "title": "Drive",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s06e03",
+  "title": "Triangle",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "time-slip phenomenon; antagonists are human Nazis"
+ },
+ {
+  "id": "s06e04",
+  "title": "Dreamland (1)",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "body-swap comedy; Morris Fletcher is human"
+ },
+ {
+  "id": "s06e05",
+  "title": "Dreamland (2)",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "body-swap comedy; Morris Fletcher is human"
+ },
+ {
+  "id": "s06e06",
+  "title": "How the Ghosts Stole Christmas",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s06e07",
+  "title": "Terms of Endearment",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s06e08",
+  "title": "The Rain King",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s06e09",
+  "title": "S.R. 819",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s06e10",
+  "title": "Tithonus",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s06e11",
+  "title": "Two Fathers",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s06e12",
+  "title": "One Son",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s06e13",
+  "title": "Agua Mala",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s06e14",
+  "title": "Monday",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s06e15",
+  "title": "Arcadia",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s06e16",
+  "title": "Alpha",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s06e17",
+  "title": "Trevor",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s06e18",
+  "title": "Milagro",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s06e19",
+  "title": "The Unnatural",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "sympathetic alien ballplayer; no antagonist"
+ },
+ {
+  "id": "s06e20",
+  "title": "Three of a Kind",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "Lone Gunmen caper; antagonists are human"
+ },
+ {
+  "id": "s06e21",
+  "title": "Field Trip",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s06e22",
+  "title": "Biogenesis",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s07e01",
+  "title": "The Sixth Extinction",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s07e02",
+  "title": "The Sixth Extinction: Amor Fati",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s07e03",
+  "title": "Hungry",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s07e04",
+  "title": "Millennium",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s07e05",
+  "title": "Rush",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s07e06",
+  "title": "The Goldberg Variation",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "luck phenomenon; antagonists are human mobsters"
+ },
+ {
+  "id": "s07e07",
+  "title": "Orison",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s07e08",
+  "title": "The Amazing Maleeni",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s07e09",
+  "title": "Signs and Wonders",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s07e10",
+  "title": "Sein und Zeit",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s07e11",
+  "title": "Closure",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s07e12",
+  "title": "X-Cops",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s07e13",
+  "title": "First Person Shooter",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s07e14",
+  "title": "Theef",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s07e15",
+  "title": "En Ami",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s07e16",
+  "title": "Chimera",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s07e17",
+  "title": "all things",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "spiritual character study; no antagonist"
+ },
+ {
+  "id": "s07e18",
+  "title": "Brand X",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s07e19",
+  "title": "Hollywood A.D.",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s07e20",
+  "title": "Fight Club",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s07e21",
+  "title": "Je Souhaite",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s07e22",
+  "title": "Requiem",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s08e01",
+  "title": "Within",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s08e02",
+  "title": "Without",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s08e03",
+  "title": "Patience",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s08e04",
+  "title": "Roadrunners",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s08e05",
+  "title": "Invocation",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s08e06",
+  "title": "Redrum",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s08e07",
+  "title": "Via Negativa",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s08e08",
+  "title": "Surekill",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s08e09",
+  "title": "Salvage",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s08e10",
+  "title": "Badlaa",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s08e11",
+  "title": "The Gift",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s08e12",
+  "title": "Medusa",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s08e13",
+  "title": "Per Manum",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s08e14",
+  "title": "This is Not Happening",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s08e15",
+  "title": "DeadAlive",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s08e16",
+  "title": "Three Words",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s08e17",
+  "title": "Empedocles",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s08e18",
+  "title": "Vienen",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s08e19",
+  "title": "Alone",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s08e20",
+  "title": "Essence",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s08e21",
+  "title": "Existence",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s09e01",
+  "title": "Nothing Important Happened Today (1)",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s09e02",
+  "title": "Nothing Important Happened Today (2)",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s09e03",
+  "title": "D\u00e6monicus",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s09e04",
+  "title": "4-D",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s09e05",
+  "title": "Lord of the Flies",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s09e06",
+  "title": "Trust No 1",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s09e07",
+  "title": "John Doe",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s09e08",
+  "title": "Hellbound",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s09e09",
+  "title": "Provenance",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s09e10",
+  "title": "Providence",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s09e11",
+  "title": "Audrey Pauley",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s09e12",
+  "title": "Underneath",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s09e13",
+  "title": "Improbable",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "numerology comedy; God is not an antagonist"
+ },
+ {
+  "id": "s09e14",
+  "title": "Scary Monsters",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s09e15",
+  "title": "Jump the Shark",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s09e16",
+  "title": "William",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s09e17",
+  "title": "Release",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s09e18",
+  "title": "Sunshine Days",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "sympathetic telekinetic; no real antagonist"
+ },
+ {
+  "id": "s09e19",
+  "title": "The Truth (1)",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s09e20",
+  "title": "The Truth (2)",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s10e01",
+  "title": "My Struggle",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s10e02",
+  "title": "Founder's Mutation",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "human experimenter; the children are victims"
+ },
+ {
+  "id": "s10e03",
+  "title": "Mulder and Scully Meet the Were-Monster",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s10e04",
+  "title": "Home Again",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s10e05",
+  "title": "Babylon",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "terrorism drama; antagonists are human"
+ },
+ {
+  "id": "s10e06",
+  "title": "My Struggle II",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s11e01",
+  "title": "My Struggle III",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s11e02",
+  "title": "This",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s11e03",
+  "title": "Plus One",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s11e04",
+  "title": "The Lost Art of Forehead Sweat",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "Mandela-effect comedy; no antagonist"
+ },
+ {
+  "id": "s11e05",
+  "title": "Ghouli",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "s11e06",
+  "title": "Kitten",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s11e07",
+  "title": "Rm9sbG93ZXJz",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "AI antagonist \u2014 technological, not paranormal"
+ },
+ {
+  "id": "s11e08",
+  "title": "Familiar",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s11e09",
+  "title": "Nothing Lasts Forever",
+  "has_creature": true,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'motw'"
+ },
+ {
+  "id": "s11e10",
+  "title": "My Struggle IV",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "defaulted from dom111 label 'mythology'"
+ },
+ {
+  "id": "film-1998",
+  "title": "The X-Files: Fight the Future",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "film; antagonists are human"
+ },
+ {
+  "id": "film-2008",
+  "title": "The X-Files: I Want to Believe",
+  "has_creature": false,
+  "source": "ai-seeded",
+  "note": "film; antagonists are human"
+ }
+]

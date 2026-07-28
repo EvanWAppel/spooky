@@ -1,0 +1,42 @@
+{
+ "id": "film-2008",
+ "tvmaze_id": null,
+ "season": null,
+ "episode": null,
+ "title": "The X-Files: I Want to Believe",
+ "air_date": "2008-07-24",
+ "production_code": null,
+ "runtime": 104,
+ "rating": null,
+ "label_fox_dvd": null,
+ "label_wikipedia": "not-flagged",
+ "label_dom111": null,
+ "label_derived": "standalone",
+ "label_contested": true,
+ "label_rationale": "0 of 1 voting sources say mythology; features no non-recurring paranormal antagonist. Fox DVDs, dom111 do not cover this record and abstain.",
+ "imdb_id": "tt0443701",
+ "wikidata_qid": "Q421875",
+ "enwiki_title": "The X-Files: I Want to Believe",
+ "tmdb_id": null,
+ "tmdb_movie_id": 8836,
+ "director": [
+  "Chris Carter"
+ ],
+ "writers": [
+  "Chris Carter",
+  "Frank Spotnitz"
+ ],
+ "guest_cast": [],
+ "logline_generated": null,
+ "logline": null,
+ "review_status": "unreviewed",
+ "reviewed_at": null,
+ "review_note": null,
+ "provenance": {
+  "all_fields": {
+   "source": "hand-entered by the owner",
+   "license": "CC BY-SA 4.0",
+   "note": "hand-entered from Wikipedia/Wikidata, see films.json"
+  }
+ }
+}

@@ -1,0 +1,134 @@
+{
+ "id": "s11e01",
+ "tvmaze_id": 1356249,
+ "season": 11,
+ "episode": 1,
+ "title": "My Struggle III",
+ "air_date": "2018-01-03",
+ "production_code": "2AYW01",
+ "runtime": 60,
+ "rating": 5.7,
+ "label_fox_dvd": null,
+ "label_wikipedia": "mythology",
+ "label_dom111": "mythology",
+ "label_derived": "mythology",
+ "label_contested": true,
+ "label_rationale": "2 of 2 voting sources say mythology. Fox DVDs do not cover this record and abstain.",
+ "imdb_id": "tt6803156",
+ "wikidata_qid": "Q47068629",
+ "enwiki_title": "My Struggle III",
+ "tmdb_id": 4087,
+ "tmdb_movie_id": null,
+ "director": [
+  "Chris Carter"
+ ],
+ "writers": [
+  "Chris Carter"
+ ],
+ "guest_cast": [
+  "William B. Davis",
+  "Annabeth Gish",
+  "Chris Owens",
+  "Robbie Amell",
+  "Lauren Ambrose",
+  "Barbara Hershey",
+  "Alan C. Peterson",
+  "Anjali Jay",
+  "Sandy Da Costa",
+  "Fiona Vroom",
+  "Jett Klyne",
+  "Harry Han",
+  "Erica Govier",
+  "Jeremy Schuetze",
+  "Naiah Cummins",
+  "Arggy Jenati",
+  "Alexandre Campion",
+  "Mike Dopud"
+ ],
+ "logline_generated": null,
+ "logline": null,
+ "review_status": "unreviewed",
+ "reviewed_at": null,
+ "review_note": null,
+ "provenance": {
+  "tvmaze_id": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "season": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "episode": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "air_date": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "runtime": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "rating": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "guest_cast": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "director": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "writers": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_dom111": {
+   "source": "dom111/xfiles-episode-picker (TVmaze-derived)",
+   "license": "MIT wrapper, data CC BY-SA 4.0"
+  },
+  "label_derived": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_contested": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_rationale": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "title": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1365376806
+  },
+  "production_code": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1365376806
+  },
+  "label_wikipedia": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1365376806
+  },
+  "label_fox_dvd": {
+   "source": "Fox Mythology DVD sets, via their Wikipedia articles",
+   "license": "CC BY-SA 4.0"
+  },
+  "imdb_id": {
+   "source": "Wikidata",
+   "license": "CC0"
+  },
+  "wikidata_qid": {
+   "source": "Wikidata",
+   "license": "CC0"
+  }
+ }
+}

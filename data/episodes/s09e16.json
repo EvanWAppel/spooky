@@ -1,0 +1,129 @@
+{
+ "id": "s09e16",
+ "tvmaze_id": 40617,
+ "season": 9,
+ "episode": 16,
+ "title": "William",
+ "air_date": "2002-04-28",
+ "production_code": "9ABX17",
+ "runtime": 60,
+ "rating": 7.5,
+ "label_fox_dvd": "mythology",
+ "label_wikipedia": "mythology",
+ "label_dom111": "mythology",
+ "label_derived": "mythology",
+ "label_contested": false,
+ "label_rationale": "3 of 3 voting sources say mythology.",
+ "imdb_id": "tt0751261",
+ "wikidata_qid": "Q8003884",
+ "enwiki_title": "William (The X-Files)",
+ "tmdb_id": 4087,
+ "tmdb_movie_id": null,
+ "director": [
+  "David Duchovny"
+ ],
+ "writers": [
+  "David Duchovny",
+  "Frank Spotnitz",
+  "Chris Carter"
+ ],
+ "guest_cast": [
+  "James Riker",
+  "Travis Riker",
+  "Chris Owens",
+  "Cyd Strittmatter",
+  "Adam Nelson",
+  "Shannon Hile",
+  "Annie Abbott",
+  "Dallas Munroe",
+  "David Fabrizio",
+  "Kiersten Van Horne",
+  "Dan Shor"
+ ],
+ "logline_generated": null,
+ "logline": null,
+ "review_status": "unreviewed",
+ "reviewed_at": null,
+ "review_note": null,
+ "provenance": {
+  "tvmaze_id": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "season": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "episode": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "air_date": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "runtime": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "rating": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "guest_cast": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "director": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "writers": {
+   "source": "TVmaze",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_dom111": {
+   "source": "dom111/xfiles-episode-picker (TVmaze-derived)",
+   "license": "MIT wrapper, data CC BY-SA 4.0"
+  },
+  "label_derived": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_contested": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "label_rationale": {
+   "source": "derived by this project",
+   "license": "CC BY-SA 4.0"
+  },
+  "title": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1337276182
+  },
+  "production_code": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1337276182
+  },
+  "label_wikipedia": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1337276182
+  },
+  "label_fox_dvd": {
+   "source": "Fox Mythology DVD sets, via their Wikipedia articles",
+   "license": "CC BY-SA 4.0"
+  },
+  "imdb_id": {
+   "source": "Wikidata",
+   "license": "CC0"
+  },
+  "wikidata_qid": {
+   "source": "Wikidata",
+   "license": "CC0"
+  }
+ }
+}
