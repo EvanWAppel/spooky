@@ -1,0 +1,7 @@
+{
+  "_comment": "Hand reconciliation of Wikidata's three 'The Truth' items (TASKS D-08, PRD §13). Q7770602 is the merged item and holds the IMDb id (tt0408347) and the enwiki article; Q50280249/Q50280253 are empty split shells with no identifiers. Ruling: drop the shells, and at merge time both TVmaze rows (The Truth 1/2) take their identifiers from Q7770602 — mirroring the two-parter policy of duplicating Wikipedia's merged values across both rows.",
+  "drop": ["Q50280249", "Q50280253"],
+  "applies_to_multiple_tvmaze_rows": {
+    "Q7770602": "The Truth, parts 1 and 2"
+  }
+}

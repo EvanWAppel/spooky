@@ -74,7 +74,7 @@ D ─────► E ─────► G ────────────
   - Verify: `uv run pytest tests/test_wikipedia.py -q` → fails (red)
 - [x] **B-08** Write `tests/test_wikipedia.py` — multi-value fields split on `<hr>` into a list
   - Verify: `uv run pytest tests/test_wikipedia.py -q` → fails (red)
-- [ ] **B-09** Write `tests/test_classify.py` — the vote-based rules of PRD §5.3 (**null = abstain**): 3-vote unanimous, 2–1 split (contested), 2-vote revival records (always contested), 1-vote film record (*Fight the Future* → mythology, contested), 1–1 tie → creature rule, zero votes → raises, plus `label_contested` asserted in every case
+- [x] **B-09** Write `tests/test_classify.py` — the vote-based rules of PRD §5.3 (**null = abstain**): 3-vote unanimous, 2–1 split (contested), 2-vote revival records (always contested), 1-vote film record (*Fight the Future* → mythology, contested), 1–1 tie → creature rule, zero votes → raises, plus `label_contested` asserted in every case
   - Verify: `uv run pytest tests/test_classify.py -q` → fails (red), 7+ tests collected
 - [ ] **B-10** Write `tests/test_merge.py` — "The Truth" resolves to **2 rows** (TVmaze shape) with Wikipedia values duplicated across both
   - Verify: `uv run pytest tests/test_merge.py -q` → fails (red)
@@ -153,17 +153,17 @@ D ─────► E ─────► G ────────────
   - Verify: `uv run pytest tests/test_wikipedia.py -q -k dagger` → green
 - [x] **D-06** Implement `<hr>` multi-value splitting for director/writer fields
   - Verify: `uv run pytest tests/test_wikipedia.py -q -k split` → green
-- [ ] **D-07** Implement `build/wikipedia.py` — 11 **serial** requests to `action=parse&page=The X-Files season N&prop=wikitext`. **Do not parse `List_of_The_X-Files_episodes`** (transcluded; contains only film rows).
+- [x] **D-07** Implement `build/wikipedia.py` — 11 **serial** requests to `action=parse&page=The X-Files season N&prop=wikitext`. **Do not parse `List_of_The_X-Files_episodes`** (transcluded; contains only film rows).
   - Verify: `uv run python build/wikipedia.py` writes 11 files; total extracted rows printed and re-derived, not hard-coded
-- [ ] **D-08** Implement `build/wikidata.py` — one SPARQL query for enwiki title, IMDb ID (P345), TMDB ID. Reconcile the three "The Truth" duplicates by hand into `data/overrides/wikidata_dupes.json`.
+- [x] **D-08** Implement `build/wikidata.py` — one SPARQL query for enwiki title, IMDb ID (P345), TMDB ID. Reconcile the three "The Truth" duplicates by hand into `data/overrides/wikidata_dupes.json`.
   - Verify: `uv run python build/wikidata.py` → prints item count; `data/raw/wikidata.json` has no duplicate `qid`
-- [ ] **D-09** Implement `build/labels.py` — fetch dom111 raw JSON once, **pin the blob SHA** in the script, fail loudly if the SHA no longer resolves
+- [x] **D-09** Implement `build/labels.py` — fetch dom111 raw JSON once, **pin the blob SHA** in the script, fail loudly if the SHA no longer resolves
   - Verify: `uv run python build/labels.py` → 143 MOTW + 75 mythology, 0 nulls. Paste the counts.
-- [ ] **D-10** Create `data/overrides/fox_dvd.json` — the Fox "Mythology" box-set episode lists, hand-entered from the four volumes, each entry citing its volume
+- [x] **D-10** Create `data/overrides/fox_dvd.json` — the Fox "Mythology" box-set episode lists, hand-entered from the four volumes, each entry citing its volume
   - Verify: `uv run python -c "import json;d=json.load(open('data/overrides/fox_dvd.json'));print(len(d))"` → count matches the volumes; every entry has a `source_volume`
-- [ ] **D-11** Implement `build/people.py` — 218 `/guestcast` + 218 `/guestcrew` calls, throttled ~20/10s, **with an explicit retry pass**. Parse crew as the **union of Writer, Story, Teleplay**.
+- [x] **D-11** Implement `build/people.py` — 218 `/guestcast` + 218 `/guestcrew` calls, throttled ~20/10s, **with an explicit retry pass**. Parse crew as the **union of Writer, Story, Teleplay**.
   - Verify: `uv run python build/people.py` → prints per-episode coverage; **0 episodes missing**. A naive sweep loses 10–15; if any are missing, the retry pass is broken.
-- [ ] **D-12** Add a test asserting Writer-only filtering drops 11 episodes and the union drops none
+- [x] **D-12** Add a test asserting Writer-only filtering drops 11 episodes and the union drops none
   - Verify: `uv run pytest tests/test_people.py -q` → green
 - [ ] **D-13** Implement `build/articles.py` — **one** `Special:Export` POST with all 214 titles, `curonly=1`. Record each article's revision ID.
   - Verify: `uv run python build/articles.py` → single request, ~4.1 MB XML, every article has a revision ID
@@ -177,7 +177,7 @@ D ─────► E ─────► G ────────────
 ## Group E — Merge, Classify, Emit
 > Depends on: Group D complete, B-09…B-13.
 
-- [ ] **E-01** Implement `spooky/classify.py::derive_label(fox, wiki, dom111, has_creature)` — the vote-based rules of PRD §5.3 (**null = abstain**), returning `(label_derived, contested, rationale)`. Tests must cover: 3-vote unanimous, 2–1 split, 2-vote revival records (always contested), 1-vote film records (*Fight the Future* → mythology), 1–1 tie → creature rule, and zero votes → raises
+- [x] **E-01** Implement `spooky/classify.py::derive_label(fox, wiki, dom111, has_creature)` — the vote-based rules of PRD §5.3 (**null = abstain**), returning `(label_derived, contested, rationale)`. Tests must cover: 3-vote unanimous, 2–1 split, 2-vote revival records (always contested), 1-vote film records (*Fight the Future* → mythology), 1–1 tie → creature rule, and zero votes → raises
   - Verify: `uv run pytest tests/test_classify.py -q` → all green
 - [ ] **E-02** Create `data/overrides/creature.json` — `has_creature` boolean per episode, AI-seeded from titles and credits, **flagged for owner review**
   - Verify: file has 220 entries; every entry has `source: "ai-seeded"` or `"human-reviewed"`

@@ -60,8 +60,18 @@ def sample_wikidata_row() -> dict[str, Any]:
 
 @pytest.fixture
 def sample_dom111_record() -> dict[str, Any]:
-    """Shape of one dom111/xfiles-episode-picker record (refined at D-09)."""
-    return {"title": "Squeeze", "season": 1, "episode": 3, "type": "motw"}
+    """One dom111/xfiles-episode-picker record, real shape (verified at D-09).
+
+    TVmaze-derived: keyed by the TVmaze episode ``id``; the label lives in
+    ``episode_type`` ∈ {"mythology", "motw"} with zero nulls across 218.
+    """
+    return {
+        "id": 40420,
+        "name": "Pilot",
+        "season": 1,
+        "number": 1,
+        "episode_type": "mythology",
+    }
 
 
 @pytest.fixture
