@@ -1,8 +1,8 @@
 # spooky — Handoff
 
 > Cold-start context for a different agent, a different model, or Evan in three
-> months. Written 2026-07-26 at the end of the RECL **Requirements** phase.
-> **No code has been written yet.** The next phase is Execute.
+> months. Written 2026-07-26 at the end of the RECL **Requirements** phase;
+> **updated 2026-07-27** — the Execute phase has begun and Group A is complete.
 
 ## Read these, in this order
 
@@ -10,8 +10,12 @@
    legal constraints, not style. Violating them is a real problem.
 2. **`PRD.md`** — the full spec. §2 (constraints), §5 (classification), §8
    (pipeline landmines), and §13 (known unknowns) are the load-bearing sections.
-3. **`TASKS.md`** — the execution plan. Start with **Group C**, the vertical slice.
-4. This file — the *why* behind decisions that look arbitrary.
+3. **`TASKS.md`** — the execution plan. Group A is done; **Group C**, the
+   vertical slice, is in progress.
+4. **`DECISIONS.md`** — the decision register: who decided what, what else was
+   considered, and which calls Claude made on Evan's behalf. **§D lists open
+   items that still need Evan's ruling — one of them (OPEN-01) blocks Group E.**
+5. This file — the *why* behind decisions that look arbitrary.
 
 ## The 60-second version
 
@@ -111,13 +115,54 @@ The feasibility study lost 13 of 57 agents to network errors. These areas are
 
 ## State of the world right now
 
-- `portfolio/spooky/` exists, containing only `CLAUDE.md`, `PRD.md`, `TASKS.md`,
-  `HANDOFF.md`, `POSTMORTEM.md`.
-- **No git repo initialized yet** (task A-11). **No `pyproject.toml`** (A-01).
-- `github.com/EvanWAppel/spooky` exists and is **empty**.
-- Not yet in `../projects.toml` (task A-12).
-- API keys needed: **TMDB** and **Anthropic**. OMDb and YouTube are *not* needed —
-  don't let anyone re-add them.
+*Verified against disk 2026-07-27.*
+
+**Done — Group A complete (A-01 … A-13), 13 of 122 tasks.**
+
+- Git repo initialized, remote `github.com/EvanWAppel/spooky.git`, on branch
+  **`init-scaffold`**. One commit: *Initialize spooky scaffold*. Do not push to `main`.
+- `pyproject.toml` exists with runtime + dev deps, and sets
+  `[tool.pytest.ini_options] pythonpath = ["."]`.
+- Registered in `../projects.toml`. CI workflow, ruff, prek hooks, `Procfile`,
+  `.env.example` all in place.
+- `spooky/` is a real package: `__init__.py`, `logging_config.py`, `links.py`,
+  `loader.py`.
+
+**In progress — Group C, the vertical slice. Uncommitted.**
+
+- `app.py`, `components/{chart,table,panel}.py`, `assets/`
+- `tests/{test_chart,test_links,test_loader,test_panel,test_table}.py`
+- `data/episodes_sample/` — 12 hand-built sample records
+- **`uv run pytest` → 11 passed.** The slice runs.
+
+**Not started**
+
+- `build/` and `tools/` exist but are **empty**. The entire ingest pipeline
+  (Groups D–G) is unwritten.
+- No real data — everything so far runs on the 12 sample records.
+
+**Known problems right now**
+
+- ⚠️ **No `tests/conftest.py`.** CLAUDE.md requires *"use pytest fixtures in
+  conftest.py to DRY"* and five test files exist without one. Fix before Group D
+  multiplies the duplication.
+- ⚠️ **`build/NN_*.py` module names are not importable.** TASKS.md specifies
+  `build/01_spine.py` … `build/09_emit.py`, but a Python identifier cannot start
+  with a digit, so no test can `import` them. This is latent — it bites the
+  moment Group D starts. Rename to `build/spine.py` etc. (keeping order in a
+  driver), or import via `importlib`.
+- ⚠️ **Verify lines using `--include=*.py` are broken in zsh.** Confirmed:
+  `zsh:1: no matches found: --include=*.py`. Quote the glob. Affects C-10, H-01, J-01.
+- ⚠️ **Verify lines that `curl … | grep` the running Dash app cannot work.**
+  Dash renders client-side; the served HTML is a React mount point. Affects
+  C-14, C-18, H-08, J-06.
+- 🔴 **PRD §5.3's classification rules are logically incomplete** and contradict
+  §8.1 on *Fight the Future*. See `DECISIONS.md` OPEN-01. **This blocks Group E**
+  and needs Evan's ruling.
+
+**API keys needed:** **TMDB** and **Anthropic**. OMDb and YouTube are *not*
+needed — don't let anyone re-add them. Note that no task yet creates a populated
+local `.env`; only `.env.example` exists.
 
 ## Ground rules for whoever continues
 

@@ -94,41 +94,41 @@ D ─────► E ─────► G ────────────
 > Uses a hand-entered 12-episode fixture so the whole pipe is proven and deployed
 > before the real ingest exists. Do not wait for Group D/E.
 
-- [ ] **C-01** Hand-create `data/episodes_sample/` with **12 records** — 4 mythology, 4 MOTW, 4 standalone, spanning seasons 1, 5, and 10, including one contested episode. Full schema per PRD §5.2 and §8.2, loglines written by hand.
+- [x] **C-01** Hand-create `data/episodes_sample/` with **12 records** — 4 mythology, 4 MOTW, 4 standalone, spanning seasons 1, 5, and 10, including one contested episode. Full schema per PRD §5.2 and §8.2, loglines written by hand.
   - Verify: `uv run python -c "import json,glob;fs=glob.glob('data/episodes_sample/*.json');print(len(fs))"` → 12
-- [ ] **C-02** Write `tests/test_loader.py` — `load_episodes(path)` returns a DataFrame with the full column set and correct dtypes
+- [x] **C-02** Write `tests/test_loader.py` — `load_episodes(path)` returns a DataFrame with the full column set and correct dtypes
   - Verify: `uv run pytest tests/test_loader.py -q` → fails (red)
-- [ ] **C-03** Implement `spooky/loader.py::load_episodes(path)` reading `*.json` into a pandas DataFrame
+- [x] **C-03** Implement `spooky/loader.py::load_episodes(path)` reading `*.json` into a pandas DataFrame
   - Verify: `uv run pytest tests/test_loader.py -q` → passes (green)
-- [ ] **C-04** Write `tests/test_chart.py` — `build_season_chart(df)` returns a `plotly.graph_objects.Figure` with exactly 3 traces named `Mythology`, `Monster-of-the-Week`, `Standalone`
+- [x] **C-04** Write `tests/test_chart.py` — `build_season_chart(df)` returns a `plotly.graph_objects.Figure` with exactly 3 traces named `Mythology`, `Monster-of-the-Week`, `Standalone`
   - Verify: `uv run pytest tests/test_chart.py -q` → fails (red)
-- [ ] **C-05** Implement `components/chart.py::build_season_chart(df)` — stacked bar, absolute counts, one bar per season, **films excluded**, colorblind-safe palette (not red/green)
+- [x] **C-05** Implement `components/chart.py::build_season_chart(df)` — stacked bar, absolute counts, one bar per season, **films excluded**, colorblind-safe palette (not red/green)
   - Verify: `uv run pytest tests/test_chart.py -q` → passes (green)
-- [ ] **C-06** Write `tests/test_chart.py` — films are absent from the chart even when present in the input DataFrame
+- [x] **C-06** Write `tests/test_chart.py` — films are absent from the chart even when present in the input DataFrame
   - Verify: `uv run pytest tests/test_chart.py -q` → passes
-- [ ] **C-07** Write `tests/test_table.py` — `build_episode_table(df)` returns a `dash.dash_table.DataTable` with columns Season/Ep, Title, Air date, Category, TVmaze rating
+- [x] **C-07** Write `tests/test_table.py` — `build_episode_table(df)` returns a `dash.dash_table.DataTable` with columns Season/Ep, Title, Air date, Category, TVmaze rating
   - Verify: `uv run pytest tests/test_table.py -q` → fails (red)
-- [ ] **C-08** Implement `components/table.py::build_episode_table(df)` — sortable on all columns, `sort_action="native"`, `filter_action="native"`, contested badge column
+- [x] **C-08** Implement `components/table.py::build_episode_table(df)` — sortable on all columns, `sort_action="native"`, `filter_action="native"`, contested badge column
   - Verify: `uv run pytest tests/test_table.py -q` → passes (green)
-- [ ] **C-09** Write `tests/test_links.py` — `imdb_url(imdb_id)` → `https://www.imdb.com/title/{id}/`; `tmdb_watch_url(season)` → `https://www.themoviedb.org/tv/4087-the-x-files/season/{n}/watch`; films use their own TMDB movie watch URL; `None` inputs return `None` rather than a broken URL
+- [x] **C-09** Write `tests/test_links.py` — `imdb_url(imdb_id)` → `https://www.imdb.com/title/{id}/`; `tmdb_watch_url(season)` → `https://www.themoviedb.org/tv/4087-the-x-files/season/{n}/watch`; films use their own TMDB movie watch URL; `None` inputs return `None` rather than a broken URL
   - Verify: `uv run pytest tests/test_links.py -q` → fails (red)
-- [ ] **C-10** Implement `spooky/links.py` per C-09. **No Hulu URL construction anywhere** (CLAUDE.md C7).
-  - Verify: `uv run pytest tests/test_links.py -q` → passes; `grep -ri "hulu.com" --include=*.py . | wc -l` → 0
-- [ ] **C-11** Write `tests/test_panel.py` — `build_detail_panel(record)` renders logline, credits, category, review-status badge, and both links
+- [x] **C-10** Implement `spooky/links.py` per C-09. **No Hulu URL construction anywhere** (CLAUDE.md C7).
+  - Verify: `uv run pytest tests/test_links.py -q` → passes; `grep -ri "hulu.com" --include='*.py' --exclude-dir='.venv' --exclude-dir='.git' . | wc -l` → 0
+- [x] **C-11** Write `tests/test_panel.py` — `build_detail_panel(record)` renders logline, credits, category, review-status badge, and both links
   - Verify: `uv run pytest tests/test_panel.py -q` → fails (red)
-- [ ] **C-12** Implement `components/panel.py::build_detail_panel(record)`; contested records show the per-source breakdown
+- [x] **C-12** Implement `components/panel.py::build_detail_panel(record)`; contested records show the per-source breakdown
   - Verify: `uv run pytest tests/test_panel.py -q` → passes (green)
-- [ ] **C-13** Create `app.py` — Dash app, `server = app.server` for gunicorn, dark theme, `dcc.Location` for routing
+- [x] **C-13** Create `app.py` — Dash app, `server = app.server` for gunicorn, dark theme, `dcc.Location` for routing
   - Verify: `uv run python -c "import app; print(type(app.server))"` → a Flask object
-- [ ] **C-14** Implement the app layout: header, season chart, filter chips, episode table, detail panel container
+- [x] **C-14** Implement the app layout: header, season chart, filter chips, episode table, detail panel container
   - Verify: `uv run python app.py` starts; `curl -s localhost:8050 | grep -c "spooky"` → at least 1
-- [ ] **C-15** Implement the chart-click callback — clicking a segment filters the table to that season + category; clicking a season label filters to the whole season
+- [x] **C-15** Implement the chart-click callback — clicking a segment filters the table to that season + category; clicking a season label filters to the whole season
   - Verify: run locally, click the Mythology segment of season 5, confirm the table shows only those episodes. Paste the row count.
-- [ ] **C-16** Implement the row-click callback opening the detail panel
+- [x] **C-16** Implement the row-click callback opening the detail panel
   - Verify: run locally, click a row, confirm panel shows logline + both links
-- [ ] **C-17** Implement URL sync — season, category, sort, text filter, and selected episode read from and write to the URL
+- [x] **C-17** Implement URL sync — season, category, sort, text filter, and selected episode read from and write to the URL
   - Verify: load `/season/5?category=mythology`, confirm the filter is pre-applied on first paint
-- [ ] **C-18** Add the footer with the verbatim attribution text from PRD §11.2, including the TMDB clause
+- [x] **C-18** Add the footer with the verbatim attribution text from PRD §11.2, including the TMDB clause
   - Verify: `curl -s localhost:8050 | grep -c "unofficial fan project"` → at least 1
 - [ ] **C-19** Deploy to Railway, always-on. **Sleep/serverless must be OFF** (PRD §4.1).
   - Verify: `curl -s -o /dev/null -w "%{http_code}" https://spooky.evanappel.me` → 200. Wait 15 minutes idle, repeat — still 200, not 502.
@@ -244,7 +244,7 @@ D ─────► E ─────► G ────────────
 > Depends on: Group G. Runs in parallel with F.
 
 - [ ] **H-01** Apply the visual identity — dark theme, restrained modern, subtle X-Files signals. **No show imagery, no wordmark, no X-glyph** (CLAUDE.md C2). Original SVG/CSS only.
-  - Verify: `grep -riE "\.(jpg|jpeg|png|webp)" --include=*.py --include=*.css . | wc -l` → 0
+  - Verify: `grep -riE "\.(jpg|jpeg|png|webp)" --include='*.py' --include='*.css' --exclude-dir='.venv' --exclude-dir='.git' . | wc -l` → 0
 - [ ] **H-02** Verify the categorical palette is colorblind-safe; simulate deuteranopia and protanopia
   - Verify: paste the three hex values and the simulation result
 - [ ] **H-03** Responsive layout — chart, table, and panel usable at 375px width
@@ -286,7 +286,7 @@ D ─────► E ─────► G ────────────
 > Depends on: all groups. **This is the human's responsibility.**
 
 - [ ] **J-01** All 220 records present; every count re-derived at build time, none hard-coded
-  - Verify: `grep -rnE "\b(218|220|71|143|75)\b" build/ --include=*.py` → only in comments or assertions, never as logic
+  - Verify: `grep -rnE "\b(218|220|71|143|75)\b" build/ --include='*.py'` → only in comments or assertions, never as logic
 - [ ] **J-02** `uv run pytest -m "not network"` fully green
   - Verify: paste the summary line
 - [ ] **J-03** `uv run ruff check .` and `uv run ty check` both clean
