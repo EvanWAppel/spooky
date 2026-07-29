@@ -20,6 +20,8 @@ from tools.review import (
     load_records,
     pending,
     reject,
+    reset,
+    run_interactive,
     status_line,
 )
 
@@ -145,3 +147,99 @@ def test_approve_refuses_a_record_with_no_draft(episodes_dir: Path) -> None:
 def test_unknown_id_raises(episodes_dir: Path) -> None:
     with pytest.raises(ReviewError, match="s99e99"):
         approve(episodes_dir, "s99e99", now="2026-07-28T12:00:00Z")
+
+
+def _answers(*replies: str):
+    """An `ask` callable that returns each reply in turn."""
+    queue = list(replies)
+
+    def _ask(_prompt: str) -> str:
+        if not queue:
+            raise AssertionError("the CLI asked for more input than expected")
+        return queue.pop(0)
+
+    return _ask
+
+
+def test_ctrl_c_exits_cleanly_without_a_traceback(episodes_dir: Path, capsys) -> None:
+    """A 220-record queue will not be finished in one sitting — quitting
+    mid-review must not look like a crash."""
+
+    def _interrupt(_prompt: str) -> str:
+        raise KeyboardInterrupt
+
+    run_interactive(episodes_dir, ask=_interrupt)  # must not raise
+
+    assert "human-reviewed" in capsys.readouterr().out
+
+
+def test_ctrl_d_exits_cleanly(episodes_dir: Path, capsys) -> None:
+    def _eof(_prompt: str) -> str:
+        raise EOFError
+
+    run_interactive(episodes_dir, ask=_eof)
+
+    assert "human-reviewed" in capsys.readouterr().out
+
+
+def test_interrupting_keeps_everything_already_decided(
+    episodes_dir: Path,
+) -> None:
+    """Each verdict is written immediately, so quitting loses nothing."""
+    replies = iter(["a"])
+
+    def _ask(_prompt: str) -> str:
+        try:
+            return next(replies)
+        except StopIteration:
+            raise KeyboardInterrupt from None
+
+    run_interactive(episodes_dir, ask=_ask)
+
+    first = json.loads((episodes_dir / "s01e03.json").read_text())
+    assert first["review_status"] == "human-reviewed"
+
+
+def test_bare_enter_never_approves(episodes_dir: Path) -> None:
+    """Enter used to mean approve — a stray keypress after a typo silently
+    committed a review. It must re-prompt instead."""
+    run_interactive(episodes_dir, ask=_answers("", "  ", "q"))
+
+    untouched = json.loads((episodes_dir / "s01e03.json").read_text())
+    assert untouched["review_status"] == "ai-drafted"
+    assert untouched["logline"] is None
+
+
+def test_unrecognized_input_never_approves(episodes_dir: Path) -> None:
+    run_interactive(episodes_dir, ask=_answers("Cool season, bruh", "q"))
+
+    untouched = json.loads((episodes_dir / "s01e03.json").read_text())
+    assert untouched["review_status"] == "ai-drafted"
+
+
+def test_quit_stops_before_the_next_record(episodes_dir: Path) -> None:
+    run_interactive(episodes_dir, ask=_answers("a", "q"))
+
+    assert (
+        json.loads((episodes_dir / "s01e03.json").read_text())["review_status"]
+        == "human-reviewed"
+    )
+    assert (
+        json.loads((episodes_dir / "s01e04.json").read_text())["review_status"]
+        == "ai-drafted"
+    )
+
+
+def test_reset_returns_a_record_to_the_queue(episodes_dir: Path) -> None:
+    """The escape hatch for an approval you did not mean to make."""
+    approve(episodes_dir, "s01e03", now="2026-07-28T12:00:00Z")
+
+    reset(episodes_dir, "s01e03")
+
+    record = json.loads((episodes_dir / "s01e03.json").read_text())
+    assert record["review_status"] == "ai-drafted"
+    assert record["logline"] is None
+    assert record["reviewed_at"] is None
+    # The machine draft survives, so it can be reviewed again.
+    assert record["logline_generated"]
+    assert "s01e03" in [r["id"] for r in pending(load_records(episodes_dir))]

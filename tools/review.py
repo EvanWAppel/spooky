@@ -10,9 +10,17 @@ the episode's facts, and takes one of:
     s  skip    — move on, decide later
     q  quit    — stop; everything already decided is saved
 
+Anything else, **including a bare Enter, re-prompts**. Approving is an
+explicit ``a`` so a stray keypress can never commit a review.
+
+220 records is not a single sitting. Each verdict is written the moment
+you make it, so `q`, Ctrl-C, and Ctrl-D all stop safely and print the
+command to resume.
+
     uv run python tools/review.py
     uv run python tools/review.py --status
     uv run python tools/review.py --season 5
+    uv run python tools/review.py --reset s01e01   # undo a review
 
 Writes ``data/episodes/*.json`` in place. Once a record is human-reviewed,
 no pipeline step may overwrite it (CLAUDE.md; build/merge.py guards it).
@@ -22,6 +30,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -111,6 +120,22 @@ def reject(episodes_dir: Path, record_id: str, note: str) -> None:
     _write(path, record)
 
 
+def reset(episodes_dir: Path, record_id: str) -> None:
+    """Return a record to the queue — the undo for an approval you regret.
+
+    Clears the human layer and restores ``ai-drafted``; the machine draft
+    survives so the record can simply be reviewed again.
+    """
+    path, record = _load_one(episodes_dir, record_id)
+    record["logline"] = None
+    record["review_status"] = (
+        "ai-drafted" if record.get("logline_generated") else "unreviewed"
+    )
+    record["reviewed_at"] = None
+    record["review_note"] = None
+    _write(path, record)
+
+
 def _render(record: dict[str, Any], position: str) -> str:
     where = (
         f"S{int(record['season']):02d}E{int(record['episode']):02d}"
@@ -134,7 +159,24 @@ def _render(record: dict[str, Any], position: str) -> str:
     return "\n".join(lines)
 
 
-def run_interactive(episodes_dir: Path, season: int | None = None) -> None:
+def _sign_off(episodes_dir: Path, season: int | None) -> None:
+    """Closing status plus the exact command to pick up where you left off."""
+    records = load_records(episodes_dir)
+    print(f"\n{status_line(records)}")
+    if pending(records):
+        resume = "uv run python tools/review.py"
+        if season is not None:
+            resume += f" --season {season}"
+        print(f"{_DIM}resume with: {resume}{_RESET}")
+
+
+def run_interactive(
+    episodes_dir: Path,
+    season: int | None = None,
+    ask: Callable[[str], str] = input,
+) -> None:
+    """Walk the pending queue. Every verdict is written immediately, so
+    quitting — by `q`, Ctrl-C, or Ctrl-D — never loses a decision."""
     records = load_records(episodes_dir)
     queue = pending(records)
     if season is not None:
@@ -145,38 +187,43 @@ def run_interactive(episodes_dir: Path, season: int | None = None) -> None:
 
     print(f"{_BOLD}spooky logline review{_RESET}")
     print(f"{status_line(records)} · {len(queue)} in this queue")
-    print(f"{_DIM}[a]pprove  [e]dit  [r]eject  [s]kip  [q]uit{_RESET}")
+    print(f"{_DIM}[a]pprove  [e]dit  [r]eject  [s]kip  [q]uit (or Ctrl-C){_RESET}")
 
-    for index, record in enumerate(queue, start=1):
-        record_id = record["id"]
-        print(_render(record, f"{index}/{len(queue)}"))
-        while True:
-            choice = input("  > ").strip().lower()
-            if choice in ("a", ""):
-                approve(episodes_dir, record_id)
-                print(f"  {_GREEN}approved{_RESET}")
-                break
-            if choice == "e":
-                text = input("  new logline: ")
-                try:
-                    edit(episodes_dir, record_id, text)
-                except ReviewError as error:
-                    print(f"  {_AMBER}{error}{_RESET}")
-                    continue
-                print(f"  {_GREEN}saved{_RESET}")
-                break
-            if choice == "r":
-                reject(episodes_dir, record_id, input("  what's wrong: "))
-                print(f"  {_AMBER}marked needs-work{_RESET}")
-                break
-            if choice == "s":
-                break
-            if choice == "q":
-                print(f"\n{status_line(load_records(episodes_dir))}")
-                return
-            print(f"  {_DIM}a / e / r / s / q{_RESET}")
+    try:
+        for index, record in enumerate(queue, start=1):
+            record_id = record["id"]
+            print(_render(record, f"{index}/{len(queue)}"))
+            while True:
+                choice = ask("  > ").strip().lower()
+                if choice == "a":
+                    approve(episodes_dir, record_id)
+                    print(f"  {_GREEN}approved{_RESET}")
+                    break
+                if choice == "e":
+                    try:
+                        edit(episodes_dir, record_id, ask("  new logline: "))
+                    except ReviewError as error:
+                        print(f"  {_AMBER}{error}{_RESET}")
+                        continue
+                    print(f"  {_GREEN}saved{_RESET}")
+                    break
+                if choice == "r":
+                    reject(episodes_dir, record_id, ask("  what's wrong: "))
+                    print(f"  {_AMBER}marked needs-work{_RESET}")
+                    break
+                if choice == "s":
+                    break
+                if choice == "q":
+                    _sign_off(episodes_dir, season)
+                    return
+                # Anything unrecognized — including a bare Enter — re-prompts.
+                # Enter must never approve: a stray keypress would commit a
+                # review the owner never made.
+                print(f"  {_DIM}a / e / r / s / q{_RESET}")
+    except (KeyboardInterrupt, EOFError):
+        print()
 
-    print(f"\n{status_line(load_records(episodes_dir))}")
+    _sign_off(episodes_dir, season)
 
 
 def main() -> None:
@@ -186,9 +233,20 @@ def main() -> None:
     )
     parser.add_argument("--season", type=int, help="review only this season's records")
     parser.add_argument(
+        "--reset",
+        metavar="ID",
+        help="undo a review (e.g. s01e01) and return it to the queue",
+    )
+    parser.add_argument(
         "--dir", type=Path, default=EPISODES_DIR, help="records directory"
     )
     arguments = parser.parse_args()
+
+    if arguments.reset:
+        reset(arguments.dir, arguments.reset)
+        print(f"{arguments.reset} returned to the queue.")
+        print(status_line(load_records(arguments.dir)))
+        return
 
     if arguments.status:
         records = load_records(arguments.dir)
