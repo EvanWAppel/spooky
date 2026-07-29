@@ -5,14 +5,17 @@ import plotly.graph_objects as go
 
 from components.chart import build_season_chart
 
+OKABE_ITO = ["#56B4E9", "#E69F00", "#009E73"]
 
-def test_build_season_chart_returns_three_named_traces(
+
+def test_legend_shows_the_three_categories_in_order(
     episodes_df: pd.DataFrame,
 ) -> None:
     fig = build_season_chart(episodes_df)
 
+    legend_traces = [trace for trace in fig.data if trace.showlegend]
     assert isinstance(fig, go.Figure)
-    assert [trace.name for trace in fig.data] == [
+    assert [trace.name for trace in legend_traces] == [
         "Mythology",
         "Monster-of-the-Week",
         "Standalone",
@@ -23,15 +26,57 @@ def test_chart_palette_is_the_audited_colorblind_safe_trio(
     episodes_df: pd.DataFrame,
 ) -> None:
     """Okabe-Ito colors, audited in tools/audit_colors.py: pairwise ΔE ≥ 48.9
-    under simulated protanopia and deuteranopia, ≥ 5.4:1 against the page
-    background. Changing them means re-running the audit (TASKS H-02)."""
+    under simulated protanopia and deuteranopia. Changing them means
+    re-running the audit (TASKS H-02)."""
     fig = build_season_chart(episodes_df)
 
-    assert [trace.marker.color for trace in fig.data] == [
-        "#56B4E9",
-        "#E69F00",
-        "#009E73",
-    ]
+    legend_traces = [trace for trace in fig.data if trace.showlegend]
+    assert [trace.marker.color for trace in legend_traces] == OKABE_ITO
+
+
+def _episode_trace(fig: go.Figure):
+    return next(trace for trace in fig.data if trace.name == "episodes")
+
+
+def test_one_block_per_episode_in_airing_order(episodes_df: pd.DataFrame) -> None:
+    """Each season's bar stacks its episodes oldest-at-bottom: the premiere
+    has base 0 and bases increase with episode number."""
+    fig = build_season_chart(episodes_df)
+    trace = _episode_trace(fig)
+
+    episode_count = int(episodes_df["season"].notna().sum())
+    assert len(trace.x) == episode_count
+    assert all(y == 1 for y in trace.y)
+
+    by_season: dict[int, list[float]] = {}
+    for season, base in zip(trace.x, trace.base, strict=True):
+        by_season.setdefault(int(season), []).append(base)
+    for season, bases in by_season.items():
+        assert bases == sorted(bases), f"season {season} out of airing order"
+        assert bases[0] == 0, f"season {season} premiere not at the bottom"
+
+
+def test_blocks_are_colored_by_category(episodes_df: pd.DataFrame) -> None:
+    fig = build_season_chart(episodes_df)
+    trace = _episode_trace(fig)
+
+    color_by_key = dict(
+        zip(["mythology", "monster-of-the-week", "standalone"], OKABE_ITO, strict=True)
+    )
+    ordered = episodes_df[episodes_df["season"].notna()].sort_values(
+        ["season", "episode"]
+    )
+    expected = [color_by_key[key] for key in ordered["label_derived"]]
+    assert list(trace.marker.color) == expected
+
+
+def test_click_payload_carries_the_episode_id(episodes_df: pd.DataFrame) -> None:
+    fig = build_season_chart(episodes_df)
+    trace = _episode_trace(fig)
+
+    first = trace.customdata[0]
+    assert set(first) == {"season", "category", "id"}
+    assert first["id"].startswith("s")
 
 
 def test_build_season_chart_excludes_films(episodes_df: pd.DataFrame) -> None:
@@ -45,5 +90,4 @@ def test_build_season_chart_excludes_films(episodes_df: pd.DataFrame) -> None:
 
     fig = build_season_chart(df_with_film)
 
-    mythology_trace = fig.data[0]
-    assert sum(mythology_trace.y) == 4
+    assert len(_episode_trace(fig).x) == int(episodes_df["season"].notna().sum())

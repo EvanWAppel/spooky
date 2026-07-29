@@ -13,19 +13,42 @@ from spooky.values import as_int, is_missing
 _NO_DATA = "no data"
 
 
+def _description(record: dict[str, Any]) -> tuple[str, str]:
+    """The episode description and its provenance badge (TASKS F-08).
+
+    A human-reviewed logline shows as the description with a Human-reviewed
+    badge; otherwise the machine draft shows, clearly badged AI-drafted so a
+    reader knows exactly what they're getting.
+    """
+    logline = record.get("logline")
+    draft = record.get("logline_generated")
+    if record.get("review_status") == "human-reviewed" and not is_missing(logline):
+        return str(logline), "Human-reviewed"
+    if not is_missing(draft):
+        return str(draft), "AI-drafted"
+    return "", ""
+
+
 def build_detail_panel(record: dict[str, Any] | None) -> html.Div:
     if record is None:
         return html.Div("Select an episode", id="detail-panel", className="detail-panel")
 
     links = _build_links(record)
-    logline = record.get("logline")
+    description, badge = _description(record)
     children = [
         html.H2(str(record["title"])),
         html.Div(_format_position(record), className="episode-position"),
-        # Loglines arrive in Group F; until reviewed, show nothing rather
-        # than a literal "None" (or an unvetted machine draft).
-        html.P("" if is_missing(logline) else str(logline), className="logline"),
-        html.Div(str(record["review_status"]), className="review-status"),
+        html.P(
+            (
+                [
+                    html.Span(description),
+                    html.Span(badge, className=f"status-badge status-{badge.lower()}"),
+                ]
+                if badge
+                else ""
+            ),
+            className="logline",
+        ),
         html.Dl(
             [
                 html.Dt("Air date"),

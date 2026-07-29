@@ -77,6 +77,31 @@ def test_overwriting_a_reviewed_logline_raises_with_diff(tmp_path: Path) -> None
     assert kept["logline"] == "Evan's hand-polished logline."
 
 
+def test_regen_changes_zero_human_reviewed_records(tmp_path: Path) -> None:
+    """F-06: re-running logline generation after review is a no-op for every
+    reviewed record — no API call, no write."""
+    from build.loglines import generate_all
+
+    episodes = tmp_path / "episodes"
+    episodes.mkdir()
+    reviewed = _record(
+        logline="Evan's approved logline.",
+        logline_generated="an old draft",
+        review_status="human-reviewed",
+        reviewed_at="2026-07-27T00:00:00Z",
+    )
+    (episodes / "s01e03.json").write_text(json.dumps(reviewed))
+
+    class ExplodingClient:
+        def __getattr__(self, name):
+            raise AssertionError("regeneration touched the API for a reviewed record")
+
+    written = generate_all(ExplodingClient(), episodes, sections={})
+
+    assert written == 0
+    assert json.loads((episodes / "s01e03.json").read_text()) == reviewed
+
+
 def test_guard_error_message_shows_both_versions(tmp_path: Path) -> None:
     write_record(
         tmp_path,

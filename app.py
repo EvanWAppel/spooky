@@ -4,11 +4,11 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlencode
 
+import pandas as pd
 from dash import Dash, Input, Output, State, callback_context, dcc, html
 
 from components.about import build_about
 from components.chart import build_season_chart, build_season_summary_table
-from components.films import build_films_card
 from components.panel import build_detail_panel
 from components.table import build_episode_table
 from spooky.loader import load_episodes
@@ -18,14 +18,39 @@ setup_logging()
 
 EPISODES = load_episodes(Path(__file__).resolve().parent / "data" / "episodes")
 
+SEASONS: list[int] = sorted(
+    EPISODES.loc[EPISODES["season"].notna(), "season"].astype(int).unique().tolist()
+)
+
+
+def _assign_film_pages() -> dict[str, int]:
+    """Films live on the season page they follow chronologically.
+
+    Fight the Future (1998) lands after the season 5 finale; I Want to
+    Believe (2008) after season 9. Derived from air dates, never hard-coded.
+    """
+    pages: dict[str, int] = {}
+    episodes = EPISODES[EPISODES["season"].notna()]
+    for _, film in EPISODES[EPISODES["season"].isna()].iterrows():
+        earlier = episodes[episodes["air_date"] < film["air_date"]]
+        if earlier.empty:
+            pages[film["id"]] = SEASONS[0]
+        else:
+            latest = earlier.loc[earlier["air_date"].idxmax()]
+            pages[film["id"]] = int(latest["season"])
+    return pages
+
+
+FILM_PAGE = _assign_film_pages()
+
 # Wildcard aria-* props are legal on Dash HTML components at runtime but
 # absent from the generated stubs — routed through a typed-as-Any dict so
 # ty stays clean without an ignore comment.
 _CHART_ARIA: dict[str, Any] = {
     "aria-label": (
-        "Stacked bar chart of episodes per season, split into mythology, "
-        "monster-of-the-week, and standalone. A data table with the same "
-        "numbers follows."
+        "One block per episode, stacked by season in airing order and "
+        "colored by classification. A data table with per-season counts "
+        "follows."
     )
 }
 
@@ -63,12 +88,23 @@ app.index_string = """<!DOCTYPE html>
 </html>"""
 
 
-def _filter_episodes(pathname: str | None, search: str | None):
-    df = EPISODES.copy()
+def _current_season(pathname: str | None) -> int:
+    """The season page in view; defaults to the first season."""
     if pathname and pathname.startswith("/season/"):
         season_text = pathname.removeprefix("/season/").split("/", maxsplit=1)[0]
-        if season_text.isdigit():
-            df = df[df["season"] == int(season_text)]
+        if season_text.isdigit() and int(season_text) in SEASONS:
+            return int(season_text)
+    return SEASONS[0]
+
+
+def _filter_episodes(pathname: str | None, search: str | None) -> pd.DataFrame:
+    """One season page — its episodes plus any film that follows it — with
+    the search/category/contested filters applied, in airing order."""
+    season = _current_season(pathname)
+    film_ids = [film_id for film_id, page in FILM_PAGE.items() if page == season]
+    df = EPISODES[
+        (EPISODES["season"] == season) | (EPISODES["id"].isin(film_ids))
+    ].sort_values("air_date")
 
     params = parse_qs((search or "").lstrip("?"))
     category = params.get("category", [None])[0]
@@ -85,9 +121,8 @@ def _filter_episodes(pathname: str | None, search: str | None):
     return df
 
 
-def _table_data(df):
-    table = build_episode_table(df)
-    return table.to_plotly_json()["props"]["data"]
+def _table_data(df: pd.DataFrame):
+    return build_episode_table(df).to_plotly_json()["props"]["data"]
 
 
 def _selected_record(search: str | None, visible_rows: list[dict] | None):
@@ -110,24 +145,32 @@ def _category_label(category: str | None) -> str:
         "mythology": "Mythology",
         "monster-of-the-week": "Monster-of-the-Week",
         "standalone": "Standalone",
-    }.get(category or "", "All categories")
+    }.get(category or "", "")
 
 
-def _filter_chip(pathname: str | None, search: str | None) -> html.Div:
+def _season_label(season: int) -> str:
+    dates = EPISODES.loc[EPISODES["season"] == season, "air_date"]
+    years = sorted({d.year for d in dates})
+    span = str(years[0]) if len(years) == 1 else f"{years[0]}–{years[-1]}"
+    return f"Season {season} · {span}"
+
+
+def _filter_chip(pathname: str | None, search: str | None) -> html.Div | str:
     params = parse_qs((search or "").lstrip("?"))
-    season = "All seasons"
-    if pathname and pathname.startswith("/season/"):
-        season_value = pathname.removeprefix("/season/").split("/", maxsplit=1)[0]
-        if season_value.isdigit():
-            season = f"Season {season_value}"
-    category = _category_label(params.get("category", [None])[0])
-    parts = [season, category]
+    parts = []
+    if category := _category_label(params.get("category", [None])[0]):
+        parts.append(category)
+    if params.get("text", [None])[0]:
+        parts.append(f"matching “{params['text'][0]}”")
     if params.get("contested", [None])[0] == "1":
-        parts.append("Contested only")
+        parts.append("contested only")
+    if not parts:
+        return ""
+    clear_href = f"/season/{_current_season(pathname)}"
     return html.Div(
         [
             html.Span(" · ".join(parts)),
-            dcc.Link("Clear", href="/", className="clear-filter"),
+            dcc.Link("Clear", href=clear_href, className="clear-filter"),
         ],
         className="filter-chip",
     )
@@ -184,7 +227,7 @@ app.layout = html.Div(
         # refresh=False keeps this a client-side history push. With Dash's
         # default (True), writing pathname and search in one callback triggers a
         # real browser navigation that discards the pathname — a chart click
-        # would filter by category across all seasons. See tests/test_app_routing.py.
+        # would lose its season. See tests/test_app_routing.py.
         dcc.Location(id="url", refresh=False),
         html.Header(
             [
@@ -242,9 +285,41 @@ app.layout = html.Div(
                                     **_CHART_ARIA,
                                 ),
                                 build_season_summary_table(EPISODES),
+                            ],
+                            className="chart-section",
+                        ),
+                        html.Section(
+                            [
                                 html.Div(
                                     [
-                                        html.Div(id="filter-chip"),
+                                        html.Div(
+                                            [
+                                                html.Button(
+                                                    "‹",
+                                                    id="season-prev",
+                                                    className="pager-button",
+                                                    title="Previous season",
+                                                ),
+                                                html.Span(
+                                                    id="pager-label",
+                                                    className="pager-label",
+                                                ),
+                                                html.Button(
+                                                    "›",
+                                                    id="season-next",
+                                                    className="pager-button",
+                                                    title="Next season",
+                                                ),
+                                            ],
+                                            className="season-pager",
+                                        ),
+                                        dcc.Input(
+                                            id="search-input",
+                                            type="text",
+                                            placeholder="Search titles…",
+                                            debounce=True,
+                                            className="search-input",
+                                        ),
                                         dcc.Checklist(
                                             id="contested-toggle",
                                             options=[
@@ -256,14 +331,10 @@ app.layout = html.Div(
                                             value=[],
                                             className="contested-toggle",
                                         ),
+                                        html.Div(id="filter-chip"),
                                     ],
-                                    className="filter-row",
+                                    className="controls-row",
                                 ),
-                            ],
-                            className="chart-section",
-                        ),
-                        html.Section(
-                            [
                                 html.Div(
                                     build_episode_table(EPISODES),
                                     className="table-wrap",
@@ -271,11 +342,11 @@ app.layout = html.Div(
                                 html.Div(
                                     build_detail_panel(EPISODES.iloc[0].to_dict()),
                                     id="detail-panel-container",
+                                    className="detail-below",
                                 ),
                             ],
                             className="explorer",
                         ),
-                        build_films_card(EPISODES),
                     ],
                     id="explore-view",
                 ),
@@ -292,6 +363,9 @@ app.layout = html.Div(
     Output("episode-table", "data"),
     Output("filter-chip", "children"),
     Output("detail-panel-container", "children"),
+    Output("pager-label", "children"),
+    Output("season-prev", "disabled"),
+    Output("season-next", "disabled"),
     Output("explore-view", "style"),
     Output("about-section", "style"),
     Input("url", "pathname"),
@@ -299,12 +373,16 @@ app.layout = html.Div(
 )
 def sync_view(pathname: str | None, search: str | None):
     on_about = (pathname or "/").rstrip("/") == "/about"
+    season = _current_season(pathname)
     filtered = _filter_episodes(pathname, search)
     data = _table_data(filtered)
     return (
-        _table_data(filtered),
+        data,
         _filter_chip(pathname, search),
         build_detail_panel(_selected_record(search, data)),
+        _season_label(season),
+        season == SEASONS[0],
+        season == SEASONS[-1],
         {"display": "none"} if on_about else {},
         {} if on_about else {"display": "none"},
     )
@@ -316,24 +394,40 @@ def sync_view(pathname: str | None, search: str | None):
     Input("season-chart", "clickData"),
     Input("episode-table", "active_cell"),
     Input("contested-toggle", "value"),
+    Input("season-prev", "n_clicks"),
+    Input("season-next", "n_clicks"),
+    Input("search-input", "value"),
     State("episode-table", "data"),
     State("url", "pathname"),
     State("url", "search"),
     prevent_initial_call=True,
 )
-def write_url(click_data, active_cell, toggle_value, table_rows, pathname, search):
+def write_url(
+    click_data,
+    active_cell,
+    toggle_value,
+    prev_clicks,
+    next_clicks,
+    search_value,
+    table_rows,
+    pathname,
+    search,
+):
     trigger = callback_context.triggered_id
     params = parse_qs((search or "").lstrip("?"))
+    season = _current_season(pathname)
 
     if trigger == "season-chart" and click_data:
-        point = click_data["points"][0]
-        custom = point.get("customdata") or {}
-        season = custom.get("season") or point.get("x")
-        category = custom.get("category")
-        params = {"category": [category]} if category else {}
-        if toggle_value:
-            params["contested"] = ["1"]
-        return f"/season/{int(season)}", f"?{urlencode(params, doseq=True)}"
+        custom = (click_data["points"][0].get("customdata")) or {}
+        if custom.get("id"):
+            # Clicking an episode block jumps to its season page, selected.
+            params = {"selected": [custom["id"]]}
+            if toggle_value:
+                params["contested"] = ["1"]
+            return (
+                f"/season/{int(custom['season'])}",
+                f"?{urlencode(params, doseq=True)}",
+            )
 
     if trigger == "episode-table" and active_cell and table_rows:
         row_index = active_cell.get("row")
@@ -341,11 +435,27 @@ def write_url(click_data, active_cell, toggle_value, table_rows, pathname, searc
             params["selected"] = [table_rows[row_index]["id"]]
             return pathname or "/", f"?{urlencode(params, doseq=True)}"
 
+    if trigger in ("season-prev", "season-next"):
+        step = -1 if trigger == "season-prev" else 1
+        index = SEASONS.index(season) + step
+        if 0 <= index < len(SEASONS):
+            season = SEASONS[index]
+        params.pop("selected", None)  # a new page starts unselected
+        return f"/season/{season}", f"?{urlencode(params, doseq=True)}"
+
     if trigger == "contested-toggle":
         if toggle_value:
             params["contested"] = ["1"]
         else:
             params.pop("contested", None)
+        return pathname or "/", f"?{urlencode(params, doseq=True)}"
+
+    if trigger == "search-input":
+        if search_value:
+            params["text"] = [search_value]
+        else:
+            params.pop("text", None)
+        params.pop("selected", None)
         return pathname or "/", f"?{urlencode(params, doseq=True)}"
 
     return pathname or "/", search or ""

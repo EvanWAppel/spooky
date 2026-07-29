@@ -20,7 +20,7 @@ def test_build_detail_panel_renders_episode_details_links_and_status(
     assert contested_record["logline"] in rendered
     assert "Chris Carter" in rendered
     assert "Monster-of-the-Week" in rendered
-    assert "human-reviewed" in rendered
+    assert "Human-reviewed" in rendered
     assert "Fox DVDs:" in rendered
     assert "Wikipedia:" in rendered
     assert "dom111:" in rendered
@@ -65,14 +65,49 @@ def test_null_logline_never_renders_as_the_string_none(
     episodes_df: pd.DataFrame,
     render_text: Callable[[Any], str],
 ) -> None:
-    """Real records ship with logline=null until Group F generates them —
-    the panel must omit the paragraph, not print "None"."""
+    """A record with neither logline nor draft omits the paragraph — it
+    never prints "None"."""
     record = episodes_df.iloc[0].to_dict()
     record["logline"] = None
+    record["logline_generated"] = None
+    record["review_status"] = "unreviewed"
 
     rendered = render_text(build_detail_panel(record))
 
     assert "None" not in rendered.split()
+
+
+def test_ai_draft_shows_with_its_badge(
+    episodes_df: pd.DataFrame,
+    render_text: Callable[[Any], str],
+) -> None:
+    """F-08: an unreviewed record shows the machine draft, clearly badged."""
+    record = episodes_df.iloc[0].to_dict()
+    record["logline"] = None
+    record["logline_generated"] = "A machine-drafted teaser for this episode."
+    record["review_status"] = "ai-drafted"
+
+    rendered = render_text(build_detail_panel(record))
+
+    assert "A machine-drafted teaser for this episode." in rendered
+    assert "AI-drafted" in rendered
+
+
+def test_reviewed_logline_wins_over_the_draft_and_carries_its_badge(
+    episodes_df: pd.DataFrame,
+    render_text: Callable[[Any], str],
+) -> None:
+    """F-08: once reviewed, the human text shows with the reviewed badge."""
+    record = episodes_df.iloc[0].to_dict()
+    record["logline"] = "Evan's approved description."
+    record["logline_generated"] = "the superseded machine draft"
+    record["review_status"] = "human-reviewed"
+
+    rendered = render_text(build_detail_panel(record))
+
+    assert "Evan's approved description." in rendered
+    assert "Human-reviewed" in rendered
+    assert "the superseded machine draft" not in rendered
 
 
 @pytest.mark.parametrize("missing", [None, float("nan"), pd.NA])

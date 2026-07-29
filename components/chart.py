@@ -13,51 +13,69 @@ _CATEGORIES = [
     ("monster-of-the-week", "Monster-of-the-Week", "#E69F00"),
     ("standalone", "Standalone", "#009E73"),
 ]
+_COLOR = {key: color for key, _n, color in _CATEGORIES}
+_NAME = {key: name for key, name, _c in _CATEGORIES}
 
 
-def _season_counts(df: pd.DataFrame) -> tuple[list[int], dict[str, list[int]]]:
-    episodes = df[df["season"].notna()]
-    seasons = sorted(episodes["season"].astype(int).unique().tolist())
-    counts = {}
-    for category_key, _name, _color in _CATEGORIES:
-        series = (
-            episodes[episodes["label_derived"] == category_key]
-            .groupby("season")
-            .size()
-            .reindex(seasons, fill_value=0)
-        )
-        counts[category_key] = [int(v) for v in series.tolist()]
-    return seasons, counts
+def _episodes_in_air_order(df: pd.DataFrame) -> pd.DataFrame:
+    episodes = df[df["season"].notna()].copy()
+    episodes["season"] = episodes["season"].astype(int)
+    episodes["episode"] = episodes["episode"].astype(int)
+    return episodes.sort_values(["season", "episode"])
 
 
 def build_season_chart(df: pd.DataFrame) -> go.Figure:
-    seasons, counts = _season_counts(df)
+    """One block per episode, stacked per season in airing order.
+
+    The season premiere sits at the bottom of its bar and the finale at the
+    top; each block is colored by the episode's derived classification.
+    """
+    episodes = _episodes_in_air_order(df)
+    positions = episodes.groupby("season").cumcount()
 
     fig = go.Figure()
-    for category_key, category_name, color in _CATEGORIES:
-        fig.add_bar(
-            x=seasons,
-            y=counts[category_key],
-            name=category_name,
-            marker_color=color,
-            customdata=[
-                {"season": int(season), "category": category_key} for season in seasons
-            ],
-            hovertemplate=(
-                f"Season %{{x}}<br>{category_name}: %{{y}} episodes<extra></extra>"
-            ),
-        )
+    # Legend proxies: the real trace is one bar per episode, so the legend
+    # entries are drawn from three empty stand-ins in category order.
+    for _key, name, color in _CATEGORIES:
+        fig.add_bar(x=[None], y=[None], name=name, marker_color=color, showlegend=True)
+
+    seasons = [int(v) for v in episodes["season"]]
+    numbers = [int(v) for v in episodes["episode"]]
+    labels = list(episodes["label_derived"])
+    titles = list(episodes["title"])
+    ids = list(episodes["id"])
+
+    fig.add_bar(
+        x=seasons,
+        y=[1] * len(episodes),
+        base=positions.tolist(),
+        marker_color=[_COLOR[key] for key in labels],
+        marker_line={"width": 0.5, "color": "#111417"},
+        customdata=[
+            {"season": season, "category": label, "id": record_id}
+            for season, label, record_id in zip(seasons, labels, ids, strict=True)
+        ],
+        hovertext=[
+            f"S{season:02d}E{number:02d} {title} — {_NAME[label]}"
+            for season, number, title, label in zip(
+                seasons, numbers, titles, labels, strict=True
+            )
+        ],
+        hovertemplate="%{hovertext}<extra></extra>",
+        showlegend=False,
+        name="episodes",
+    )
 
     fig.update_layout(
-        barmode="stack",
+        barmode="overlay",
         template="plotly_dark",
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         xaxis_title="Season",
-        yaxis_title="Episodes",
+        yaxis_title="Episodes, in airing order",
         legend_title_text="Category",
         margin={"l": 48, "r": 24, "t": 24, "b": 48},
-        height=420,
+        height=440,
     )
     fig.update_xaxes(type="category")
     return fig
@@ -67,17 +85,21 @@ def build_season_summary_table(df: pd.DataFrame) -> html.Table:
     """Screen-reader alternative to the chart (TASKS H-05).
 
     Visually hidden via the ``sr-only`` class; carries the same per-season
-    counts the stacked bars encode.
+    counts the stacked blocks encode.
     """
-    seasons, counts = _season_counts(df)
+    episodes = _episodes_in_air_order(df)
+    seasons = sorted(episodes["season"].unique().tolist())
     header = html.Tr(
         [html.Th("Season")]
         + [html.Th(name) for _key, name, _color in _CATEGORIES]
         + [html.Th("Total")]
     )
     rows = []
-    for index, season in enumerate(seasons):
-        values = [counts[key][index] for key, _n, _c in _CATEGORIES]
+    for season in seasons:
+        in_season = episodes[episodes["season"] == season]
+        values = [
+            int((in_season["label_derived"] == key).sum()) for key, _n, _c in _CATEGORIES
+        ]
         rows.append(
             html.Tr(
                 [html.Th(f"Season {season}", scope="row")]

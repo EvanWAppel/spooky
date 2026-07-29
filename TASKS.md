@@ -205,9 +205,9 @@ D ─────► E ─────► G ────────────
 ## Group F — Loglines & Review CLI
 > Depends on: E-07. Runs in parallel with Group G.
 
-- [ ] **F-01** Write `tests/test_loglines.py` — generated loglines are ≤30 words and contain no verbatim run of >8 words from any source text
+- [x] **F-01** Write `tests/test_loglines.py` — generated loglines are ≤30 words and contain no verbatim run of >8 words from any source text
   - Verify: `uv run pytest tests/test_loglines.py -q` → fails (red)
-- [ ] **F-02** Implement `build/loglines.py` — drafts one logline per record via the Anthropic API from **factual inputs only** (title, credits, air date, classification, Wikipedia Production/Themes). Writes `logline_generated`, sets `review_status: "ai-drafted"`. **Never writes `logline` directly.**
+- [x] **F-02** Implement `build/loglines.py` — drafts one logline per record via the Anthropic API from **factual inputs only** (title, credits, air date, classification, Wikipedia Production/Themes). Writes `logline_generated`, sets `review_status: "ai-drafted"`. **Never writes `logline` directly.**
   - Verify: `uv run pytest tests/test_loglines.py -q` → green
 - [ ] **F-03** Write `tests/test_review_cli.py` — approve promotes to `human-reviewed` and copies `logline_generated` → `logline`; edit stores the edited text; reject sets `needs-work` with the note
   - Verify: `uv run pytest tests/test_review_cli.py -q` → fails (red)
@@ -215,11 +215,11 @@ D ─────► E ─────► G ────────────
   - Verify: `uv run pytest tests/test_review_cli.py -q` → green
 - [ ] **F-05** Add `--status` flag printing review progress (`147 / 220 human-reviewed`)
   - Verify: `uv run python tools/review.py --status` → prints counts
-- [ ] **F-06** Add a regeneration-safety test — re-running `loglines.py` after review changes zero human-reviewed records
+- [x] **F-06** Add a regeneration-safety test — re-running `loglines.py` after review changes zero human-reviewed records
   - Verify: `uv run pytest tests/test_review_guard.py -q -k regen` → green
 - [ ] **F-07** 📋 **OWNER TASK** — review all 220 loglines through the CLI
   - Verify: `uv run python tools/review.py --status` → `220 / 220 human-reviewed`
-- [ ] **F-08** Surface the review-status badge in the detail panel (`AI-drafted` / `human-reviewed`)
+- [x] **F-08** Surface the review-status badge in the detail panel (`AI-drafted` / `human-reviewed`)
   - Verify: `uv run pytest tests/test_panel.py -q -k badge` → green
 
 ---
@@ -231,7 +231,7 @@ D ─────► E ─────► G ────────────
   - Verify: app loads 220 records; `ls data/episodes_sample 2>&1` → no such directory
 - [x] **G-02** Confirm the chart renders 11 season bars with three segments each and excludes both films
   - Verify: run locally; paste per-season segment counts and confirm they match `data/dist/spooky-episodes.csv`
-- [x] **G-03** Add the Films card — the two film records, outside the season chart
+- [x] **G-03** ~~Add the Films card~~ *(superseded by UI-1: films now live in the main list with a Type column)*
   - Verify: `uv run pytest tests/test_films.py -q` → green; both films visible in the UI
 - [x] **G-04** Add the contested filter toggle ("show contested only")
   - Verify: toggle on → row count equals the count of `label_contested == true`. Paste both numbers.
@@ -307,6 +307,17 @@ D ─────► E ─────► G ────────────
   - Verify: write down what they actually said, verbatim, in POSTMORTEM.md
 - [ ] **J-10** 📋 **OWNER TASK** — confirm no constraint C1–C7 is violated anywhere in the shipped site
   - Verify: walk the C1–C7 list against the live site and initial each
+
+---
+
+## Group UI — post-v1 design revisions (requested by Evan, 2026-07-28)
+> Supersedes parts of F1/F2/G-03. All verified in-browser.
+
+- [x] **UI-01** Chart: one block per episode, stacked per season in airing order (premiere at the bottom, finale at the top), colored by category; legend via proxy traces; click a block → its season page with the episode selected
+- [x] **UI-02** Table: variable length (one full season per page), native pagination and per-column filter boxes removed (the stock white controls), native sort kept; new Type column (Episode/Film)
+- [x] **UI-03** Season pager (‹ Season N · years ›) + dark search input driving ?text= + contested toggle, in one controls row
+- [x] **UI-04** Films merged into the main list on the season page they follow chronologically (derived from air dates: 1998 film → S5 page, 2008 film → S9 page); films card removed
+- [x] **UI-05** Episode information moved below the list, full width, and shows the description (reviewed logline, else AI draft with an AI-drafted badge)
 
 ---
 

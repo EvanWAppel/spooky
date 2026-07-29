@@ -277,6 +277,18 @@ recommendations.
 
 ---
 
+### D-28 — The explorer redesign
+**Owner:** EVAN (2026-07-28) · **Confidence:** high · **Reversal cost:** low
+
+Requested after using the running app, superseding parts of F1/F2/G-03:
+per-episode chart blocks stacked in airing order (premiere at the bottom);
+the list pages season by season at its natural length instead of paginating;
+films merged into the main list with a Type column, placed on the season
+page they follow chronologically; the episode information moved below the
+list; the stock white filter/pagination controls replaced with a dark
+season pager and search input; episode descriptions surfaced from Group F
+(AI-drafted badge until human review). Recorded in TASKS.md Group UI.
+
 ## D. Open items needing your decision
 
 ### OPEN-01 — ✅ RESOLVED 2026-07-27: null = abstain

@@ -10,6 +10,7 @@ _COLUMNS = cast(
     [
         {"name": "Season/Ep", "id": "season_episode"},
         {"name": "Title", "id": "title"},
+        {"name": "Type", "id": "record_type"},
         {"name": "Air date", "id": "air_date"},
         {"name": "Category", "id": "category"},
         {"name": "TVmaze rating", "id": "rating"},
@@ -42,15 +43,18 @@ _STYLE_CELL = {
     "fontSize": "0.95rem",
     "textAlign": "left",
 }
-_STYLE_FILTER = {
-    "backgroundColor": _BG_HEADER,
-    "color": _FG,
-    "borderBottom": f"1px solid {_BORDER}",
-}
 _STYLE_DATA_CONDITIONAL = [
     {
-        "if": {"column_id": "contested_badge", "filter_query": "{contested_badge} ne ''"},
+        "if": {
+            "column_id": "contested_badge",
+            "filter_query": "{contested_badge} ne ''",
+        },
         "color": "#f2b84b",
+        "fontWeight": "600",
+    },
+    {
+        "if": {"column_id": "record_type", "filter_query": "{record_type} eq 'Film'"},
+        "color": "#7fd4a0",
         "fontWeight": "600",
     },
     {"if": {"state": "active"}, "backgroundColor": "#1f2a24", "border": "none"},
@@ -60,10 +64,19 @@ _STYLE_DATA_CONDITIONAL = [
 
 
 def build_episode_table(df: pd.DataFrame) -> dash_table.DataTable:
+    """The episode list: variable length, sorted by air order.
+
+    Pagination and per-column filter boxes are deliberately OFF — the page
+    is one season (the pager and search input outside the table drive the
+    view), so the table shows every row it is given. Native sort stays.
+    """
     table_df = df.copy()
     table_df["air_date"] = table_df["air_date"].dt.strftime("%Y-%m-%d")
     table_df["contested_badge"] = table_df["label_contested"].map(
         {True: "Contested", False: ""}
+    )
+    table_df["record_type"] = table_df["season"].map(
+        lambda value: "Episode" if pd.notna(value) else "Film"
     )
 
     return dash_table.DataTable(
@@ -74,6 +87,7 @@ def build_episode_table(df: pd.DataFrame) -> dash_table.DataTable:
                 "id",
                 "season_episode",
                 "title",
+                "record_type",
                 "air_date",
                 "category",
                 "rating",
@@ -81,35 +95,13 @@ def build_episode_table(df: pd.DataFrame) -> dash_table.DataTable:
             ]
         ].to_dict("records"),
         sort_action="native",
-        filter_action="native",
+        filter_action="none",
         row_selectable=False,
         cell_selectable=True,
-        page_action="native",
-        page_size=12,
+        page_action="none",
         style_as_list_view=True,
         style_header=_STYLE_HEADER,
         style_cell=_STYLE_CELL,
-        style_filter=_STYLE_FILTER,
         style_data_conditional=cast(Any, _STYLE_DATA_CONDITIONAL),
         style_table={"overflowX": "auto"},
-        css=[
-            # The filter inputs and the pagination controls are rendered by
-            # the table's own stylesheet; the props above cannot reach them.
-            {
-                "selector": ".dash-filter input",
-                "rule": f"color: {_FG} !important; background: transparent;",
-            },
-            {
-                "selector": ".dash-filter input::placeholder",
-                "rule": f"color: {_FG_MUTED} !important;",
-            },
-            {
-                "selector": ".previous-next-container",
-                "rule": f"color: {_FG_MUTED};",
-            },
-            {
-                "selector": ".previous-next-container button",
-                "rule": f"color: {_FG} !important;",
-            },
-        ],
     )
