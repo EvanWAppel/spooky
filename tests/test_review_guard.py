@@ -102,6 +102,44 @@ def test_regen_changes_zero_human_reviewed_records(tmp_path: Path) -> None:
     assert json.loads((episodes / "s01e03.json").read_text()) == reviewed
 
 
+def test_refresh_preserves_every_human_reviewed_field(tmp_path: Path) -> None:
+    """I-05: the scheduled refresh re-runs the merge over the real records.
+
+    Simulates that at the write layer the refresh actually uses: a fresh
+    machine record for an already-reviewed episode must leave the whole
+    human layer untouched while machine fields still update.
+    """
+    episodes = tmp_path / "episodes"
+    reviewed = _record(
+        logline="Evan's approved logline.",
+        review_status="human-reviewed",
+        reviewed_at="2026-07-27T00:00:00Z",
+        review_note="checked against the DVD",
+    )
+    write_record(episodes, reviewed)
+
+    # What a refresh produces: machine fields fresh, human layer blank.
+    refreshed = _record(
+        title="Squeeze",
+        logline_generated="a newly drafted logline",
+        logline=None,
+        review_status="unreviewed",
+        reviewed_at=None,
+        review_note=None,
+    )
+    write_record(episodes, refreshed)
+
+    written = json.loads((episodes / "s01e03.json").read_text())
+    for field, expected in (
+        ("logline", "Evan's approved logline."),
+        ("review_status", "human-reviewed"),
+        ("reviewed_at", "2026-07-27T00:00:00Z"),
+        ("review_note", "checked against the DVD"),
+    ):
+        assert written[field] == expected, f"refresh clobbered {field}"
+    assert written["logline_generated"] == "a newly drafted logline"
+
+
 def test_guard_error_message_shows_both_versions(tmp_path: Path) -> None:
     write_record(
         tmp_path,

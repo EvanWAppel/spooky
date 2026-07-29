@@ -1,0 +1,71 @@
+name: Monthly data refresh
+
+# Re-runs the ingest and merge against live sources and opens a PR with the
+# data diff (TASKS I-04). Never merges itself — upstream tables shift, and a
+# human reads the diff.
+#
+# No secrets required: the refresh runs spine -> merge only. Every source
+# (TVmaze, Wikipedia, Wikidata, dom111) is keyless, and logline drafting —
+# the one step needing a key — is deliberately excluded so the refresh can
+# never touch reviewed prose.
+
+on:
+  schedule:
+    - cron: "0 6 1 * *" # 06:00 UTC on the 1st
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+      - name: Set up Python
+        run: uv python install
+      - name: Install dependencies
+        run: uv sync --locked --all-groups
+
+      - name: Refresh data from live sources
+        env:
+          WIKI_USER_AGENT: ${{ vars.WIKI_USER_AGENT }}
+        run: |
+          uv run python -m build --only spine
+          uv run python -m build --only wikipedia
+          uv run python -m build --only wikidata
+          uv run python -m build --only labels
+          uv run python -m build --only people
+          uv run python -m build --only articles
+          uv run python -m build --only merge
+          uv run python -m build --only emit
+
+      # The merge guards human-reviewed fields itself (build/merge.py raises
+      # rather than overwriting). This is the belt-and-braces check: if any
+      # reviewed record's human layer changed on disk, fail loudly.
+      - name: Assert no human-reviewed content changed
+        run: uv run python tools/check_refresh_diff.py
+
+      - name: Run the test suite against the refreshed data
+        run: uv run pytest -m "not network"
+
+      - name: Open a PR with the data diff
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: data-refresh
+          title: "Monthly data refresh"
+          commit-message: "Monthly data refresh from live sources"
+          body: |
+            Automated refresh of `data/episodes/` and `data/dist/` from
+            TVmaze, Wikipedia, Wikidata, and the pinned dom111 blob.
+
+            **Read the diff before merging.** Upstream tables shift:
+            check re-derived counts, and confirm no classification changed
+            for a reason you can't explain. Human-reviewed loglines are
+            guarded by `build/merge.py` and asserted unchanged by this job.
+          add-paths: |
+            data/episodes
+            data/dist

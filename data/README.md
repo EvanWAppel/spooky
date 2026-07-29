@@ -51,10 +51,25 @@ fields cite the exact article revision id.
 | `guest_cast` | list | TVmaze `/guestcast` | CC BY-SA 4.0 | names only — no images, no links |
 | `logline_generated` | string / null | machine draft | CC BY-SA 4.0 | ≤30 words; AI-drafted, machine-owned |
 | `logline` | string / null | **the owner** | CC BY-SA 4.0 | ≤30 words; human-owned once reviewed |
-| `review_status` | enum | the owner | CC BY-SA 4.0 | `unreviewed` \| `human-reviewed` |
+| `review_status` | enum | the owner | CC BY-SA 4.0 | `unreviewed` \| `ai-drafted` \| `needs-work` \| `human-reviewed` — see below |
 | `reviewed_at` | datetime / null | the owner | CC BY-SA 4.0 | |
 | `review_note` | string / null | the owner | CC BY-SA 4.0 | |
 | `provenance` | object | derived | CC BY-SA 4.0 | per-field `{source, license[, revid]}` |
+
+### Review states
+
+Descriptions move through one direction only, and the site badges which
+layer a reader is seeing:
+
+| State | Meaning | `logline` |
+|---|---|---|
+| `unreviewed` | no draft yet | null |
+| `ai-drafted` | machine draft written to `logline_generated`, awaiting review | null |
+| `needs-work` | the owner rejected the draft; `review_note` says why | null |
+| `human-reviewed` | the owner approved or rewrote it — **sacred**, no pipeline step may overwrite it | the owner's text |
+
+Only `human-reviewed` records have a populated `logline`. Everything else
+displays `logline_generated` behind an "AI-drafted" badge.
 
 Deliberately **absent**: synopses, plot recaps, transcripts, images, image
 URLs, and IMDb ratings — see the legal constraints in `CLAUDE.md` and

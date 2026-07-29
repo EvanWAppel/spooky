@@ -209,11 +209,11 @@ D ─────► E ─────► G ────────────
   - Verify: `uv run pytest tests/test_loglines.py -q` → fails (red)
 - [x] **F-02** Implement `build/loglines.py` — drafts one logline per record via the Anthropic API from **factual inputs only** (title, credits, air date, classification, Wikipedia Production/Themes). Writes `logline_generated`, sets `review_status: "ai-drafted"`. **Never writes `logline` directly.**
   - Verify: `uv run pytest tests/test_loglines.py -q` → green
-- [ ] **F-03** Write `tests/test_review_cli.py` — approve promotes to `human-reviewed` and copies `logline_generated` → `logline`; edit stores the edited text; reject sets `needs-work` with the note
+- [x] **F-03** Write `tests/test_review_cli.py` — approve promotes to `human-reviewed` and copies `logline_generated` → `logline`; edit stores the edited text; reject sets `needs-work` with the note
   - Verify: `uv run pytest tests/test_review_cli.py -q` → fails (red)
-- [ ] **F-04** Implement `tools/review.py` — walks records where `review_status != "human-reviewed"`, one at a time, showing the draft, its sources, and the episode facts; accepts approve / edit / reject-with-note; writes back to `data/episodes/*.json`
+- [x] **F-04** Implement `tools/review.py` — walks records where `review_status != "human-reviewed"`, one at a time, showing the draft, its sources, and the episode facts; accepts approve / edit / reject-with-note; writes back to `data/episodes/*.json`
   - Verify: `uv run pytest tests/test_review_cli.py -q` → green
-- [ ] **F-05** Add `--status` flag printing review progress (`147 / 220 human-reviewed`)
+- [x] **F-05** Add `--status` flag printing review progress (`147 / 220 human-reviewed`)
   - Verify: `uv run python tools/review.py --status` → prints counts
 - [x] **F-06** Add a regeneration-safety test — re-running `loglines.py` after review changes zero human-reviewed records
   - Verify: `uv run pytest tests/test_review_guard.py -q -k regen` → green
@@ -273,11 +273,11 @@ D ─────► E ─────► G ────────────
   - Verify: leave idle 20 minutes, then `curl -s -o /dev/null -w "%{http_code}"` → 200, not 502. Paste the result.
 - [ ] **I-02** Point `spooky.evanappel.me` at the Railway service; TLS valid
   - Verify: `curl -sI https://spooky.evanappel.me | head -1` → 200
-- [ ] **I-03** Add GitHub Actions secrets: `TMDB_API_KEY`, `ANTHROPIC_API_KEY`, `WIKI_USER_AGENT`
+- [x] **I-03** ~~Add GitHub Actions secrets~~ — **none needed.** The refresh runs spine→emit only; every source is keyless. Set `WIKI_USER_AGENT` as a repo *variable* (not a secret — it is a public contact string). Anthropic is only used by the local logline step.
   - Verify: `gh secret list --repo EvanWAppel/spooky` → all three present
-- [ ] **I-04** Implement `.github/workflows/refresh.yml` — monthly, re-runs `01`–`07`, opens a PR with the data diff
+- [x] **I-04** Implement `.github/workflows/refresh.yml` — monthly, re-runs `01`–`07`, opens a PR with the data diff
   - Verify: `gh workflow run refresh.yml` → opens a PR
-- [ ] **I-05** Add the refresh guard test — the job **fails loudly** if it would modify any `human-reviewed` field
+- [x] **I-05** Add the refresh guard test — the job **fails loudly** if it would modify any `human-reviewed` field
   - Verify: `uv run pytest tests/test_review_guard.py -q -k refresh` → green. Do not let it skip silently (CLAUDE.md).
 - [ ] **I-06** Set `status = "live"` for spooky in `../projects.toml`
   - Verify: `grep -A2 'projects.spooky' ../projects.toml | grep status` → `live`
@@ -287,19 +287,19 @@ D ─────► E ─────► G ────────────
 ## Group J — v1 Acceptance (the Check phase)
 > Depends on: all groups. **This is the human's responsibility.**
 
-- [ ] **J-01** All 220 records present; every count re-derived at build time, none hard-coded
+- [x] **J-01** All 220 records present; every count re-derived at build time, none hard-coded
   - Verify: `grep -rnE "\b(218|220|71|143|75)\b" build/ --include='*.py'` → only in comments or assertions, never as logic
-- [ ] **J-02** `uv run pytest -m "not network"` fully green
+- [x] **J-02** `uv run pytest -m "not network"` fully green
   - Verify: paste the summary line
-- [ ] **J-03** `uv run ruff check .` and `uv run ty check` both clean
+- [x] **J-03** `uv run ruff check .` and `uv run ty check` both clean
   - Verify: paste both outputs
-- [ ] **J-04** `uv run prek run --all-files` clean
+- [x] **J-04** `uv run prek run --all-files` clean
   - Verify: paste the output
 - [ ] **J-05** All 220 loglines `human-reviewed`
   - Verify: `uv run python tools/review.py --status` → `220 / 220`
-- [ ] **J-06** Footer attribution present and **verbatim** per PRD §11.2, including the TMDB clause
+- [x] **J-06** Footer attribution present and **verbatim** per PRD §11.2, including the TMDB clause
   - Verify: diff the rendered footer against PRD §11.2 character by character
-- [ ] **J-07** Published dataset + `data/README.md` field dictionary accurate
+- [x] **J-07** Published dataset + `data/README.md` field dictionary accurate
   - Verify: key sets match programmatically; paste the diff (must be empty)
 - [ ] **J-08** No 502 on a cold first request
   - Verify: idle 20 minutes, then load in a fresh browser profile. Paste the status code.
