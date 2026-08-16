@@ -1,0 +1,16 @@
+# Deterministic uv-based build for Railway (Nixpacks).
+#
+# Without this file the builder guesses how to install a uv project; here we
+# make it explicit. uv installs the interpreter pinned in .python-version and
+# syncs the locked dependencies, so the deployed environment matches CI exactly.
+# `--locked` fails the build loudly if uv.lock is stale; `--no-dev` skips the
+# test/lint tooling the running app never needs.
+
+[phases.setup]
+nixPkgs = ["uv"]
+
+[phases.install]
+cmds = ["uv sync --locked --no-dev"]
+
+[start]
+cmd = "uv run gunicorn app:server --bind 0.0.0.0:$PORT"

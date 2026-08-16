@@ -20,12 +20,15 @@ import json
 import logging
 import os
 import re
+import time
 from pathlib import Path
 from typing import Any
 
+from build._usage import UsageAccumulator
+
 log = logging.getLogger(__name__)
 
-MODEL = "claude-sonnet-5"
+MODEL = "claude-sonnet-4-6"
 WORD_CAP = 30
 MAX_VERBATIM_RUN = 8
 SOURCE_EXCERPT_CHARS = 1600
@@ -92,6 +95,7 @@ def draft_logline(
     *,
     sources: list[str],
     retries: int = 3,
+    usage: UsageAccumulator | None = None,
 ) -> str:
     """One validated draft; raises LoglineError when the rules can't be met."""
     prompt = _facts(record)
@@ -103,7 +107,8 @@ def draft_logline(
         )
 
     feedback = ""
-    for _attempt in range(retries):
+    for attempt in range(retries):
+        start = time.monotonic()
         response = client.messages.create(
             model=MODEL,
             # Generous: the model thinks before it answers, and a budget the
@@ -112,6 +117,7 @@ def draft_logline(
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": prompt + feedback}],
         )
+        elapsed = time.monotonic() - start
         # The model may emit a thinking block before the text block —
         # take the first block that actually carries text.
         text_block = next(
@@ -135,6 +141,8 @@ def draft_logline(
                 "notes. Rephrase entirely in your own words."
             )
             continue
+        if usage is not None:
+            usage.record(response, latency=elapsed, attempts=attempt + 1)
         return draft
     raise LoglineError(
         f"{record.get('id')}: no rule-compliant draft after {retries} attempts"
@@ -146,6 +154,7 @@ def generate_all(
 ) -> int:
     """Draft every non-human-reviewed record in place; returns drafts written."""
     written = 0
+    usage = UsageAccumulator(model=MODEL)
     paths = sorted(episodes_dir.glob("*.json"))
     for index, path in enumerate(paths, start=1):
         record = json.loads(path.read_text())
@@ -156,12 +165,13 @@ def generate_all(
         sources = [
             text for text in (article.get("production"), article.get("themes")) if text
         ]
-        draft = draft_logline(client, record, sources=sources)
+        draft = draft_logline(client, record, sources=sources, usage=usage)
         record["logline_generated"] = draft
         record["review_status"] = "ai-drafted"
         path.write_text(json.dumps(record, indent=1, ensure_ascii=False) + "\n")
         written += 1
         log.info("[%d/%d] %s: %s", index, len(paths), record["id"], draft)
+    usage.log_summary()
     return written
 
 

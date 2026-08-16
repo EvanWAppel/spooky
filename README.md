@@ -1,5 +1,9 @@
 # spooky
 
+[![CI](https://github.com/EvanWAppel/spooky/actions/workflows/ci.yml/badge.svg)](https://github.com/EvanWAppel/spooky/actions/workflows/ci.yml)
+
+**Live demo:** _link added after deploy — see [`docs/deploy.md`](docs/deploy.md)_
+
 **An episode data explorer for *The X-Files* — built around the fact that
 nobody agrees which episodes are "mythology."**
 
@@ -29,6 +33,39 @@ breakdown instead of a quietly-picked winner.
   per-field provenance down to exact Wikipedia revision ids. Field
   dictionary in [`data/README.md`](data/README.md).
 
+## AI-drafted loglines — draft → triage → rewrite → review
+
+The most involved engineering here is the logline pipeline. Episode teasers are
+**drafted by Claude from factual inputs, guarded mechanically, graded, corrected,
+then handed to a human to approve** — never copied from a source (that's illegal;
+loglines are capped at 30 words) and never silently trusted.
+
+```mermaid
+flowchart LR
+    G["<b>generate</b><br/>draft from facts"] --> T["<b>triage</b><br/>grade A/B/C + critique"]
+    T --> R["<b>rewrite</b><br/>fix from the critique"]
+    R --> H["<b>human review</b><br/>approve / edit / reject"]
+    H --> L[("logline<br/>human-reviewed · sacred")]
+```
+
+- **Mechanical guardrails, not prompt hope** — a draft is rejected and
+  re-requested if it exceeds 30 words or shares a run of more than 8 words with
+  any source text (`build/loglines.py::contains_verbatim_run`), enforced in code.
+- **A self-correction loop that measurably works** — triage grades every draft
+  A/B/C with a one-line critique; the rewrite step feeds that critique back as an
+  editor's note. Over 218 drafts it moved the grade distribution from
+  **A=117 / B=87 / C=14 → A=171 / B=45 / C=2** — A-grade drafts from 54% to 78%,
+  and the factual-error C's from 14 down to 2.
+- **A sacred human layer** — machine drafts (`logline_generated`) never touch the
+  human-owned `logline`; `build/merge.py` raises rather than overwrite a reviewed
+  field, so no refresh can clobber human judgment.
+- **Instrumented** — each run logs tokens, cost, latency, retries, and refusals;
+  a full triage pass over 218 drafts is ~$0.30 on `claude-sonnet-4-6`.
+
+Drafts are currently **AI-drafted pending human review** — the published dataset
+shows them behind an *AI-drafted* badge until a human approves each one. Full
+design notes: **[`docs/ai-pipeline.md`](docs/ai-pipeline.md)**.
+
 ## How it's built
 
 Python end-to-end: an offline pipeline (`build/`) fetches TVmaze, Wikipedia,
@@ -56,6 +93,9 @@ Engineering choices worth a look:
   The what-and-why lives in [`DECISIONS.md`](DECISIONS.md).
 
 ## Licensing
+
+Two layers. **The code** (`build/`, `components/`, `spooky/`, `tools/`, `app.py`)
+is [MIT](LICENSE). **The data** is CC BY-SA 4.0, because the sources require it:
 
 Episode metadata and ratings from [TVmaze](https://www.tvmaze.com)
 (CC BY-SA 4.0). Episode structure and flags derived from

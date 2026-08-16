@@ -27,12 +27,23 @@ import json
 import logging
 import os
 import re
+import sys
+import time
 from pathlib import Path
 from typing import Any
 
+# Run as a script (`uv run python tools/triage.py`), Python puts this file's own
+# directory on sys.path, not the repo root, so the `build` package is
+# unimportable. Put the repo root first so the import below resolves the same
+# way it does under pytest.
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from build._usage import UsageAccumulator  # noqa: E402  (after path bootstrap)
+
 log = logging.getLogger(__name__)
 
-MODEL = "claude-sonnet-5"
+MODEL = "claude-sonnet-4-6"
 GRADES = {"A", "B", "C"}
 EPISODES_DIR = Path(__file__).resolve().parent.parent / "data" / "episodes"
 TRIAGE_PATH = Path(__file__).resolve().parent.parent / "data" / "logline_triage.json"
@@ -93,7 +104,11 @@ def _facts(record: dict[str, Any]) -> str:
 
 
 def grade_record(
-    client: Any, record: dict[str, Any], *, retries: int = 3
+    client: Any,
+    record: dict[str, Any],
+    *,
+    retries: int = 3,
+    usage: UsageAccumulator | None = None,
 ) -> dict[str, str]:
     """One graded verdict for a record. Raises if the draft is missing."""
     if not record.get("logline_generated"):
@@ -101,17 +116,21 @@ def grade_record(
     # Generous budget: the model may emit a thinking block first, and a budget
     # the thinking exhausts truncates the reply before any text block appears
     # (the same failure loglines.py guards against).
-    for _attempt in range(retries):
+    for attempt in range(retries):
+        start = time.monotonic()
         response = client.messages.create(
             model=MODEL,
             max_tokens=2048,
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": _facts(record)}],
         )
+        elapsed = time.monotonic() - start
         # A refusal is deterministic (e.g. an opaque base64 episode title trips
         # the safety classifier). Retrying only burns calls — fail fast and say
         # so, so it is never mistaken for a token-budget truncation.
         if getattr(response, "stop_reason", None) == "refusal":
+            if usage is not None:
+                usage.note_refusal()
             raise TriageError(
                 f"{record.get('id')}: model refused to grade this draft — "
                 "review it by hand"
@@ -124,6 +143,8 @@ def grade_record(
             log.warning("%s: response had no text block; retrying", record.get("id"))
             continue
         grade, critique = parse_verdict(text_block)
+        if usage is not None:
+            usage.record(response, latency=elapsed, attempts=attempt + 1)
         return {"id": record["id"], "grade": grade, "critique": critique}
     raise TriageError(
         f"{record.get('id')}: no gradeable response after {retries} attempts"
@@ -149,13 +170,14 @@ def grade_all(client: Any, episodes_dir: Path, out_path: Path) -> list[str]:
     list of ids that could not be graded."""
     triage = load_triage(out_path)
     failures: list[str] = []
+    usage = UsageAccumulator(model=MODEL)
     paths = sorted(episodes_dir.glob("*.json"))
     for index, path in enumerate(paths, start=1):
         record = json.loads(path.read_text())
         if record.get("review_status") == "human-reviewed":
             continue
         try:
-            verdict = grade_record(client, record)
+            verdict = grade_record(client, record, usage=usage)
         except TriageError as error:
             log.error("triage failed for %s: %s", record.get("id"), error)
             failures.append(record["id"])
@@ -173,6 +195,7 @@ def grade_all(client: Any, episodes_dir: Path, out_path: Path) -> list[str]:
             verdict["grade"],
             verdict["critique"],
         )
+    usage.log_summary()
     if failures:
         log.error(
             "%d records could not be graded: %s", len(failures), ", ".join(failures)

@@ -29,6 +29,7 @@ import json
 import logging
 import os
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -38,6 +39,7 @@ from typing import Any
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from build._usage import UsageAccumulator  # noqa: E402  (after path bootstrap)
 from build.loglines import (  # noqa: E402  (after the path bootstrap above)
     MODEL,
     SOURCE_EXCERPT_CHARS,
@@ -72,6 +74,7 @@ def rewrite_logline(
     sources: list[str],
     critique: str,
     retries: int = 3,
+    usage: UsageAccumulator | None = None,
 ) -> str:
     """One validated rewrite; raises LoglineError when the rules can't be met."""
     prompt = _facts(record)
@@ -85,18 +88,22 @@ def rewrite_logline(
         )
 
     feedback = ""
-    for _attempt in range(retries):
+    for attempt in range(retries):
+        start = time.monotonic()
         response = client.messages.create(
             model=MODEL,
             max_tokens=1500,
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": prompt + feedback}],
         )
+        elapsed = time.monotonic() - start
         # A refusal is deterministic (e.g. the base64 episode title s11e07,
         # "Rm9sbG93ZXJz", trips the safety classifier). Retrying only burns
         # calls — fail fast so it is never mistaken for a token-budget
         # truncation (the same guard triage.py carries).
         if getattr(response, "stop_reason", None) == "refusal":
+            if usage is not None:
+                usage.note_refusal()
             raise LoglineError(
                 f"{record.get('id')}: model refused to rewrite this draft — "
                 "review it by hand"
@@ -122,6 +129,8 @@ def rewrite_logline(
                 "notes. Rephrase entirely in your own words."
             )
             continue
+        if usage is not None:
+            usage.record(response, latency=elapsed, attempts=attempt + 1)
         return draft
     raise LoglineError(
         f"{record.get('id')}: no rule-compliant rewrite after {retries} attempts"
@@ -148,6 +157,7 @@ def rewrite_all(
     surfaces the failures with a non-zero exit; nothing is swallowed silently."""
     written = 0
     failures: list[str] = []
+    usage = UsageAccumulator(model=MODEL)
     paths = sorted(episodes_dir.glob("*.json"))
     for index, path in enumerate(paths, start=1):
         record = json.loads(path.read_text())
@@ -163,7 +173,9 @@ def rewrite_all(
             text for text in (article.get("production"), article.get("themes")) if text
         ]
         try:
-            revised = rewrite_logline(client, record, sources=sources, critique=critique)
+            revised = rewrite_logline(
+                client, record, sources=sources, critique=critique, usage=usage
+            )
         except LoglineError as error:
             log.error("rewrite failed for %s: %s", record.get("id"), error)
             failures.append(record["id"])
@@ -173,6 +185,7 @@ def rewrite_all(
         path.write_text(json.dumps(record, indent=1, ensure_ascii=False) + "\n")
         written += 1
         log.info("[%d/%d] %s: %s", index, len(paths), record["id"], revised)
+    usage.log_summary()
     return written, failures
 
 

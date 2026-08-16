@@ -68,6 +68,26 @@ def build_about() -> html.Section:
                     "over; it is the most interesting thing in the data.",
                 ]
             ),
+            html.H3("Where the episode descriptions come from"),
+            html.P(
+                "Each episode's one-line description is drafted by an AI model "
+                "from factual inputs only — title, credits, air date, "
+                "classification — never copied from a synopsis, and capped at "
+                "30 words. Drafting is only the first step: a second pass "
+                "grades every draft and flags likely errors, a third rewrites "
+                "the weak ones from that feedback, and a human has the final "
+                "say."
+            ),
+            html.P(
+                [
+                    "Machine drafts and human-approved text are kept in "
+                    "separate layers — a draft can never overwrite an approved "
+                    "description. Until a human signs off, the description "
+                    "shows with an ",
+                    html.Strong("AI-drafted"),
+                    " badge so you always know exactly what you are reading.",
+                ]
+            ),
             html.H3("Data and licensing"),
             html.P(
                 "Episode metadata and ratings come from TVmaze, structure "
