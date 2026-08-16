@@ -18,6 +18,7 @@ from tools.review import (
     approve,
     edit,
     load_records,
+    order_queue,
     pending,
     reject,
     reset,
@@ -228,6 +229,58 @@ def test_quit_stops_before_the_next_record(episodes_dir: Path) -> None:
         json.loads((episodes_dir / "s01e04.json").read_text())["review_status"]
         == "ai-drafted"
     )
+
+
+def test_order_queue_puts_worst_grade_first(episodes_dir: Path) -> None:
+    """With triage in hand, review C's first while attention is freshest;
+    the fast A's batch at the end."""
+    queue = pending(load_records(episodes_dir))
+    # s01e03 graded A, s01e04 graded C — C must come first.
+    triage = {
+        "s01e03": {"grade": "A", "critique": "ship it"},
+        "s01e04": {"grade": "C", "critique": "rewrite"},
+    }
+
+    ordered = [r["id"] for r in order_queue(queue, triage)]
+
+    assert ordered == ["s01e04", "s01e03"]
+
+
+def test_order_queue_keeps_air_order_within_a_grade(episodes_dir: Path) -> None:
+    queue = pending(load_records(episodes_dir))
+    triage = {
+        "s01e03": {"grade": "B", "critique": "x"},
+        "s01e04": {"grade": "B", "critique": "y"},
+    }
+
+    ordered = [r["id"] for r in order_queue(queue, triage)]
+
+    assert ordered == ["s01e03", "s01e04"]
+
+
+def test_order_queue_puts_ungraded_records_last(episodes_dir: Path) -> None:
+    queue = pending(load_records(episodes_dir))
+    triage = {"s01e04": {"grade": "A", "critique": "ship it"}}  # s01e03 ungraded
+
+    ordered = [r["id"] for r in order_queue(queue, triage)]
+
+    assert ordered == ["s01e04", "s01e03"]
+
+
+def test_order_queue_without_triage_keeps_air_order(episodes_dir: Path) -> None:
+    queue = pending(load_records(episodes_dir))
+
+    ordered = [r["id"] for r in order_queue(queue, {})]
+
+    assert ordered == ["s01e03", "s01e04"]
+
+
+def test_review_renders_the_critique_text(episodes_dir: Path, capsys) -> None:
+    triage = {"s01e04": {"grade": "C", "critique": "invents a plot detail"}}
+    run_interactive(episodes_dir, ask=_answers("s", "s", "q"), triage=triage)
+
+    out = capsys.readouterr().out
+    assert "invents a plot detail" in out
 
 
 def test_reset_returns_a_record_to_the_queue(episodes_dir: Path) -> None:

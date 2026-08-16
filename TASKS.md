@@ -221,6 +221,8 @@ D ─────► E ─────► G ────────────
   - Verify: `uv run python tools/review.py --status` → `220 / 220 human-reviewed`
 - [x] **F-08** Surface the review-status badge in the detail panel (`AI-drafted` / `human-reviewed`)
   - Verify: `uv run pytest tests/test_panel.py -q -k badge` → green
+- [x] **F-09** Implement `tools/triage.py` — a read-only AI pre-pass that grades every not-yet-human-reviewed draft A/B/C with a one-line critique, into `data/logline_triage.json`. Never writes an episode record. Speeds up F-07: the review CLI orders the queue worst-first and shows the critique inline.
+  - Verify: `uv run pytest tests/test_triage.py -q` → green; `uv run python tools/triage.py` writes the file and prints `A=.. B=.. C=..` counts
 
 ---
 
