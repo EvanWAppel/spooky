@@ -30,13 +30,27 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+# Run as a script (`uv run python tools/review.py`), Python puts this file's
+# own directory on sys.path, not the repo root, so the `tools` namespace
+# package is unimportable. Put the repo root first so the sibling import below
+# resolves the same way it does under pytest.
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from tools.triage import TRIAGE_PATH, load_triage
+
 WORD_CAP = 30
 EPISODES_DIR = Path(__file__).resolve().parent.parent / "data" / "episodes"
+
+# Worst grade first: review C's while attention is freshest, batch the A's
+# at the end. Ungraded records sort last — no triage opinion to act on.
+_GRADE_ORDER = {"C": 0, "B": 1, "A": 2}
 
 # ANSI — the terminal equivalent of the site's palette.
 _DIM = "\033[2m"
@@ -63,6 +77,21 @@ def pending(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
 def status_line(records: list[dict[str, Any]]) -> str:
     reviewed = sum(1 for r in records if r.get("review_status") == "human-reviewed")
     return f"{reviewed} / {len(records)} human-reviewed"
+
+
+def order_queue(
+    queue: list[dict[str, Any]], triage: dict[str, dict[str, str]]
+) -> list[dict[str, Any]]:
+    """Reorder the pending queue worst-graded-first, preserving air order
+    within a grade. With no triage, the queue is returned unchanged."""
+    if not triage:
+        return list(queue)
+
+    def key(record: dict[str, Any]) -> int:
+        grade = triage.get(record["id"], {}).get("grade")
+        return _GRADE_ORDER.get(grade, len(_GRADE_ORDER))
+
+    return sorted(queue, key=key)
 
 
 def _load_one(episodes_dir: Path, record_id: str) -> tuple[Path, dict[str, Any]]:
@@ -136,7 +165,14 @@ def reset(episodes_dir: Path, record_id: str) -> None:
     _write(path, record)
 
 
-def _render(record: dict[str, Any], position: str) -> str:
+_GRADE_COLOR = {"A": _GREEN, "B": _AMBER, "C": "\033[31m"}  # C is red
+
+
+def _render(
+    record: dict[str, Any],
+    position: str,
+    verdict: dict[str, str] | None = None,
+) -> str:
     where = (
         f"S{int(record['season']):02d}E{int(record['episode']):02d}"
         if record.get("season") is not None
@@ -154,6 +190,12 @@ def _render(record: dict[str, Any], position: str) -> str:
         f"  {_CYAN}{record.get('logline_generated') or '(no draft)'}{_RESET}",
         "",
     ]
+    if verdict:
+        color = _GRADE_COLOR.get(verdict.get("grade", ""), _DIM)
+        lines.append(
+            f"  {color}[{verdict.get('grade')}]{_RESET} "
+            f"{_DIM}{verdict.get('critique')}{_RESET}\n"
+        )
     if record.get("review_note"):
         lines.append(f"  {_AMBER}previous note: {record['review_note']}{_RESET}\n")
     return "\n".join(lines)
@@ -174,25 +216,33 @@ def run_interactive(
     episodes_dir: Path,
     season: int | None = None,
     ask: Callable[[str], str] = input,
+    triage: dict[str, dict[str, str]] | None = None,
 ) -> None:
     """Walk the pending queue. Every verdict is written immediately, so
-    quitting — by `q`, Ctrl-C, or Ctrl-D — never loses a decision."""
+    quitting — by `q`, Ctrl-C, or Ctrl-D — never loses a decision.
+
+    When triage grades are present the queue is ordered worst-first and each
+    record's grade + critique is shown inline (run ``tools/triage.py`` first)."""
+    if triage is None:
+        triage = load_triage(TRIAGE_PATH)
     records = load_records(episodes_dir)
     queue = pending(records)
     if season is not None:
         queue = [r for r in queue if r.get("season") == season]
+    queue = order_queue(queue, triage)
     if not queue:
         print(f"Nothing pending. {status_line(load_records(episodes_dir))}")
         return
 
     print(f"{_BOLD}spooky logline review{_RESET}")
-    print(f"{status_line(records)} · {len(queue)} in this queue")
+    triaged = f" · {_DIM}triaged, worst first{_RESET}" if triage else ""
+    print(f"{status_line(records)} · {len(queue)} in this queue{triaged}")
     print(f"{_DIM}[a]pprove  [e]dit  [r]eject  [s]kip  [q]uit (or Ctrl-C){_RESET}")
 
     try:
         for index, record in enumerate(queue, start=1):
             record_id = record["id"]
-            print(_render(record, f"{index}/{len(queue)}"))
+            print(_render(record, f"{index}/{len(queue)}", triage.get(record_id)))
             while True:
                 choice = ask("  > ").strip().lower()
                 if choice == "a":
