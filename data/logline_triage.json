@@ -1,15 +1,15 @@
 {
  "film-1998": {
-  "grade": "A",
-  "critique": "accurate and specific"
+  "grade": "B",
+  "critique": "\"expose the truth\" is generic; otherwise accurate summary of the film's plot."
  },
  "film-2008": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s01e02": {
-  "grade": "B",
-  "critique": "\"expose humanity's true history\" is vague/grandiose; focus should be missing pilots/UFO tech."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s01e03": {
   "grade": "A",
@@ -20,12 +20,12 @@
   "critique": "accurate and specific"
  },
  "s01e05": {
-  "grade": "B",
-  "critique": "Mulder leads investigation, not Scully; roles reversed from actual episode."
- },
- "s01e06": {
   "grade": "A",
   "critique": "accurate and specific"
+ },
+ "s01e06": {
+  "grade": "B",
+  "critique": "\"corporate espionage conspiracy\" overstates the plot's focus; core premise otherwise accurate."
  },
  "s01e07": {
   "grade": "A",
@@ -36,20 +36,20 @@
   "critique": "accurate and specific"
  },
  "s01e09": {
-  "grade": "B",
-  "critique": "\"haunted\" is vague/odd phrasing; otherwise accurate premise."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s01e10": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s01e11": {
-  "grade": "C",
-  "critique": "Fathers weren't identical; only the deaths and the girls were similar."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s01e12": {
   "grade": "A",
-  "critique": "accurate and specific"
+  "critique": "accurate and specific."
  },
  "s01e13": {
   "grade": "A",
@@ -61,11 +61,11 @@
  },
  "s01e15": {
   "grade": "B",
-  "critique": "\"former lover\" ambiguous/wordy; could specify Scully's ex-partner Willis and sharpen ending."
+  "critique": "accurate but slightly awkward phrasing, could be tighter/sharper"
  },
  "s01e16": {
   "grade": "B",
-  "critique": "\"forcing him to confront\" is vague; otherwise accurate premise summary."
+  "critique": "\"vengeful ex-convict\" ok but wording slightly awkward/redundant; otherwise accurate."
  },
  "s01e17": {
   "grade": "A",
@@ -80,12 +80,12 @@
   "critique": "accurate and specific"
  },
  "s01e20": {
-  "grade": "B",
-  "critique": "Awkward phrasing (\"an ravenous swarm\"); tighten grammar and ending."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s01e21": {
-  "grade": "B",
-  "critique": "\"before the law catches up\" is vague/confusing; also conflates hunting with hibernation onset."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s01e22": {
   "grade": "A",
@@ -112,8 +112,8 @@
   "critique": "accurate and specific"
  },
  "s02e04": {
-  "grade": "B",
-  "critique": "\"Guilt manifesting as delusions\" is vague; specify psychic-induced hallucinations causing deaths."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s02e05": {
   "grade": "A",
@@ -124,28 +124,28 @@
   "critique": "accurate and specific"
  },
  "s02e07": {
-  "grade": "B",
-  "critique": "\"Cult convinced they are vampires\" oversimplifies; killers are a trio claiming vampirism, not organized cult."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s02e08": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s02e09": {
-  "grade": "B",
-  "critique": "\"Ancient organism\" unsupported; ending overstates containment, which remains ambiguous."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s02e10": {
-  "grade": "A",
-  "critique": "accurate and specific."
+  "grade": "B",
+  "critique": "\"Vanish\" is misleading — teens are found disoriented, not missing."
  },
  "s02e11": {
   "grade": "B",
-  "critique": "\"orderly\" should be nurse's aide; ending \"something far stranger\" is vague, unspecific."
+  "critique": "\"masks\" implies deception, but assault was real, caused by spirits."
  },
  "s02e12": {
-  "grade": "B",
-  "critique": "\"detective's dormant killer instincts\" slightly overstates; sharpen ending, less vague on genetics link."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s02e13": {
   "grade": "A",
@@ -160,20 +160,20 @@
   "critique": "accurate and specific"
  },
  "s02e16": {
-  "grade": "B",
-  "critique": "\"Hidden colony\" oversells; episode centers on clone doctors and Samantha's return, not a shown colony."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s02e17": {
-  "grade": "C",
-  "critique": "Invents a nonexistent kidnapped sister/newborn; it's Scully herself who's held."
+  "grade": "B",
+  "critique": "reversed order—Scully's abduction happens first, prompting the hostage trade."
  },
  "s02e18": {
   "grade": "B",
-  "critique": "\"science's ambition crosses into cruelty\" is vague; sharpen ending specifics."
+  "critique": "\"violent\" is misleading; animals died from being teleported, not violence."
  },
  "s02e19": {
-  "grade": "B",
-  "critique": "\"accelerates time itself\" overstates cause; it's premature aging, not time itself."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s02e20": {
   "grade": "A",
@@ -184,12 +184,12 @@
   "critique": "accurate and specific"
  },
  "s02e22": {
-  "grade": "B",
-  "critique": "\"Quarantined\" undercuts plot—escaped convicts spread disease outside prison; slightly imprecise."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s02e23": {
-  "grade": "B",
-  "critique": "\"haunted\" misleadingly implies ghost; it's a dark-matter physics accident, not haunting."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s02e24": {
   "grade": "A",
@@ -201,19 +201,19 @@
  },
  "s03e01": {
   "grade": "B",
-  "critique": "\"everything her partner risked to expose\" is vague; sharpen the specific conspiracy detail."
+  "critique": "Awkward phrasing \"Skinner and her partner's proof\" muddles meaning; tighten wording."
  },
  "s03e02": {
-  "grade": "B",
-  "critique": "soft ending \"may expose\"—episode shows they find the records, not just possibility."
+  "grade": "A",
+  "critique": "accurate and specific."
  },
  "s03e03": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s03e04": {
-  "grade": "A",
-  "critique": "accurate and specific."
+  "grade": "B",
+  "critique": "\"foresee gruesome deaths\" oversimplifies his power to see anyone's exact death."
  },
  "s03e05": {
   "grade": "A",
@@ -225,7 +225,7 @@
  },
  "s03e07": {
   "grade": "B",
-  "critique": "Attacks target officers' families off-site, not the hospital itself."
+  "critique": "\"Clash\" overstates their dynamic; they collaborate more than conflict here."
  },
  "s03e08": {
   "grade": "A",
@@ -233,7 +233,7 @@
  },
  "s03e09": {
   "grade": "B",
-  "critique": "\"wartime scientists\" vague; sharper would specify Japanese WWII human experimentation ties."
+  "critique": "\"her own abduction\" overstates—episode suggests link, doesn't confirm outright."
  },
  "s03e10": {
   "grade": "A",
@@ -252,24 +252,24 @@
   "critique": "accurate and specific"
  },
  "s03e14": {
-  "grade": "B",
-  "critique": "\"doubt grows over who is truly possessed by evil\" is vague; sharpen ending."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s03e15": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s03e16": {
-  "grade": "C",
-  "critique": "No “UN bunker”; it’s a missile silo where Krycek is trapped with the oil."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s03e17": {
-  "grade": "B",
-  "critique": "\"dying man\" reveals late plot twist; better to omit that detail."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s03e18": {
-  "grade": "B",
-  "critique": "\"unleashes an ancient curse\" overstates certainty; episode keeps cause ambiguous (spirit/animals)."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s03e19": {
   "grade": "A",
@@ -292,12 +292,12 @@
   "critique": "accurate and specific"
  },
  "s03e24": {
-  "grade": "B",
-  "critique": "\"his mother's guarded past\" ambiguous — unclear whose mother, Mulder's or shapeshifter's."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s04e01": {
-  "grade": "B",
-  "critique": "\"Races to save\" overstates his role; Scully mostly sidelined, comatose throughout episode."
+  "grade": "C",
+  "critique": "Scully isn't comatose; it's Mulder's mother who's in a coma."
  },
  "s04e02": {
   "grade": "A",
@@ -305,7 +305,7 @@
  },
  "s04e03": {
   "grade": "A",
-  "critique": "accurate and specific"
+  "critique": "accurate and specific."
  },
  "s04e04": {
   "grade": "A",
@@ -316,20 +316,20 @@
   "critique": "accurate and specific"
  },
  "s04e06": {
-  "grade": "B",
-  "critique": "\"ritualistic conspiracy\" overstates; it's individual practitioners of witchcraft, not a coordinated conspiracy."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s04e07": {
-  "grade": "B",
-  "critique": "\"his own eyes\" misleading—story is speculative/imagined, not his actual account."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s04e08": {
   "grade": "B",
-  "critique": "\"racing toward biological catastrophe\" is vague/generic ending; otherwise accurate."
+  "critique": "Senate inquiry concerns alien testing/Krycek's samples, not simply \"over Krycek.\""
  },
  "s04e09": {
-  "grade": "A",
-  "critique": "accurate and specific"
+  "grade": "B",
+  "critique": "soft ending \"global conspiracy hiding\" is vague, could be sharper/specific."
  },
  "s04e10": {
   "grade": "A",
@@ -344,16 +344,16 @@
   "critique": "accurate and specific"
  },
  "s04e13": {
-  "grade": "B",
-  "critique": "\"talks murder\" is vague/odd phrasing; sharpen the tattoo's murderous influence detail."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s04e14": {
-  "grade": "B",
-  "critique": "\"clone facilities\" oversimplifies; \"uncover the truth\" is generic ending."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s04e15": {
-  "grade": "B",
-  "critique": "Redundant \"grief-fueled...grief\" wording is awkward and slightly clunky."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s04e16": {
   "grade": "A",
@@ -361,7 +361,7 @@
  },
  "s04e17": {
   "grade": "B",
-  "critique": "\"vanishes\" overstates; it's missing radar time before crash, not disappearance."
+  "critique": "\"reigniting his hunt\" is vague; specify UFO/missing-time cover-up angle."
  },
  "s04e18": {
   "grade": "A",
@@ -376,28 +376,28 @@
   "critique": "accurate and specific"
  },
  "s04e21": {
-  "grade": "C",
-  "critique": "Victim was a mail carrier, not a child; misidentifies key plot detail."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s04e22": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s04e23": {
-  "grade": "B",
-  "critique": "\"forced toward buried truths\" is a slightly soft/generic ending phrase."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s04e24": {
   "grade": "B",
-  "critique": "\"devastating personal loss\" vague—specify Mulder's apparent suicide/Scully's testimony framing."
+  "critique": "\"Apparent suicide\" spoils/misstates the cliffhanger ambiguity; slightly overwrought phrasing."
  },
  "s05e01": {
-  "grade": "B",
-  "critique": "\"Devastating diagnosis\" is vague; specify Scully's cancer for sharper accuracy."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s05e02": {
-  "grade": "B",
-  "critique": "Vague; doesn't specify Mulder returning, Cancer Man, or his mother's shooting."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s05e03": {
   "grade": "A",
@@ -405,7 +405,7 @@
  },
  "s05e04": {
   "grade": "B",
-  "critique": "\"Corporate retreat\" is inaccurate — it's an FBI management retreat/conference."
+  "critique": "implies they attended retreat; they actually skipped it to search for missing surveyor team."
  },
  "s05e05": {
   "grade": "A",
@@ -420,20 +420,20 @@
   "critique": "accurate and specific"
  },
  "s05e08": {
-  "grade": "A",
-  "critique": "accurate and specific."
+  "grade": "B",
+  "critique": "\"power of suggestion\" vague, doesn't mention Modell or the second Pusher twist."
  },
  "s05e09": {
   "grade": "B",
-  "critique": "\"rooted in orchard soil\" is vague; specify the tree/roots-burial monster angle."
+  "critique": "\"small town\" and \"children\" generic; specifics like tree/burial accurate but phrasing soft."
  },
  "s05e10": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s05e11": {
-  "grade": "B",
-  "critique": "redundant phrasing \"wielding a deadly, self-preserving digital consciousness\" restates same idea awkwardly."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s05e12": {
   "grade": "A",
@@ -441,11 +441,11 @@
  },
  "s05e13": {
   "grade": "B",
-  "critique": "Overstates syndicate control angle; slightly vague on specific premise and Cassandra's role."
+  "critique": "\"Rival factions\" and \"multiple survivors\" vague; could specify Cassandra's role and Marita's return."
  },
  "s05e14": {
-  "grade": "B",
-  "critique": "\"Samantha's fate\" overstates; episode raises questions, doesn't reveal her fate."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s05e15": {
   "grade": "A",
@@ -457,31 +457,31 @@
  },
  "s05e17": {
   "grade": "B",
-  "critique": "\"Troubled teenage girl\" oversimplifies—story centers on four mysterious identical sisters, not one girl."
+  "critique": "\"Identical\" and \"disfiguring\" oversimplify quadruplets' distinct disabilities and death causes."
  },
  "s05e18": {
-  "grade": "B",
-  "critique": "\"everything she trusts\" is generic; otherwise accurate premise summary."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s05e19": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s05e20": {
-  "grade": "B",
-  "critique": "\"long-buried secrets ignite\" is vague, could specify office fire/X-Files closure."
+  "grade": "A",
+  "critique": "accurate and specific."
  },
  "s06e01": {
-  "grade": "B",
-  "critique": "vague; doesn't specify West Virginia facility, Gibson Praise, or Diana Fowley's role."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s06e02": {
-  "grade": "B",
-  "critique": "\"Dragging...Scully\" overstates her role; she investigates separately, not held hostage."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s06e03": {
-  "grade": "C",
-  "critique": "\"Washes ashore\" is inaccurate; he boards a stranded ship, not land."
+  "grade": "B",
+  "critique": "\"past repeats itself\" is vague; specify the ship reliving 1939 or timeline mix."
  },
  "s06e04": {
   "grade": "A",
@@ -496,8 +496,8 @@
   "critique": "accurate and specific"
  },
  "s06e07": {
-  "grade": "C",
-  "critique": "Inverted premise—he's a demon craving a normal human child, not demon child."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s06e08": {
   "grade": "A",
@@ -512,16 +512,16 @@
   "critique": "accurate and specific"
  },
  "s06e11": {
-  "grade": "B",
-  "critique": "Vague \"reckoning\" ending; sharper specifics on Syndicate meeting/Cassandra needed."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s06e12": {
-  "grade": "B",
-  "critique": "\"Family loyalty\" is vague; specify Spender family/Syndicate's self-destruction choice."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s06e13": {
-  "grade": "C",
-  "critique": "Incorrectly implies trapped family belongs to Arthur Dales; they're unrelated tenants."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s06e14": {
   "grade": "A",
@@ -532,8 +532,8 @@
   "critique": "accurate and specific"
  },
  "s06e16": {
-  "grade": "B",
-  "critique": "\"hybrid dog\" is vague/wrong—it's a rare shapeshifting canine, not a hybrid."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s06e17": {
   "grade": "A",
@@ -549,35 +549,35 @@
  },
  "s06e20": {
   "grade": "B",
-  "critique": "Ending \"old secrets and new dangers collide\" is vague; sharpen the conspiracy's specifics."
+  "critique": "\"chase\" is off; they're contacted by Modeski, not pursuing her."
  },
  "s06e21": {
-  "grade": "B",
-  "critique": "vague; omit the crucial hallucinogenic spore/fungus premise driving the illusion."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s06e22": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s07e01": {
-  "grade": "B",
-  "critique": "\"Consumes him entirely\" is vague; ending oversells uncertain magical effect vs. ambiguity."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s07e02": {
   "grade": "B",
-  "critique": "\"Ultimate temptation\" is vague; specify the alien father/Samantha delusion angle."
+  "critique": "\"shadowy cabal\" is vague; otherwise accurate summary of Mulder's hospitalization arc."
  },
  "s07e03": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s07e04": {
-  "grade": "B",
-  "critique": "\"before the millennium turns\" is redundant/soft given New Year's Eve already stated."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s07e05": {
-  "grade": "C",
-  "critique": "\"dark rites of passage\" is invented; episode is about reckless crime spree, not rituals."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s07e06": {
   "grade": "A",
@@ -592,44 +592,44 @@
   "critique": "accurate and specific"
  },
  "s07e09": {
-  "grade": "C",
-  "critique": "Misidentifies victim; it's a congregant who dies, not the preacher himself."
+  "grade": "B",
+  "critique": "\"forcing Mulder and Scully to question\" is vague/soft phrasing; could be sharper."
  },
  "s07e10": {
-  "grade": "B",
-  "critique": "Slightly vague; doesn't mention Mulder's mother's suicide or Samantha revelation ending."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s07e11": {
   "grade": "B",
-  "critique": "\"haunting visions\" vague; ending soft, \"choose faith over investigation\" oversimplifies resolution."
+  "critique": "Slightly vague; \"confronting long-buried grief\" is soft, could be sharper."
  },
  "s07e12": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s07e13": {
-  "grade": "B",
-  "critique": "\"programmers\" slightly imprecise—victims include testers/players, not just programmers."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s07e14": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s07e15": {
+  "grade": "B",
+  "critique": "\"Unaware of the price\" is vague; specify CSM's cure claim for a sick child."
+ },
+ "s07e16": {
+  "grade": "B",
+  "critique": "Ending \"exposing hidden rot\" is vague; specify the town's repressed-rage/alter-ego twist."
+ },
+ "s07e17": {
   "grade": "A",
   "critique": "accurate and specific"
  },
- "s07e16": {
-  "grade": "C",
-  "critique": "Creature attacks the mistresses/other women, not the unfaithful husbands themselves."
- },
- "s07e17": {
-  "grade": "B",
-  "critique": "vague ending \"reconsider what she believes she knows\" lacks specificity."
- },
  "s07e18": {
   "grade": "B",
-  "critique": "\"far deadlier than cigarettes themselves\" is vague/cliché ending; tighten."
+  "critique": "Vague/generic conspiracy framing; \"gravely ill\" and \"shadowy\" details need sharper specifics."
  },
  "s07e19": {
   "grade": "A",
@@ -640,20 +640,20 @@
   "critique": "accurate and specific"
  },
  "s07e21": {
-  "grade": "C",
-  "critique": "Invents \"destroy the world\" stakes; not the episode's actual low-key comedic focus."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s07e22": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s08e01": {
-  "grade": "B",
-  "critique": "\"mind and body under control\" overstates it; he's being probed/interrogated, not controlled."
- },
- "s08e02": {
   "grade": "A",
   "critique": "accurate and specific"
+ },
+ "s08e02": {
+  "grade": "B",
+  "critique": "\"abduction\" implies alien abduction; clarify Mulder's own disappearance/kidnapping to avoid confusion."
  },
  "s08e03": {
   "grade": "A",
@@ -672,32 +672,32 @@
   "critique": "accurate and specific"
  },
  "s08e07": {
-  "grade": "A",
-  "critique": "accurate and specific"
+  "grade": "B",
+  "critique": "wordy/redundant phrasing; \"dream-invading violence\" is awkward, could be tightened."
  },
  "s08e08": {
   "grade": "A",
-  "critique": "accurate and specific."
+  "critique": "accurate and specific"
  },
  "s08e09": {
-  "grade": "B",
-  "critique": "Fusion happened via secret treatment over time, not immediately from a \"fatal accident.\""
- },
- "s08e10": {
-  "grade": "B",
-  "critique": "\"vengeance older than borders\" is vague; could specify revenge on corrupt Americans/customs agents."
- },
- "s08e11": {
   "grade": "A",
   "critique": "accurate and specific"
  },
+ "s08e10": {
+  "grade": "B",
+  "critique": "\"gruesome campaign\" is vague; specify revenge targets Americans linked to Indian factory death."
+ },
+ "s08e11": {
+  "grade": "A",
+  "critique": "accurate and specific."
+ },
  "s08e12": {
   "grade": "B",
-  "critique": "\"trapped beneath\" and \"ancient organism\" slightly overstated/generic phrasing; otherwise accurate premise."
+  "critique": "\"outbreak\" is vague; could specify parasitic/fungal organism and quarantine stakes more precisely."
  },
  "s08e13": {
-  "grade": "B",
-  "critique": "\"forcing... question who fathered\" overstates certainty; ending slightly speculative, tighten phrasing."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s08e14": {
   "grade": "A",
@@ -705,59 +705,59 @@
  },
  "s08e15": {
   "grade": "B",
-  "critique": "Slightly vague ending; could specify Krycek's role or Jeremiah Smith's involvement in revival."
+  "critique": "\"shadowy alien forces\" vague; ending \"mysterious revival\" is soft, could specify Krycek's role."
  },
  "s08e16": {
   "grade": "B",
-  "critique": "\"Cult leader\" is a stretch—Absalom led a survivalist group, not a cult."
+  "critique": "\"conspiracy claims\" vague—specify Absalom's colonist/census warning to sharpen."
  },
  "s08e17": {
-  "grade": "B",
-  "critique": "Doyle is the drifter/entity; \"mysterious drifter\" is vague, could be sharper."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s08e18": {
-  "grade": "B",
-  "critique": "\"trust Doggett with the truth\" is vague/generic; specify he needs Doggett's help against alien infection."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s08e19": {
-  "grade": "B",
-  "critique": "verbose; \"serpent-eyed killer\" imprecise—monster is invisible with tongue/chameleon ability, not serpent-eyed."
+  "grade": "C",
+  "critique": "\"Cold case reopened\" invents detail; misses Doggett being partnerless without Mulder/Scully."
  },
  "s08e20": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s08e21": {
-  "grade": "B",
-  "critique": "\"safe house\" imprecise—it's a secluded facility/motel; slightly generic ending."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s09e01": {
-  "grade": "B",
-  "critique": "\"shadowy government forces\" is vague/generic; otherwise accurate."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s09e02": {
-  "grade": "B",
-  "critique": "\"new allies question their true loyalties\" is vague/generic, could be sharper."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s09e03": {
-  "grade": "B",
-  "critique": "Scully doesn't teach at Quantico here; that detail is unsupported."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s09e04": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s09e05": {
-  "grade": "B",
-  "critique": "\"bloody, inexplicable death\" is vague; could name the stunt/jump-off death specifically."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s09e06": {
   "grade": "A",
-  "critique": "accurate and specific."
+  "critique": "accurate and specific"
  },
  "s09e07": {
-  "grade": "B",
-  "critique": "entity already stole his memories; \"claims him next\" misstates the threat's timing."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s09e08": {
   "grade": "A",
@@ -765,35 +765,35 @@
  },
  "s09e09": {
   "grade": "B",
-  "critique": "\"shadowy new powers\" is vague; could name the cult/Kryder threat specifically."
+  "critique": "\"Kryder's obsession\" is vague/unclear reference; tighten ending for clarity."
  },
  "s09e10": {
   "grade": "B",
-  "critique": "\"fanatical zealot\" vague; specify the abductor/cult if known for sharper detail."
+  "critique": "\"race\" undersells investigation; slightly overstates \"converging\" but mostly accurate."
  },
  "s09e11": {
   "grade": "B",
-  "critique": "\"car accident\" unconfirmed detail; otherwise accurate premise summary."
+  "critique": "\"mysterious hospital worker\" undersells Pauley's specific role/name; slightly vague."
  },
  "s09e12": {
-  "grade": "B",
-  "critique": "\"written in his blood\" is vague/dramatic filler; sharpen the specific twist."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s09e13": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s09e14": {
-  "grade": "C",
-  "critique": "Reverses premise—skeptics who disbelieve die, not those who believe."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s09e15": {
-  "grade": "C",
-  "critique": "Misattributes ending — it's the Lone Gunmen's story that ends, not Doggett/Reyes's."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s09e16": {
   "grade": "B",
-  "critique": "\"claiming to be Mulder\" is misleading—he claims to be Jeffrey Spender, not Mulder."
+  "critique": "\"Disfigured stranger\" spoils reveal-adjacent detail; ending is slightly vague, could be sharper."
  },
  "s09e17": {
   "grade": "A",
@@ -813,19 +813,19 @@
  },
  "s10e01": {
   "grade": "B",
-  "critique": "\"shadowy figure from Mulder's past\" vague—should specify Cigarette Smoking Man's return."
+  "critique": "\"Resurfacing\" implies prior absence viewers know; slightly vague on specific abduction/colonization conspiracy revealed."
  },
  "s10e02": {
-  "grade": "A",
-  "critique": "accurate and specific"
+  "grade": "B",
+  "critique": "Slightly overloaded phrasing; \"kill to protect\" is vague/generic ending."
  },
  "s10e03": {
-  "grade": "C",
-  "critique": "Reverses actual twist — Guy was a monster who became human, not bitten."
- },
- "s10e04": {
   "grade": "A",
   "critique": "accurate and specific"
+ },
+ "s10e04": {
+  "grade": "B",
+  "critique": "\"art, rage, and monstrosity\" phrasing is vague/generic, could be tighter."
  },
  "s10e05": {
   "grade": "A",
@@ -837,15 +837,15 @@
  },
  "s11e01": {
   "grade": "B",
-  "critique": "vague on plot specifics; \"shadowy figure from Scully's past\" undersells; Cigarette Smoking Man conspiracy unclear."
+  "critique": "overly specific about parentage reveal; still mostly matches episode's plot."
  },
  "s11e02": {
-  "grade": "B",
-  "critique": "\"dangerously\" is vague filler; otherwise accurate premise summary."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s11e03": {
-  "grade": "B",
-  "critique": "\"which twin is truly killing whom\" is vague/awkward ending, could be sharper."
+  "grade": "A",
+  "critique": "accurate and specific"
  },
  "s11e04": {
   "grade": "A",
@@ -856,19 +856,19 @@
   "critique": "accurate and specific"
  },
  "s11e06": {
-  "grade": "A",
-  "critique": "accurate and specific"
+  "grade": "B",
+  "critique": "\"haunted hometown secret\" vague; tighten wording, otherwise accurate premise."
  },
  "s11e08": {
   "grade": "B",
-  "critique": "\"confront\" is vague; could better specify the witch-hunt/mob vigilante climax angle."
+  "critique": "\"Race to stop\" is vague; specifics on the entity/mob threat could be sharper."
  },
  "s11e09": {
   "grade": "A",
   "critique": "accurate and specific"
  },
  "s11e10": {
-  "grade": "B",
-  "critique": "Vague, generic phrasing; could describe many mythology episodes, lacks specificity."
+  "grade": "A",
+  "critique": "accurate and specific"
  }
 }
