@@ -2,8 +2,11 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
+
+from spooky.taglines import DEFAULT_TAGLINE
 
 _CATEGORY_LABELS = {
     "mythology": "Mythology",
@@ -33,9 +36,28 @@ def load_episodes(path: Path | str) -> pd.DataFrame:
     df["label_contested"] = df["label_contested"].astype("bool")
     df["category"] = df["label_derived"].map(_CATEGORY_LABELS)
     df["season_episode"] = df.apply(_format_season_episode, axis=1)
+    # Flatten the nested tagline object into columns the table and filter can
+    # use. Records without one (the hand-built sample fixtures) get the series
+    # default — a missing tagline is not a variant (PRD §7).
+    if "tagline" in df.columns:
+        df["tagline_text"] = df["tagline"].map(_tagline_text)
+        df["tagline_is_variant"] = df["tagline"].map(_tagline_is_variant)
+    else:
+        df["tagline_text"] = DEFAULT_TAGLINE
+        df["tagline_is_variant"] = False
     return df.sort_values(["season", "episode", "title"], kind="stable").reset_index(
         drop=True
     )
+
+
+def _tagline_text(tagline: Any) -> str:
+    if isinstance(tagline, dict) and tagline.get("text"):
+        return str(tagline["text"])
+    return DEFAULT_TAGLINE
+
+
+def _tagline_is_variant(tagline: Any) -> bool:
+    return bool(tagline.get("is_variant")) if isinstance(tagline, dict) else False
 
 
 def _format_season_episode(record: pd.Series) -> str:

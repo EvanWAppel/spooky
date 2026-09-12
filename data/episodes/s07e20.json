@@ -43,6 +43,16 @@
   "Nicole Bush",
   "John Mack"
  ],
+ "tagline": {
+  "text": "The Truth Is Out There",
+  "is_variant": false,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "Mulder and Scully chase a trail of destructive coincidences linked to two identical strangers whose chance encounters spark chaos, violence, and uncanny mayhem wherever they collide.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -127,6 +137,10 @@
   "wikidata_qid": {
    "source": "Wikidata",
    "license": "CC0"
+  },
+  "tagline.text": {
+   "source": "series default (no per-episode change documented on Wikipedia)",
+   "license": "CC BY-SA 4.0"
   }
  }
 }

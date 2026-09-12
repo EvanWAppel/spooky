@@ -11,6 +11,7 @@ from components.about import build_about
 from components.chart import build_season_chart, build_season_summary_table
 from components.panel import build_detail_panel
 from components.table import build_episode_table
+from components.taglines_view import build_taglines_view
 from spooky.loader import load_episodes
 from spooky.logging_config import setup_logging
 
@@ -118,6 +119,9 @@ def _filter_episodes(pathname: str | None, search: str | None) -> pd.DataFrame:
     if params.get("contested", [None])[0] == "1":
         df = df[df["label_contested"]]
 
+    if params.get("tagline", [None])[0] == "variant":
+        df = df[df["tagline_is_variant"]]
+
     return df
 
 
@@ -164,6 +168,8 @@ def _filter_chip(pathname: str | None, search: str | None) -> html.Div | str:
         parts.append(f"matching “{params['text'][0]}”")
     if params.get("contested", [None])[0] == "1":
         parts.append("contested only")
+    if params.get("tagline", [None])[0] == "variant":
+        parts.append("variant taglines only")
     if not parts:
         return ""
     clear_href = f"/season/{_current_season(pathname)}"
@@ -259,6 +265,7 @@ app.layout = html.Div(
                 html.Nav(
                     [
                         dcc.Link("Explore", href="/", className="nav-link"),
+                        dcc.Link("Taglines", href="/taglines", className="nav-link"),
                         dcc.Link("About", href="/about", className="nav-link"),
                     ],
                     className="site-nav",
@@ -283,6 +290,17 @@ app.layout = html.Div(
                                     ),
                                     role="img",
                                     **_CHART_ARIA,
+                                ),
+                                html.P(
+                                    [
+                                        "Blocks that ",
+                                        html.Span("glow", className="chart-note-glow"),
+                                        " mark episodes whose opening-title tagline "
+                                        "was changed from the usual — ",
+                                        dcc.Link("see them all", href="/taglines"),
+                                        ".",
+                                    ],
+                                    className="chart-note",
                                 ),
                                 build_season_summary_table(EPISODES),
                             ],
@@ -331,6 +349,17 @@ app.layout = html.Div(
                                             value=[],
                                             className="contested-toggle",
                                         ),
+                                        dcc.Checklist(
+                                            id="tagline-toggle",
+                                            options=[
+                                                {
+                                                    "label": " Variant taglines only",
+                                                    "value": "tagline",
+                                                }
+                                            ],
+                                            value=[],
+                                            className="tagline-toggle",
+                                        ),
                                         html.Div(id="filter-chip"),
                                     ],
                                     className="controls-row",
@@ -350,6 +379,7 @@ app.layout = html.Div(
                     ],
                     id="explore-view",
                 ),
+                build_taglines_view(EPISODES),
                 build_about(),
             ]
         ),
@@ -368,14 +398,18 @@ app.layout = html.Div(
     Output("season-next", "disabled"),
     Output("explore-view", "style"),
     Output("about-section", "style"),
+    Output("taglines-section", "style"),
     Input("url", "pathname"),
     Input("url", "search"),
 )
 def sync_view(pathname: str | None, search: str | None):
-    on_about = (pathname or "/").rstrip("/") == "/about"
+    route = (pathname or "/").rstrip("/")
+    on_about = route == "/about"
+    on_taglines = route == "/taglines"
     season = _current_season(pathname)
     filtered = _filter_episodes(pathname, search)
     data = _table_data(filtered)
+    hidden = {"display": "none"}
     return (
         data,
         _filter_chip(pathname, search),
@@ -383,8 +417,9 @@ def sync_view(pathname: str | None, search: str | None):
         _season_label(season),
         season == SEASONS[0],
         season == SEASONS[-1],
-        {"display": "none"} if on_about else {},
-        {} if on_about else {"display": "none"},
+        hidden if (on_about or on_taglines) else {},
+        {} if on_about else hidden,
+        {} if on_taglines else hidden,
     )
 
 
@@ -394,6 +429,7 @@ def sync_view(pathname: str | None, search: str | None):
     Input("season-chart", "clickData"),
     Input("episode-table", "active_cell"),
     Input("contested-toggle", "value"),
+    Input("tagline-toggle", "value"),
     Input("season-prev", "n_clicks"),
     Input("season-next", "n_clicks"),
     Input("search-input", "value"),
@@ -406,6 +442,7 @@ def write_url(
     click_data,
     active_cell,
     toggle_value,
+    tagline_value,
     prev_clicks,
     next_clicks,
     search_value,
@@ -424,6 +461,8 @@ def write_url(
             params = {"selected": [custom["id"]]}
             if toggle_value:
                 params["contested"] = ["1"]
+            if tagline_value:
+                params["tagline"] = ["variant"]
             return (
                 f"/season/{int(custom['season'])}",
                 f"?{urlencode(params, doseq=True)}",
@@ -448,6 +487,13 @@ def write_url(
             params["contested"] = ["1"]
         else:
             params.pop("contested", None)
+        return pathname or "/", f"?{urlencode(params, doseq=True)}"
+
+    if trigger == "tagline-toggle":
+        if tagline_value:
+            params["tagline"] = ["variant"]
+        else:
+            params.pop("tagline", None)
         return pathname or "/", f"?{urlencode(params, doseq=True)}"
 
     if trigger == "search-input":

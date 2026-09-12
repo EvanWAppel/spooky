@@ -323,6 +323,60 @@ D ─────► E ─────► G ────────────
 
 ---
 
+## Group T — Opening-Title Taglines (v2, requested by Evan 2026-09-11)
+> Depends on: E-07 (merged records) and D-14 (`data/raw/article_sections.json`).
+> UI tasks (T-08…T-10) additionally depend on Group UI. New feature spec in
+> PRD §7 (v2); source-discipline, step, and legal notes in PRD §7, §8.1, §11.1.
+>
+> **Status (built 2026-09-12):** data backbone + UI + dataset shipped and
+> verified (`uv run pytest` green, ruff + ty clean, app serves `/taglines`).
+> Two design refinements from the written plan, both documented in code:
+> 1. **Curated override, not a live prose scrape.** The variant set lives in
+>    `data/overrides/taglines.json` (15 episodes), seeded by `tools/seed_taglines.py`
+>    from the article prose and each citing a Wikipedia revid — the prose phrasing
+>    is too false-positive-prone to trust blind (Fox *ad* taglines, the *film*
+>    tagline, the "I Made This" tag all say "tagline"). `build/taglines.py::find_drift`
+>    re-checks the prose every build and fails loudly if the override goes stale —
+>    the "re-derive, don't trust" guarantee without the brittleness.
+> 2. **In-place attach step after merge, not merged-in.** Folding taglines into
+>    the merge wiped the AI-drafted loglines (a *later* pipeline step repopulates
+>    them). `build/taglines.py::attach_taglines` runs after merge, owns only the
+>    `tagline` object + `provenance["tagline.text"]`, and preserves every other
+>    field — so taglines refresh without an (API-billed) logline regen.
+>
+> **T-06/T-07/T-13 (gloss drafting, review CLI, owner review) are deferred** — they
+> share the logline review pipeline Evan is handling later. The tagline *text* (the
+> community-meaningful part) ships now; the gloss fields are null until then.
+
+- [x] **T-01** Extend the episode schema with the nested `tagline` object (PRD §7 data model) and teach `spooky/loader.py` to read it (flattened to `tagline_text` / `tagline_is_variant` columns), defaulting the object for records that lack it. Add a schema test. *(Shared domain helpers in `spooky/taglines.py`.)*
+  - Verify: `uv run pytest tests/test_loader.py -q -k tagline` → green; every loaded record exposes `tagline_text` and a boolean `tagline_is_variant`
+- [x] **T-02** Write `tests/test_taglines.py` — the extractor pulls the variant line from a Wikipedia *Production* fixture that documents a change, returns the default when none is documented, derives `is_variant` via a normalized comparison, and covers build/attach/drift.
+  - Verify: `uv run pytest tests/test_taglines.py -q` → green (24 tests)
+- [x] **T-03** Record offline fixtures (`tests/fixtures/tagline_prose.json`) from the already-fetched article text (D-13/D-14 output — **no new network**) for a spread of documented variants — *The Erlenmeyer Flask*, *Anasazi*, *731*, *Herrenvolk*, *Teliko*, *Terma* — plus one default-tagline control (*2Shy*).
+  - Verify: fixture exists; 5 auto-extract, *Teliko* returns `None` (non-adjacent → MANUAL), the default returns `None`
+- [x] **T-04** Implement `build/taglines.py` (scanner `extract_variant`, `build_tagline`, `tagline_provenance`, `find_drift`) + `tools/seed_taglines.py` producing the curated `data/overrides/taglines.json`. `is_variant` is **derived**, never taken from the override; the variant set is **never a hard-coded count** — it is the override length, drift-guarded against the prose.
+  - Verify: `uv run pytest tests/test_taglines.py -q` → green; `uv run python -m build --only taglines` prints the re-derived variant count (15) and "no drift"
+- [x] **T-05** `attach_taglines` runs as a `taglines` step in `build/__main__.py` **after** merge (needs the merged title→id map), adds only the `tagline` object + `provenance["tagline.text"]` in place, and preserves loglines and any human-reviewed gloss (sacred-edits guard).
+  - Verify: all 220 records carry a `tagline`; `uv run pytest tests/test_review_guard.py tests/test_taglines.py -q` → green; the attach diff is purely additive (0 logline deletions)
+- [ ] **T-06** Draft `tagline.note_generated` for **variant episodes only**, via the Anthropic step, grounded in the fetched Wikipedia *Production* section, factual, capped, inline-cited; sets `tagline.review_status: "ai-drafted"`; **never writes `tagline.note` directly**; defaults stay `"not-applicable"`.
+  - Verify: `uv run pytest tests/test_taglines.py -q -k gloss` → green; only variant records receive a draft
+- [ ] **T-07** Extend `tools/review.py` to also walk variant tagline notes needing review (approve / edit / reject-with-note), same lifecycle as loglines; `--status` reports tagline-note progress alongside loglines.
+  - Verify: `uv run pytest tests/test_review_cli.py -q -k tagline` → green; `uv run python tools/review.py --status` prints tagline-note counts
+- [x] **T-08** Detail panel: variant records show an "Opening tagline" block with the line plus the default for contrast (and the note when present); default records omit it. **Plain site text only — no title-card styling, glow, or image (C2).**
+  - Verify: `uv run pytest tests/test_panel.py -q -k tagline` → green; grep confirms 0 glow/`text-shadow` on any tagline element and 0 image refs in the tagline components
+- [x] **T-09** "Variant taglines only" filter, URL-encoded (`?tagline=variant`), mirroring the contested toggle.
+  - Verify: `uv run pytest tests/test_app_routing.py -q -k tagline` → green; `?tagline=variant` returns exactly the page's `tagline_is_variant == True` rows
+- [x] **T-10** Dedicated **Taglines** view (`components/taglines_view.py`, `/taglines`) — a chronological catalogue of every variant episode (season/ep · title · tagline as plain text), each row linking to its episode. The community-facing centrepiece.
+  - Verify: served under `/taglines` (HTTP 200); lists exactly the 15 variants; each links to `?selected=<id>`
+- [x] **T-11** Extended `tests/test_legal.py` — taglines are plain text only (no markup / URL / image reference), `tagline.text` provenance is Wikipedia (variants, with revid) or the named series default, and the gloss (when present) respects a word cap. *(Verbatim-run check deferred to the gloss step T-06.)*
+  - Verify: `uv run pytest tests/test_legal.py -q -k tagline` → green
+- [x] **T-12** `tagline` documented in the `data/README.md` field dictionary; CSV + SQLite flatten it to `tagline_text` / `tagline_is_variant`.
+  - Verify: `uv run pytest tests/test_data_docs.py -q` → green; CSV/SQLite carry the tagline columns (15 variants in SQLite)
+- [ ] **T-13** 📋 **OWNER TASK** — review every variant tagline gloss through the CLI; adjudicate contested translations (e.g. the *Anasazi* Navajo line) as disclosure, not resolution.
+  - Verify: `uv run python tools/review.py --status` → all variant tagline notes `human-reviewed`
+
+---
+
 ## Deferred — do not build in v1
 
 Specified in PRD §7. Listed here so no agent starts them by accident.
@@ -332,6 +386,7 @@ Specified in PRD §7. Listed here so no agent starts them by accident.
 - [ ] **V2-03** Layered search — curated tags → FTS5 → semantic embeddings
 - [ ] **V2-04** Trivia writeups — **Wikipedia only**, never Fandom or IMDb
 - [ ] **V2-05** 100% stacked chart toggle
+- [ ] **V2-06** Opening-title taglines — the intro-tagline variations. Full plan in **Group T** above and PRD §7.
 - [ ] **V3-01** People profiles — 343 recurring actors
 - [ ] **V3-02** Episode interconnection graph from ~1,217 Wikipedia wikilinks
 - [ ] **V3-03** Connections to outside works

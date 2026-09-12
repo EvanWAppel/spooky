@@ -26,6 +26,16 @@
   "Chris Carter"
  ],
  "guest_cast": [],
+ "tagline": {
+  "text": "The Truth Is Out There",
+  "is_variant": false,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "Mulder and Scully uncover a global conspiracy linking a bombed building, an alien virus, and shadowy government collaborators, forcing them to risk everything to expose the truth.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -36,6 +46,10 @@
    "source": "hand-entered by the owner",
    "license": "CC BY-SA 4.0",
    "note": "hand-entered from Wikipedia/Wikidata, see films.json"
+  },
+  "tagline.text": {
+   "source": "series default (no per-episode change documented on Wikipedia)",
+   "license": "CC BY-SA 4.0"
   }
  }
 }

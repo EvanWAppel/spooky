@@ -40,6 +40,16 @@
   "Morris Panych",
   "Garvin Cross"
  ],
+ "tagline": {
+  "text": "Everything Dies",
+  "is_variant": true,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "Mulder pursues identical clones across the country while Scully lies comatose, uncovering a vast alien conspiracy that endangers a trusted ally.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -124,6 +134,11 @@
   "wikidata_qid": {
    "source": "Wikidata",
    "license": "CC0"
+  },
+  "tagline.text": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1363322599
   }
  }
 }

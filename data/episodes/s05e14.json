@@ -47,6 +47,16 @@
   "Derek Thomas Versteeg",
   "Jenn Forgie"
  ],
+ "tagline": {
+  "text": "Resist or Serve",
+  "is_variant": true,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "Mulder and Scully chase fractured alien conspiracy threads through shifting alliances, as Krycek, the Syndicate, and questions about Samantha collide before the coming invasion.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -131,6 +141,11 @@
   "wikidata_qid": {
    "source": "Wikidata",
    "license": "CC0"
+  },
+  "tagline.text": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1359823304
   }
  }
 }

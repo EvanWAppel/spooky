@@ -48,6 +48,16 @@
   "Zoe Anderson",
   "Ryan de Boer"
  ],
+ "tagline": {
+  "text": "The Truth Is Out There",
+  "is_variant": false,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "On Christmas Eve, a mysterious call leads Scully to a dead woman and her orphaned child, unraveling buried family secrets she never suspected.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -132,6 +142,10 @@
   "wikidata_qid": {
    "source": "Wikidata",
    "license": "CC0"
+  },
+  "tagline.text": {
+   "source": "series default (no per-episode change documented on Wikipedia)",
+   "license": "CC BY-SA 4.0"
   }
  }
 }

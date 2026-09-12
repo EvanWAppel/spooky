@@ -16,6 +16,16 @@ _CATEGORIES = [
 _COLOR = {key: color for key, _n, color in _CATEGORIES}
 _NAME = {key: name for key, name, _c in _CATEGORIES}
 
+# A warm, near-white outline that reads as a glow on all three block colors —
+# it marks episodes whose opening-title tagline was changed from the usual
+# "The Truth Is Out There" (PRD §7). Lighter than every fill so it lifts off
+# the block rather than blending. This is an original data-viz affordance, not
+# the show's title-card styling (constraint C2 is about the tagline *text*).
+_GLOW_COLOR = "#FFE9A8"
+_GLOW_WIDTH = 2.4
+_SEPARATOR_COLOR = "#111417"
+_SEPARATOR_WIDTH = 0.5
+
 
 def _episodes_in_air_order(df: pd.DataFrame) -> pd.DataFrame:
     episodes = df[df["season"].notna()].copy()
@@ -44,21 +54,37 @@ def build_season_chart(df: pd.DataFrame) -> go.Figure:
     labels = list(episodes["label_derived"])
     titles = list(episodes["title"])
     ids = list(episodes["id"])
+    variants = (
+        [bool(v) for v in episodes["tagline_is_variant"]]
+        if "tagline_is_variant" in episodes
+        else [False] * len(episodes)
+    )
 
     fig.add_bar(
         x=seasons,
         y=[1] * len(episodes),
         base=positions.tolist(),
-        marker_color=[_COLOR[key] for key in labels],
-        marker_line={"width": 0.5, "color": "#111417"},
+        marker={
+            "color": [_COLOR[key] for key in labels],
+            # Variant-tagline blocks get a bright outline — the glow.
+            "line": {
+                "color": [
+                    _GLOW_COLOR if variant else _SEPARATOR_COLOR for variant in variants
+                ],
+                "width": [
+                    _GLOW_WIDTH if variant else _SEPARATOR_WIDTH for variant in variants
+                ],
+            },
+        },
         customdata=[
             {"season": season, "category": label, "id": record_id}
             for season, label, record_id in zip(seasons, labels, ids, strict=True)
         ],
         hovertext=[
             f"S{season:02d}E{number:02d} {title} — {_NAME[label]}"
-            for season, number, title, label in zip(
-                seasons, numbers, titles, labels, strict=True
+            + (" · ✦ tagline changed" if variant else "")
+            for season, number, title, label, variant in zip(
+                seasons, numbers, titles, labels, variants, strict=True
             )
         ],
         hovertemplate="%{hovertext}<extra></extra>",

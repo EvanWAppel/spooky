@@ -42,6 +42,16 @@
   "Kate Twa",
   "Aundrea MacDonald"
  ],
+ "tagline": {
+  "text": "The Truth Is Out There",
+  "is_variant": false,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "Mulder and Scully investigate a string of deaths linked to a reclusive farming sect, whose shapeshifting member seduces victims with a fatal, otherworldly touch.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -126,6 +136,10 @@
   "wikidata_qid": {
    "source": "Wikidata",
    "license": "CC0"
+  },
+  "tagline.text": {
+   "source": "series default (no per-episode change documented on Wikipedia)",
+   "license": "CC BY-SA 4.0"
   }
  }
 }

@@ -5,6 +5,7 @@ from typing import Any
 from dash import html
 
 from spooky.links import imdb_url, tmdb_watch_url
+from spooky.taglines import DEFAULT_TAGLINE, is_variant_of, note_of, text_of
 from spooky.values import as_int, is_missing
 
 # A source label that is absent means the source does not cover this record at
@@ -68,10 +69,36 @@ def build_detail_panel(record: dict[str, Any] | None) -> html.Div:
             ]
         ),
     ]
+    tagline = _tagline_block(record)
+    if tagline is not None:
+        children.append(tagline)
     if bool(record.get("label_contested")):
         children.append(_source_breakdown(record))
     children.append(html.Div(links, className="detail-links"))
     return html.Div(children, id="detail-panel", className="detail-panel")
+
+
+def _tagline_block(record: dict[str, Any]) -> html.Div | None:
+    """The opening-title tagline, shown only when it deviates from the default.
+
+    Plain site text with a small badge — never the show's title-card styling or
+    an image (CLAUDE.md C2). Default-tagline episodes show nothing, keeping the
+    panel about what is distinctive.
+    """
+    if not is_variant_of(record):
+        return None
+    parts: list[Any] = [
+        html.Span("Opening tagline", className="tagline-eyebrow"),
+        html.Span(text_of(record), className="tagline-line"),
+        html.Span(
+            f"instead of “{DEFAULT_TAGLINE}”",
+            className="tagline-default",
+        ),
+    ]
+    note = note_of(record)
+    if note:
+        parts.append(html.P(note, className="tagline-note"))
+    return html.Div(parts, className="tagline-variant")
 
 
 def _build_links(record: dict[str, Any]) -> list[html.A]:
