@@ -443,6 +443,18 @@ dd {
   height: 16px;
 }
 
+/* Caption under the season chart explaining the glowing blocks. */
+.chart-note {
+  color: var(--fg-muted);
+  font-size: 0.85rem;
+  margin: 6px 0 0;
+}
+
+.chart-note-glow {
+  color: #ffe9a8;
+  font-weight: 600;
+}
+
 /* The /taglines catalogue view. */
 .taglines-section {
   max-width: 860px;
