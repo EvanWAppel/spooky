@@ -291,6 +291,17 @@ app.layout = html.Div(
                                     role="img",
                                     **_CHART_ARIA,
                                 ),
+                                html.P(
+                                    [
+                                        "Blocks that ",
+                                        html.Span("glow", className="chart-note-glow"),
+                                        " mark episodes whose opening-title tagline "
+                                        "was changed from the usual — ",
+                                        dcc.Link("see them all", href="/taglines"),
+                                        ".",
+                                    ],
+                                    className="chart-note",
+                                ),
                                 build_season_summary_table(EPISODES),
                             ],
                             className="chart-section",

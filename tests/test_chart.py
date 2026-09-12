@@ -79,6 +79,31 @@ def test_click_payload_carries_the_episode_id(episodes_df: pd.DataFrame) -> None
     assert first["id"].startswith("s")
 
 
+def test_variant_tagline_blocks_glow(episodes_df: pd.DataFrame) -> None:
+    """A block whose episode has a changed opening tagline gets the bright glow
+    outline; every other block keeps the thin dark separator."""
+    df = episodes_df.copy()
+    target_id = df.loc[df["season"].notna(), "id"].iloc[0]
+    df.loc[df["id"] == target_id, "tagline_is_variant"] = True
+
+    trace = _episode_trace(build_season_chart(df))
+    colors = list(trace.marker.line.color)
+    widths = list(trace.marker.line.width)
+
+    glow_idx = [i for i, c in enumerate(colors) if c == "#FFE9A8"]
+    assert len(glow_idx) == 1, "exactly the one variant block should glow"
+    i = glow_idx[0]
+    assert trace.customdata[i]["id"] == target_id
+    assert widths[i] > 0.5
+    assert all(colors[j] == "#111417" for j in range(len(colors)) if j != i)
+
+
+def test_no_blocks_glow_when_no_taglines_vary(episodes_df: pd.DataFrame) -> None:
+    """The sample corpus has no variant taglines — nothing glows."""
+    trace = _episode_trace(build_season_chart(episodes_df))
+    assert all(color == "#111417" for color in trace.marker.line.color)
+
+
 def test_build_season_chart_excludes_films(episodes_df: pd.DataFrame) -> None:
     film = episodes_df.iloc[0].copy()
     film["id"] = "film-1998"
