@@ -35,6 +35,16 @@
   "Brendan Beiser",
   "Colin Cunningham"
  ],
+ "tagline": {
+  "text": "Apology is Policy",
+  "is_variant": true,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "Trapped aboard a speeding train, Mulder confronts a shadowy scientist and a ticking bomb, uncertain whether he's uncovering alien truth or a chilling human atrocity.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -119,6 +129,11 @@
   "wikidata_qid": {
    "source": "Wikidata",
    "license": "CC0"
+  },
+  "tagline.text": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1346232159
   }
  }
 }

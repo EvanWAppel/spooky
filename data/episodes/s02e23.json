@@ -37,6 +37,16 @@
   "Donna Yamamoto",
   "Craig Bruhnanski"
  ],
+ "tagline": {
+  "text": "The Truth Is Out There",
+  "is_variant": false,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "A physicist's shadow, altered by a dark-matter accident, disintegrates anyone it touches, forcing Mulder and Scully to track him while a ruthless agent hunts him for his own ends.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -121,6 +131,10 @@
   "wikidata_qid": {
    "source": "Wikidata",
    "license": "CC0"
+  },
+  "tagline.text": {
+   "source": "series default (no per-episode change documented on Wikipedia)",
+   "license": "CC BY-SA 4.0"
   }
  }
 }

@@ -43,6 +43,7 @@ def fire(monkeypatch: pytest.MonkeyPatch) -> Any:
         *,
         click_data: dict | None = None,
         toggle: list | None = None,
+        tagline: list | None = None,
         search_value: str | None = None,
         pathname: str = "/",
         search: str = "",
@@ -51,7 +52,16 @@ def fire(monkeypatch: pytest.MonkeyPatch) -> Any:
             app_module, "callback_context", SimpleNamespace(triggered_id=trigger)
         )
         return app_module.write_url(
-            click_data, None, toggle or [], 1, 1, search_value, None, pathname, search
+            click_data,
+            None,
+            toggle or [],
+            tagline or [],
+            1,
+            1,
+            search_value,
+            None,
+            pathname,
+            search,
         )
 
     return _invoke
@@ -132,6 +142,62 @@ def test_search_writes_the_text_param_and_deselects(fire: Any) -> None:
 
     assert "text=squeeze" in search
     assert "selected" not in search
+
+
+def test_tagline_toggle_writes_the_variant_param(fire: Any) -> None:
+    """T-09: the toggle round-trips ?tagline=variant, and clears it."""
+    _, on = fire("tagline-toggle", tagline=["tagline"], pathname="/season/1")
+    assert "tagline=variant" in on
+
+    _, off = fire(
+        "tagline-toggle", tagline=[], pathname="/season/1", search="?tagline=variant"
+    )
+    assert "tagline" not in off
+
+
+def test_tagline_filter_matches_the_page_variant_count() -> None:
+    """T-09: ?tagline=variant returns exactly the variant records of the page."""
+    season = 4  # Herrenvolk, Teliko, Terma, Gethsemane all live here
+    page = app_module._filter_episodes(f"/season/{season}", "")
+    expected = int(page["tagline_is_variant"].sum())
+
+    filtered = app_module._filter_episodes(f"/season/{season}", "?tagline=variant")
+
+    assert expected > 0
+    assert len(filtered) == expected
+    assert filtered["tagline_is_variant"].all()
+
+
+def test_taglines_catalogue_lists_every_variant_and_links_to_it() -> None:
+    """T-10: the /taglines view lists exactly the variant episodes, each linked."""
+    from components.taglines_view import build_taglines_view
+
+    view = build_taglines_view(app_module.EPISODES)
+    variants = app_module.EPISODES[app_module.EPISODES["tagline_is_variant"]]
+    links = _collect_links(view)
+    hrefs = {href for _, href in links}
+    for record_id in variants["id"]:
+        assert any(f"selected={record_id}" in href for href in hrefs), record_id
+    # A row per variant, and the famous first swap is present by text.
+    texts = " ".join(text for text, _ in links)
+    assert "The Erlenmeyer Flask" in texts
+
+
+def _collect_links(component: Any) -> list[tuple[str, str]]:
+    """(text, href) for every dcc.Link in a component tree."""
+    found: list[tuple[str, str]] = []
+    if isinstance(component, dcc.Link):
+        children = getattr(component, "children", "")
+        text = children if isinstance(children, str) else str(children)
+        found.append((text, getattr(component, "href", "")))
+    if isinstance(component, Component):
+        children = getattr(component, "children", None)
+        if children is not None:
+            found.extend(_collect_links(children))
+    if isinstance(component, list | tuple):
+        for child in component:
+            found.extend(_collect_links(child))
+    return found
 
 
 def test_contested_filter_matches_the_page_count() -> None:

@@ -110,6 +110,36 @@ def test_reviewed_logline_wins_over_the_draft_and_carries_its_badge(
     assert "the superseded machine draft" not in rendered
 
 
+def test_variant_tagline_shows_in_the_panel(
+    episodes_df: pd.DataFrame,
+    render_text: Callable[[Any], str],
+) -> None:
+    """T-08: a variant episode surfaces its opening tagline, plain text."""
+    record = episodes_df.iloc[0].to_dict()
+    record["tagline_is_variant"] = True
+    record["tagline_text"] = "Apology is Policy"
+
+    rendered = render_text(build_detail_panel(record))
+
+    assert "Opening tagline" in rendered
+    assert "Apology is Policy" in rendered
+    assert "The Truth Is Out There" in rendered  # shown as the contrast
+
+
+def test_default_tagline_is_not_shown_in_the_panel(
+    episodes_df: pd.DataFrame,
+    render_text: Callable[[Any], str],
+) -> None:
+    """A default-tagline episode keeps the panel about what is distinctive."""
+    record = episodes_df.iloc[0].to_dict()
+    record["tagline_is_variant"] = False
+    record["tagline_text"] = "The Truth Is Out There"
+
+    rendered = render_text(build_detail_panel(record))
+
+    assert "Opening tagline" not in rendered
+
+
 @pytest.mark.parametrize("missing", [None, float("nan"), pd.NA])
 def test_film_record_renders_without_crashing(
     episodes_df: pd.DataFrame,

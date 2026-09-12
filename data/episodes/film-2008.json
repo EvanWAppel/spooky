@@ -27,6 +27,16 @@
   "Frank Spotnitz"
  ],
  "guest_cast": [],
+ "tagline": {
+  "text": "The Truth Is Out There",
+  "is_variant": false,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "A disgraced priest's psychic visions draw Mulder and Scully back into an FBI investigation, forcing them to confront faith, science, and their own uncertain future together.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -37,6 +47,10 @@
    "source": "hand-entered by the owner",
    "license": "CC BY-SA 4.0",
    "note": "hand-entered from Wikipedia/Wikidata, see films.json"
+  },
+  "tagline.text": {
+   "source": "series default (no per-episode change documented on Wikipedia)",
+   "license": "CC BY-SA 4.0"
   }
  }
 }

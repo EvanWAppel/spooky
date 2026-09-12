@@ -327,6 +327,53 @@ Specified here so the v1 data model doesn't foreclose them.
 
 ### v2
 
+- **Opening-title taglines — the intro that means something.** *(Owner-requested
+  2026-09-11.)* The X-Files title sequence always ends on a card reading **"The
+  Truth Is Out There."** In a documented minority of episodes Chris Carter swaps
+  it for an episode-specific line — "Trust No One" (Deep Throat's dying words, the
+  S1 finale), "Apology is Policy" (731), "Everything Dies" (Herrenvolk), the
+  Navajo "Éí 'Aaníígóó 'Áhoot'é" (Anasazi), "E Pur Si Muove" (Biogenesis), and
+  more. The swap is an authorial signal, and *which* episodes get one — and what
+  it says — is exactly the kind of fandom detail this project can surface **as
+  data** rather than as recap. Three surfaces:
+  1. **Per episode** — a `tagline` on every record. Variant episodes carry a
+     badge in the table and, in the detail panel, the tagline (plain text) plus a
+     short owner-written gloss on why it changed.
+  2. **A "tagline variants only" filter**, URL-encoded like the contested toggle.
+  3. **A dedicated *Taglines* view** — a chronological catalogue of every variant
+     episode with its line and gloss, each linking to the episode. This is the
+     community-facing centrepiece.
+  - **Data model** (proposed; a nested object avoids colliding with the logline's
+    top-level `review_status`):
+    ```json
+    "tagline": {
+      "text":           "Apology is Policy",   // verbatim opening-credits line, plain text; default "The Truth Is Out There"
+      "is_variant":     true,                  // DERIVED at build: normalized(text) != normalized(default). Never hand-set.
+      "broadcast_only": null,                  // true where the variant aired but the DVD reverts to default (Wikipedia-documented; else null)
+      "note_generated": "…",                   // machine-drafted gloss, variants only
+      "note":           null,                  // owner-owned gloss, human-reviewed
+      "review_status":  "ai-drafted",          // "ai-drafted" | "human-reviewed" | "needs-work" | "not-applicable" (defaults)
+      "reviewed_at":    null,
+      "review_note":    null
+    }
+    ```
+  - **Source discipline.** `tagline.text` comes from **Wikipedia only** — each
+    variant is documented in the article's *Production* / *Conception and writing*
+    section, which step 06 already fetches (verified live against *Anasazi* and
+    *731*, 2026-09-11). **Absence of a documented change means the default**, not
+    missing data. **Never** take taglines from Fandom, TV Tropes, or IMDb "crazy
+    credits" (C4) — a naive web search surfaces exactly those first. The gloss is
+    original writing grounded in the fetched section, inline-cited, and routed
+    through the same review CLI as loglines. **Do not re-derive a count of
+    variants into this document** — the build prints it.
+  - **Legal.** Taglines ship as **plain site text** — short factual phrases, the
+    same posture already taken for episode titles and "The X-Files." They must
+    **never** be rendered in the show's title-card typography, glow, or as an
+    image; that would implicate C2. Foreign-language taglines are captured
+    verbatim; their English translation is contested between sources (see §13) and
+    treated as optional, owner-supplied, and flagged — disclosure, not resolution,
+    in the house style.
+
 - **Viewership charts.** Deferred because **every viewership claim in the
   research failed verification.** The Wikipedia "U.S. viewers (millions)" column
   requires full hand-QA before it may be charted. When built: Live+SD as the
@@ -443,6 +490,16 @@ Films are hand-entered from Wikipedia with nullable season/episode/production
 code; Wikipedia flags *Fight the Future* as mythology and *I Want to Believe*
 as not.
 
+**Taglines *(v2, step notes for the future fetcher)*.** Do **not** add a network
+step — the opening-title tagline is documented inline in each article's
+*Production* / *Conception and writing* prose, which step 06 already captures in
+`data/raw/article_sections.json` (D-14). The tagline fetcher scans that text for a
+documented change; when none is documented, the episode carries the **default**,
+and that is a fact, not a gap. Record the Wikipedia revision id per variant.
+**Re-derive the variant set — never hard-code it.** Non-English taglines
+(Anasazi's Navajo line) are captured verbatim; their translation is contested, so
+it lives in the owner gloss, not in `tagline.text`.
+
 ### 8.2 Field ownership
 
 | Field | Source | License |
@@ -458,6 +515,9 @@ as not.
 | `us_viewers_millions` *(v2)* | Wikipedia — **unverified, hand-QA required** | CC BY-SA |
 | `logline` | **the owner** | owner's |
 | `label_derived`, all computed metrics | derived | owner's |
+| `tagline.text` *(v2)* | **Wikipedia only** — Production / Conception section | CC BY-SA |
+| `tagline.is_variant`, `tagline.broadcast_only` *(v2)* | derived at build | owner's |
+| `tagline.note` *(v2)* | **the owner** | owner's |
 | synopsis, images | **deliberately omitted** | — |
 
 ### 8.3 Scheduled refresh
@@ -531,7 +591,10 @@ Verifiable, not vibes. All must hold:
 director/writer names, runtimes); TVmaze ratings and guest-cast rows with
 attribution; Wikipedia-derived structured fields with attribution; the owner's
 own loglines and every computed metric; the episode→episode connection graph
-(edges are facts); "The X-Files" as plain text; a takedown contact.
+(edges are facts); "The X-Files" as plain text; opening-title taglines as plain
+text (short factual phrases, the same posture as titles — see §7, and never
+rendered in the show's title-card typography or as an image, which would implicate
+C2); a takedown contact.
 
 **Not safe — see §2.**
 
@@ -630,6 +693,15 @@ forum post, not a written license. The dom111 labels are one person's
 undocumented judgment. IMDb's "publishing is commercial" reading comes from a
 single 2023 support-forum reply about a *mobile app*, not a website — reasonable
 but not airtight.
+
+**Tagline data (v2), handled by disclosure not resolution:** which episodes revert
+to the default tagline on DVD versus the broadcast cut is only partially
+documented on Wikipedia (`tagline.broadcast_only` stays `null` where unknown); and
+the English translation of the Navajo ("Anasazi") and other non-English taglines
+is contested between sources — even Wikipedia's own gloss ("The Truth is Out
+There") differs from the common fan translation ("The truth is far from here").
+Capture the line verbatim in `tagline.text`; leave the translation to the flagged
+owner gloss.
 
 ---
 

@@ -46,6 +46,16 @@
   "Andrew Cavarno",
   "Steven Cavarno"
  ],
+ "tagline": {
+  "text": "amor fati",
+  "is_variant": true,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "Hospitalized and mind-altered, Mulder envisions his alien father and a resurrected Samantha, tempted toward belonging as colleagues race to save him from a shadowy cabal.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -130,6 +140,11 @@
   "wikidata_qid": {
    "source": "Wikidata",
    "license": "CC0"
+  },
+  "tagline.text": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1351058460
   }
  }
 }

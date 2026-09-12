@@ -40,6 +40,16 @@
   "Lorraine Landry",
   "Tracy Elofson"
  ],
+ "tagline": {
+  "text": "The Truth Is Out There",
+  "is_variant": false,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "Scully confronts grief over her lost daughter as four identical, mysterious sisters die in disfiguring ways, forcing her faith and Mulder's skepticism into unsettling collision.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -124,6 +134,10 @@
   "wikidata_qid": {
    "source": "Wikidata",
    "license": "CC0"
+  },
+  "tagline.text": {
+   "source": "series default (no per-episode change documented on Wikipedia)",
+   "license": "CC BY-SA 4.0"
   }
  }
 }
