@@ -392,3 +392,100 @@ dd {
     width: calc(100% - 24px);
   }
 }
+
+/* Opening-title taglines (PRD §7). Rendered as plain site text — never the
+   show's title-card typography, glow, or imagery (constraint C2). */
+.tagline-variant {
+  margin-top: 18px;
+  padding: 12px 16px;
+  border-left: 3px solid var(--accent);
+  background: var(--bg-raised);
+  border-radius: 4px;
+}
+
+.tagline-eyebrow {
+  display: block;
+  color: var(--fg-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tagline-line {
+  display: block;
+  color: var(--accent);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 2px 0;
+}
+
+.tagline-default {
+  display: block;
+  color: var(--fg-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.tagline-note {
+  color: var(--fg-soft);
+  margin: 8px 0 0;
+  line-height: 1.5;
+}
+
+.tagline-toggle {
+  color: var(--fg-soft);
+  font-size: 0.95rem;
+}
+
+.tagline-toggle input {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+}
+
+/* The /taglines catalogue view. */
+.taglines-section {
+  max-width: 860px;
+}
+
+.taglines-section > p {
+  color: var(--fg-soft);
+  line-height: 1.6;
+  max-width: 680px;
+}
+
+.taglines-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.taglines-table th,
+.taglines-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.taglines-table th {
+  color: var(--fg-muted);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+}
+
+.taglines-table .tagline-line {
+  display: inline;
+  font-size: 1rem;
+}
+
+.tagline-view-cell {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.taglines-footnote {
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+}

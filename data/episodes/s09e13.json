@@ -40,6 +40,16 @@
   "Benito Prezia",
   "Ernesto Gasco"
  ],
+ "tagline": {
+  "text": "Dio Ti Ama",
+  "is_variant": true,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "Scully chases a numerology-obsessed serial killer while a mysterious stranger, playing cards with fate itself, quietly steers the odds toward salvation.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -124,6 +134,11 @@
   "wikidata_qid": {
    "source": "Wikidata",
    "license": "CC0"
+  },
+  "tagline.text": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1267203170
   }
  }
 }

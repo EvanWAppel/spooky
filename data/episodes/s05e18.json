@@ -39,6 +39,16 @@
   "Armin Moattar",
   "Kate Braidwood"
  ],
+ "tagline": {
+  "text": "The Truth Is Out There",
+  "is_variant": false,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "Mulder's loyalty seems compromised when Scully suspects he's working with domestic terrorists testing a deadly bioweapon, forcing her to question his true allegiance.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -123,6 +133,10 @@
   "wikidata_qid": {
    "source": "Wikidata",
    "license": "CC0"
+  },
+  "tagline.text": {
+   "source": "series default (no per-episode change documented on Wikipedia)",
+   "license": "CC BY-SA 4.0"
   }
  }
 }

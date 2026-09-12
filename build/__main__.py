@@ -23,6 +23,10 @@ STEPS: list[tuple[str, str]] = [
     ("people", "D-11"),
     ("articles", "D-13"),
     ("merge", "E-03"),
+    # Taglines are attached inside the merge; this step re-audits the override
+    # against the article prose and fails on drift. It runs AFTER merge because
+    # the drift check needs the merged records' title->id map (TASKS T-05).
+    ("taglines", "T-04"),
     ("loglines", "F-02"),
     ("emit", "E-08"),
 ]

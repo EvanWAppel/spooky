@@ -47,6 +47,16 @@
   "Isaac C. Singleton, Jr.",
   "Wolfgang Gerhard"
  ],
+ "tagline": {
+  "text": "Die Wahrheit ist irgendwo da draußen",
+  "is_variant": true,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "Mulder boards a stranded 1939 ocean liner tangled with Nazis, and only real-time chaos back home can save him before the past repeats itself.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -131,6 +141,11 @@
   "wikidata_qid": {
    "source": "Wikidata",
    "license": "CC0"
+  },
+  "tagline.text": {
+   "source": "Wikipedia",
+   "license": "CC BY-SA 4.0",
+   "revid": 1359305045
   }
  }
 }

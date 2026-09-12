@@ -41,6 +41,16 @@
   "Kevin McClatchy",
   "Wayne King"
  ],
+ "tagline": {
+  "text": "The Truth Is Out There",
+  "is_variant": false,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "Skinner assigns Doggett to investigate a cult leader whose followers see terrifying visions before dying, while dream-invading violence blurs the line between sleep and murder.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -125,6 +135,10 @@
   "wikidata_qid": {
    "source": "Wikidata",
    "license": "CC0"
+  },
+  "tagline.text": {
+   "source": "series default (no per-episode change documented on Wikipedia)",
+   "license": "CC BY-SA 4.0"
   }
  }
 }

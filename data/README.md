@@ -49,6 +49,7 @@ fields cite the exact article revision id.
 | `director` | list | TVmaze guest crew | CC BY-SA 4.0 | |
 | `writers` | list | TVmaze guest crew | CC BY-SA 4.0 | union of Writer, Story, and Teleplay credits |
 | `guest_cast` | list | TVmaze `/guestcast` | CC BY-SA 4.0 | names only — no images, no links |
+| `tagline` | object | Wikipedia / derived | CC BY-SA 4.0 | opening-title-sequence tagline `{text, is_variant, broadcast_only, note_generated, note, review_status, reviewed_at, review_note}`; plain text, default `"The Truth Is Out There"`; `text` cites a Wikipedia revid for variants (PRD §7). CSV/SQLite flatten it to `tagline_text`, `tagline_is_variant` |
 | `logline_generated` | string / null | machine draft | CC BY-SA 4.0 | ≤30 words; AI-drafted, machine-owned |
 | `logline` | string / null | **the owner** | CC BY-SA 4.0 | ≤30 words; human-owned once reviewed |
 | `review_status` | enum | the owner | CC BY-SA 4.0 | `unreviewed` \| `ai-drafted` \| `needs-work` \| `human-reviewed` — see below |

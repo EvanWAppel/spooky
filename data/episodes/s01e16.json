@@ -40,6 +40,16 @@
   "Courtney Arciaga",
   "David Petersen"
  ],
+ "tagline": {
+  "text": "The Truth Is Out There",
+  "is_variant": false,
+  "broadcast_only": null,
+  "note_generated": null,
+  "note": null,
+  "review_status": null,
+  "reviewed_at": null,
+  "review_note": null
+ },
  "logline_generated": "A vengeful ex-convict with a mutating secret taunts Mulder with cryptic threats, dragging him back into a botched prison experiment and a killer aging in reverse.",
  "logline": null,
  "review_status": "ai-drafted",
@@ -124,6 +134,10 @@
   "wikidata_qid": {
    "source": "Wikidata",
    "license": "CC0"
+  },
+  "tagline.text": {
+   "source": "series default (no per-episode change documented on Wikipedia)",
+   "license": "CC BY-SA 4.0"
   }
  }
 }

@@ -43,6 +43,8 @@ CSV_FIELDS = [
     "director",
     "writers",
     "guest_cast",
+    "tagline_text",
+    "tagline_is_variant",
     "logline",
     "review_status",
 ]
@@ -65,6 +67,9 @@ def _flatten(record: dict[str, Any]) -> dict[str, Any]:
     row = {field: record.get(field) for field in CSV_FIELDS}
     for list_field in ("director", "writers", "guest_cast"):
         row[list_field] = "; ".join(record.get(list_field) or [])
+    tagline = record.get("tagline") or {}
+    row["tagline_text"] = tagline.get("text")
+    row["tagline_is_variant"] = tagline.get("is_variant")
     return row
 
 
@@ -91,6 +96,7 @@ def emit_sqlite(records: list[dict[str, Any]], dist_dir: Path) -> Path:
                 label_derived TEXT, label_contested INTEGER,
                 label_rationale TEXT, imdb_id TEXT, wikidata_qid TEXT,
                 director TEXT, writers TEXT, guest_cast TEXT,
+                tagline_text TEXT, tagline_is_variant INTEGER,
                 logline TEXT, review_status TEXT, record_json TEXT
             )"""
         )
@@ -100,6 +106,7 @@ def emit_sqlite(records: list[dict[str, Any]], dist_dir: Path) -> Path:
         for record in records:
             flat = _flatten(record)
             flat["label_contested"] = int(bool(record["label_contested"]))
+            flat["tagline_is_variant"] = int(bool(flat["tagline_is_variant"]))
             flat["record_json"] = json.dumps(record, ensure_ascii=False)
             columns = ", ".join(flat)
             placeholders = ", ".join(f":{key}" for key in flat)
