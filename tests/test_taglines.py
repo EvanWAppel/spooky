@@ -141,11 +141,17 @@ def test_find_drift_flags_a_documented_change_missing_from_the_override(
 
 
 def test_committed_override_has_no_drift() -> None:
-    """The shipped taglines.json stays in sync with the article prose."""
+    """The shipped taglines.json stays in sync with the article prose.
+
+    ``data/raw`` is a gitignored build input, so it is absent in CI; there the
+    drift check is enforced by the ``taglines`` build step instead. This test
+    runs wherever the raw prose is present (locally, and in the pipeline).
+    """
+    sections_path = REPO_ROOT / "data" / "raw" / "article_sections.json"
+    if not sections_path.exists():
+        pytest.skip("data/raw is gitignored — drift is enforced at build time")
     overrides = load_overrides(REPO_ROOT / "data" / "overrides")
-    sections = json.loads(
-        (REPO_ROOT / "data" / "raw" / "article_sections.json").read_text()
-    )
+    sections = json.loads(sections_path.read_text())
     id_by_article: dict[str, str] = {}
     for path in (REPO_ROOT / "data" / "episodes").glob("*.json"):
         record = json.loads(path.read_text())
