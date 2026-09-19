@@ -22,15 +22,18 @@ _COLUMNS = cast(
 # props it renders its default light theme on the dark page (near-invisible
 # gray-on-white). Palette matches assets/styles.css.
 _BG = "#111417"
-_BG_HEADER = "#1a2019"
-_FG = "#f1f5f2"
+_BG_HEADER = "#1b1e20"
+_FG = "#eeeee4"
 _FG_MUTED = "#9aa8a0"
-_BORDER = "#26302b"
+_BORDER = "#2c3031"
 
 _STYLE_HEADER = {
     "backgroundColor": _BG_HEADER,
     "color": _FG,
-    "fontWeight": "600",
+    "fontWeight": "500",
+    "fontSize": "0.68rem",
+    "textTransform": "uppercase",
+    "letterSpacing": "0.08em",
     "borderBottom": f"1px solid {_BORDER}",
 }
 _STYLE_CELL = {
@@ -38,9 +41,9 @@ _STYLE_CELL = {
     "color": _FG,
     "border": "none",
     "borderBottom": f"1px solid {_BORDER}",
-    "padding": "8px 12px",
+    "padding": "15px 12px",
     "fontFamily": "inherit",
-    "fontSize": "0.95rem",
+    "fontSize": "0.82rem",
     "textAlign": "left",
 }
 _STYLE_DATA_CONDITIONAL = [

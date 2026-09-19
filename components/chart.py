@@ -97,13 +97,19 @@ def build_season_chart(df: pd.DataFrame) -> go.Figure:
         template="plotly_dark",
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        xaxis_title="Season",
-        yaxis_title="Episodes, in airing order",
-        legend_title_text="Category",
-        margin={"l": 48, "r": 24, "t": 24, "b": 48},
-        height=440,
+        xaxis_title=None,
+        yaxis_title=None,
+        font={"family": "Arial, sans-serif", "color": "#aaa99f", "size": 11},
+        legend={"orientation": "h", "x": 0, "y": 1.16, "font": {"size": 11}},
+        bargap=0.40,
+        margin={"l": 28, "r": 12, "t": 48, "b": 35},
+        height=350,
+        hoverlabel={"bgcolor": "#eeeee4", "font_color": "#111417"},
     )
-    fig.update_xaxes(type="category")
+    fig.update_xaxes(
+        type="category", tickprefix="S", showgrid=False, fixedrange=True, zeroline=False
+    )
+    fig.update_yaxes(gridcolor="#292d2e", dtick=5, fixedrange=True, zeroline=False)
     return fig
 
 

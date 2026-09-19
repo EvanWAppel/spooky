@@ -37,6 +37,10 @@ def build_detail_panel(record: dict[str, Any] | None) -> html.Div:
     links = _build_links(record)
     description, badge = _description(record)
     children = [
+        html.P(
+            "CASE DOSSIER / " + str(record.get("season_episode", "FILM")),
+            className="eyebrow",
+        ),
         html.H2(str(record["title"])),
         html.Div(_format_position(record), className="episode-position"),
         html.P(
