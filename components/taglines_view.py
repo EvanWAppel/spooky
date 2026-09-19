@@ -19,6 +19,7 @@ def build_taglines_view(df: pd.DataFrame) -> html.Section:
     rows = [_row(record) for _, record in variants.iterrows()]
     return html.Section(
         [
+            html.P("02 / WORDS FROM THE UNKNOWN", className="eyebrow"),
             html.H2("The opening-title taglines"),
             html.P(
                 [

@@ -213,3 +213,38 @@ def test_contested_filter_matches_the_page_count() -> None:
     assert filtered["label_contested"].all()
     # The Truth two-parter is 2-1 contested mythology — it must be here.
     assert (filtered["title"] == "The Truth").sum() == 2
+
+
+def test_sorted_table_selection_uses_stable_row_id(monkeypatch):
+    monkeypatch.setattr(
+        app_module, "callback_context", SimpleNamespace(triggered_id="episode-table")
+    )
+    _, search = app_module.write_url(
+        None,
+        {"row": 0, "row_id": "s01e03"},
+        [],
+        [],
+        0,
+        0,
+        None,
+        [{"id": "s01e01"}, {"id": "s01e03"}],
+        "/season/1",
+        "",
+    )
+    assert search == "?selected=s01e03"
+
+
+def test_category_links_preserve_search_but_clear_selection():
+    from urllib.parse import parse_qs, urlsplit
+
+    tabs, _, _, _ = app_module.sync_index(
+        "/season/2", "?text=duane&contested=1&selected=s02e05"
+    )
+    target = parse_qs(urlsplit(tabs[1].href).query)
+    assert target == {"text": ["duane"], "contested": ["1"], "category": ["mythology"]}
+
+
+def test_empty_index_offers_a_season_scoped_reset():
+    _, count, empty, _ = app_module.sync_index("/season/3", "?text=no-such-episode")
+    assert count == "00 cases in view"
+    assert empty[-1].href == "/season/3"

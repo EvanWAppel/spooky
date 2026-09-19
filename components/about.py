@@ -7,6 +7,7 @@ def build_about() -> html.Section:
     """The /about view: why three labels, and why the sources disagree (H-08)."""
     return html.Section(
         [
+            html.P("03 / ARCHIVE NOTES", className="eyebrow"),
             html.H2("Why three labels — and why the sources disagree"),
             html.P(
                 "Fans divide The X-Files into “mythology” — the "

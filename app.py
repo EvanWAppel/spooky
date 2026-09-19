@@ -10,7 +10,7 @@ from dash import Dash, Input, Output, State, callback_context, dcc, html
 from components.about import build_about
 from components.chart import build_season_chart, build_season_summary_table
 from components.panel import build_detail_panel
-from components.table import build_episode_table
+from components.table import _STYLE_DATA_CONDITIONAL, build_episode_table
 from components.taglines_view import build_taglines_view
 from spooky.loader import load_episodes
 from spooky.logging_config import setup_logging
@@ -54,6 +54,8 @@ _CHART_ARIA: dict[str, Any] = {
         "follows."
     )
 }
+
+_DECORATIVE_ARIA: dict[str, Any] = {"aria-hidden": "true"}
 
 app = Dash(__name__, title="spooky")
 server = app.server
@@ -235,38 +237,39 @@ app.layout = html.Div(
         # real browser navigation that discards the pathname — a chart click
         # would lose its season. See tests/test_app_routing.py.
         dcc.Location(id="url", refresh=False),
+        html.A("Skip to case index", href="#case-index", className="skip-link"),
         html.Header(
             [
-                html.Div(
+                dcc.Link(
                     [
-                        html.Img(
-                            src="/assets/spooky.svg",
-                            alt="",
-                            className="site-mark",
-                            role="presentation",
-                        ),
-                        html.Div(
-                            [
-                                html.P(
-                                    "The X-Files episode data explorer",
-                                    className="eyebrow",
-                                ),
-                                html.H1("spooky"),
-                            ]
-                        ),
+                        html.Span("◉", className="brand-symbol"),
+                        "spooky",
+                        html.Span("/", className="brand-register"),
                     ],
-                    className="masthead",
+                    href="/",
+                    className="brand",
                 ),
-                html.P(
-                    "A tested, source-aware view of how the series balances mythology, "
-                    "monster cases, and standalone stories.",
-                    className="lede",
-                ),
+                html.Span("AN INDEPENDENT X-FILES ARCHIVE", className="header-caption"),
                 html.Nav(
                     [
-                        dcc.Link("Explore", href="/", className="nav-link"),
-                        dcc.Link("Taglines", href="/taglines", className="nav-link"),
-                        dcc.Link("About", href="/about", className="nav-link"),
+                        dcc.Link(
+                            "01 / Explore",
+                            href="/",
+                            id="nav-explore",
+                            className="nav-link",
+                        ),
+                        dcc.Link(
+                            "02 / Taglines",
+                            href="/taglines",
+                            id="nav-taglines",
+                            className="nav-link",
+                        ),
+                        dcc.Link(
+                            "03 / About",
+                            href="/about",
+                            id="nav-about",
+                            className="nav-link",
+                        ),
                     ],
                     className="site-nav",
                 ),
@@ -279,6 +282,105 @@ app.layout = html.Div(
                     [
                         html.Section(
                             [
+                                html.Div(
+                                    [
+                                        html.P(
+                                            "THE X-FILES / FIELD GUIDE",
+                                            className="eyebrow",
+                                        ),
+                                        html.H1(
+                                            [
+                                                "Follow the",
+                                                html.Br(),
+                                                html.Em("unexplained."),
+                                            ]
+                                        ),
+                                        html.P(
+                                            "Conspiracies. Creatures. "
+                                            "Cases that won’t close. "
+                                            "Explore the patterns behind every episode "
+                                            "of The X-Files.",
+                                            className="lede",
+                                        ),
+                                    ],
+                                    className="hero-copy",
+                                ),
+                                html.Div(
+                                    [
+                                        html.Div(
+                                            [
+                                                html.Span("ARCHIVE / COMPLETE"),
+                                                html.Span("● ONLINE", className="online"),
+                                            ],
+                                            className="archive-topline",
+                                        ),
+                                        html.Div(
+                                            [html.Span("◎", className="orbit-core")],
+                                            className="orbital",
+                                            **_DECORATIVE_ARIA,
+                                        ),
+                                        html.Div(
+                                            [
+                                                html.Div(
+                                                    [
+                                                        html.Strong(
+                                                            str(
+                                                                int(
+                                                                    EPISODES["season"]
+                                                                    .notna()
+                                                                    .sum()
+                                                                )
+                                                            )
+                                                        ),
+                                                        html.Span("EPISODES"),
+                                                    ]
+                                                ),
+                                                html.Div(
+                                                    [
+                                                        html.Strong(
+                                                            f"{len(SEASONS):02d}"
+                                                        ),
+                                                        html.Span("SEASONS"),
+                                                    ]
+                                                ),
+                                                html.Div(
+                                                    [
+                                                        html.Strong(
+                                                            f"{int(EPISODES['season'].isna().sum()):02d}"
+                                                        ),
+                                                        html.Span("FILMS"),
+                                                    ]
+                                                ),
+                                            ],
+                                            className="archive-stats",
+                                        ),
+                                    ],
+                                    className="archive-card",
+                                ),
+                            ],
+                            className="hero",
+                        ),
+                        html.Section(
+                            [
+                                html.Div(
+                                    [
+                                        html.Div(
+                                            [
+                                                html.P(
+                                                    "01 / THE BIG PICTURE",
+                                                    className="eyebrow",
+                                                ),
+                                                html.H2("Anatomy of the unknown"),
+                                            ]
+                                        ),
+                                        html.P(
+                                            "Every block, a case. "
+                                            "Select one to investigate. ↘",
+                                            className="section-hint",
+                                        ),
+                                    ],
+                                    className="section-heading",
+                                ),
                                 html.Div(
                                     dcc.Graph(
                                         id="season-chart",
@@ -312,6 +414,23 @@ app.layout = html.Div(
                                     [
                                         html.Div(
                                             [
+                                                html.P(
+                                                    "02 / CASE INDEX", className="eyebrow"
+                                                ),
+                                                html.H2("Open a file"),
+                                            ]
+                                        ),
+                                        html.P(
+                                            "Select an episode to read its dossier.",
+                                            className="section-hint",
+                                        ),
+                                    ],
+                                    className="section-heading index-heading",
+                                ),
+                                html.Div(
+                                    [
+                                        html.Div(
+                                            [
                                                 html.Button(
                                                     "‹",
                                                     id="season-prev",
@@ -331,10 +450,15 @@ app.layout = html.Div(
                                             ],
                                             className="season-pager",
                                         ),
+                                        html.Label(
+                                            "Search episode titles",
+                                            htmlFor="search-input",
+                                            className="sr-only",
+                                        ),
                                         dcc.Input(
                                             id="search-input",
                                             type="text",
-                                            placeholder="Search titles…",
+                                            placeholder="Search episode titles…",
                                             debounce=True,
                                             className="search-input",
                                         ),
@@ -364,8 +488,17 @@ app.layout = html.Div(
                                     ],
                                     className="controls-row",
                                 ),
+                                html.Div(id="category-tabs", className="category-tabs"),
                                 html.Div(
-                                    build_episode_table(EPISODES),
+                                    [
+                                        html.P(
+                                            id="result-count", className="result-count"
+                                        ),
+                                        build_episode_table(EPISODES),
+                                        html.Div(
+                                            id="empty-results", className="empty-results"
+                                        ),
+                                    ],
                                     className="table-wrap",
                                 ),
                                 html.Div(
@@ -375,6 +508,7 @@ app.layout = html.Div(
                                 ),
                             ],
                             className="explorer",
+                            id="case-index",
                         ),
                     ],
                     id="explore-view",
@@ -387,6 +521,73 @@ app.layout = html.Div(
     ],
     className="app-shell",
 )
+
+
+@app.callback(
+    Output("nav-explore", "className"),
+    Output("nav-taglines", "className"),
+    Output("nav-about", "className"),
+    Input("url", "pathname"),
+)
+def sync_navigation(pathname: str | None):
+    route = (pathname or "/").rstrip("/")
+    active = 1 if route == "/taglines" else 2 if route == "/about" else 0
+    return tuple("nav-link is-active" if i == active else "nav-link" for i in range(3))
+
+
+@app.callback(
+    Output("category-tabs", "children"),
+    Output("result-count", "children"),
+    Output("empty-results", "children"),
+    Output("episode-table", "style_data_conditional"),
+    Input("url", "pathname"),
+    Input("url", "search"),
+)
+def sync_index(pathname: str | None, search: str | None):
+    params = parse_qs((search or "").lstrip("?"))
+    active = params.get("category", [""])[0]
+    tabs = []
+    for key, label in (
+        ("", "All cases"),
+        ("mythology", "Mythology"),
+        ("monster-of-the-week", "Monster-of-the-Week"),
+        ("standalone", "Standalone"),
+    ):
+        target = {k: v for k, v in params.items() if k not in ("category", "selected")}
+        if key:
+            target["category"] = [key]
+        query = urlencode(target, doseq=True)
+        href = f"/season/{_current_season(pathname)}" + (f"?{query}" if query else "")
+        tabs.append(
+            dcc.Link(
+                label,
+                href=href,
+                className=("category-tab is-active" if active == key else "category-tab"),
+            )
+        )
+    rows = _table_data(_filter_episodes(pathname, search))
+    selected = _selected_record(search, rows)
+    styles = list(_STYLE_DATA_CONDITIONAL)
+    if selected and any(row["id"] == selected["id"] for row in rows):
+        styles.append(
+            {
+                "if": {"filter_query": '{id} = "' + selected["id"] + '"'},
+                "backgroundColor": "#252e24",
+                "color": "#e4efcc",
+            }
+        )
+    empty = (
+        []
+        if rows
+        else [
+            html.Span("∅", className="empty-symbol"),
+            html.H3("No cases match these clues."),
+            html.P("Try another title or clear the filters for this season."),
+            dcc.Link("Show all cases →", href=f"/season/{_current_season(pathname)}"),
+        ]
+    )
+    count = f"{len(rows):02d} case{'s' if len(rows) != 1 else ''} in view"
+    return tabs, count, empty, styles
 
 
 @app.callback(
@@ -469,6 +670,11 @@ def write_url(
             )
 
     if trigger == "episode-table" and active_cell and table_rows:
+        # Dash supplies a stable row_id even when native sorting changes positions.
+        row_id = active_cell.get("row_id")
+        if row_id and any(row["id"] == row_id for row in table_rows):
+            params["selected"] = [row_id]
+            return pathname or "/", f"?{urlencode(params, doseq=True)}"
         row_index = active_cell.get("row")
         if row_index is not None and row_index < len(table_rows):
             params["selected"] = [table_rows[row_index]["id"]]
