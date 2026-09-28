@@ -274,6 +274,22 @@ def test_text_search_matches_a_logline_only_term():
     assert target in set(df["id"])
 
 
+def test_provenance_route_shows_the_dashboard_and_hides_explore():
+    result = app_module.sync_view("/provenance", "")
+    explore_style, about_style, taglines_style, provenance_style = result[-4:]
+    assert provenance_style == {}
+    assert explore_style == {"display": "none"}
+    assert about_style == {"display": "none"}
+    assert taglines_style == {"display": "none"}
+
+
+def test_nav_marks_provenance_active_on_its_route():
+    # Nav order: explore, taglines, provenance, about.
+    classes = app_module.sync_navigation("/provenance")
+    assert classes[2] == "nav-link is-active"
+    assert classes[0] == "nav-link"
+
+
 def test_empty_index_offers_a_season_scoped_reset():
     _, count, empty, _ = app_module.sync_index("/season/3", "?text=no-such-episode")
     assert count == "00 cases in view"

@@ -10,6 +10,7 @@ from dash import Dash, Input, Output, State, callback_context, dcc, html
 from components.about import build_about
 from components.chart import build_season_chart, build_season_summary_table
 from components.panel import build_detail_panel
+from components.provenance_view import build_provenance_view
 from components.table import _STYLE_DATA_CONDITIONAL, build_episode_table
 from components.taglines_view import build_taglines_view
 from spooky.loader import load_episodes
@@ -278,7 +279,13 @@ app.layout = html.Div(
                             className="nav-link",
                         ),
                         dcc.Link(
-                            "03 / About",
+                            "03 / Provenance",
+                            href="/provenance",
+                            id="nav-provenance",
+                            className="nav-link",
+                        ),
+                        dcc.Link(
+                            "04 / About",
                             href="/about",
                             id="nav-about",
                             className="nav-link",
@@ -527,6 +534,7 @@ app.layout = html.Div(
                     id="explore-view",
                 ),
                 build_taglines_view(EPISODES),
+                build_provenance_view(EPISODES),
                 build_about(),
             ]
         ),
@@ -539,13 +547,18 @@ app.layout = html.Div(
 @app.callback(
     Output("nav-explore", "className"),
     Output("nav-taglines", "className"),
+    Output("nav-provenance", "className"),
     Output("nav-about", "className"),
     Input("url", "pathname"),
 )
 def sync_navigation(pathname: str | None):
     route = (pathname or "/").rstrip("/")
-    active = 1 if route == "/taglines" else 2 if route == "/about" else 0
-    return tuple("nav-link is-active" if i == active else "nav-link" for i in range(3))
+    # index 0 is Explore ("/"); the rest map to their route in order.
+    routes = ["", "/taglines", "/provenance", "/about"]
+    active = routes.index(route) if route in routes else 0
+    return tuple(
+        "nav-link is-active" if i == active else "nav-link" for i in range(len(routes))
+    )
 
 
 @app.callback(
@@ -613,6 +626,7 @@ def sync_index(pathname: str | None, search: str | None):
     Output("explore-view", "style"),
     Output("about-section", "style"),
     Output("taglines-section", "style"),
+    Output("provenance-section", "style"),
     Input("url", "pathname"),
     Input("url", "search"),
 )
@@ -620,6 +634,7 @@ def sync_view(pathname: str | None, search: str | None):
     route = (pathname or "/").rstrip("/")
     on_about = route == "/about"
     on_taglines = route == "/taglines"
+    on_provenance = route == "/provenance"
     season = _current_season(pathname)
     filtered = _filter_episodes(pathname, search)
     data = _table_data(filtered)
@@ -631,9 +646,10 @@ def sync_view(pathname: str | None, search: str | None):
         _season_label(season),
         season == SEASONS[0],
         season == SEASONS[-1],
-        hidden if (on_about or on_taglines) else {},
+        hidden if (on_about or on_taglines or on_provenance) else {},
         {} if on_about else hidden,
         {} if on_taglines else hidden,
+        {} if on_provenance else hidden,
     )
 
 

@@ -25,6 +25,12 @@ breakdown instead of a quietly-picked winner.
 - **Click anything** — a chart segment filters the sortable, filterable
   episode table; a row opens the detail panel; every view state lives in
   the URL and survives a reload.
+- **Search everything** — the search box runs a relevance-ranked full-text
+  query over every episode's title and logline, site-wide.
+- **A provenance dashboard** ([`/provenance`](spooky.evanappel.me/provenance)) —
+  how much of the show each source covers, every contested episode with its
+  per-source split, and each field's source and licence — all recomputed from
+  the dataset, never hard-coded.
 - **220 records** — 218 episodes + both films, each with credits, TVmaze
   rating, air date, production code, the three source labels, the derived
   label with its written rationale, and links out to IMDb and TMDB's

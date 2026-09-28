@@ -109,3 +109,21 @@ def test_every_record_has_the_full_label_set() -> None:
         }
         assert isinstance(record["label_contested"], bool)
         assert record["label_rationale"]
+
+
+def test_provenance_dashboard_ships_no_imagery_or_external_urls(render_text) -> None:
+    """C2: the provenance page (Group R.2) renders only labels, counts, short
+    rationales and licence text — never an image reference or a hotlinked URL —
+    and it surfaces the CC BY-SA attribution the data carries. Runs against the
+    real committed corpus, the data the page actually ships."""
+    from components.provenance_view import build_provenance_view
+    from spooky.loader import load_episodes
+
+    if not sorted(EPISODES_DIR.glob("*.json")):
+        pytest.skip("data/episodes/ is empty — run the merge first")
+    blob = render_text(build_provenance_view(load_episodes(EPISODES_DIR)))
+    assert "static.tvmaze.com" not in blob
+    assert "<img" not in blob.lower()
+    assert "http://" not in blob
+    assert "https://" not in blob
+    assert "CC BY-SA" in blob  # attribution/licence is surfaced, not hidden

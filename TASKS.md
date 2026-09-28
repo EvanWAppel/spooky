@@ -424,21 +424,21 @@ D ─────► E ─────► G ────────────
   **owner confirms** per ROCRLL Ledger.
   - Verify: `uv run pytest tests/test_legal.py -q` → green; DECISIONS.md entry drafted for owner sign-off
 
-### R.2 — Provenance / pipeline dashboard
+### R.2 — Provenance / pipeline dashboard ✅ *(built 2026-09-27)*
 > New read-only page (`/provenance`), PRD §7 feature 2. Presentation layer over
 > the `provenance` block + classification already on every record. **No new data,
 > no new fields.** Text + original SVG/CSS only (C2); same §11.2 footer.
 
-- [ ] **R-05** Write `tests/test_provenance_view.py` first: a builder turns the
+- [x] **R-05** Write `tests/test_provenance_view.py` first: a builder turns the
   loaded records into (a) coverage counts per source, (b) the contested set with
   per-source split, (c) a per-field source/licence/revid table — all **re-derived**,
   no hard-coded counts (CLAUDE.md).
   - Verify: `uv run pytest tests/test_provenance_view.py -q` → red then green
-- [ ] **R-06** Implement `components/provenance_view.py` + route `/provenance`
+- [x] **R-06** Implement `components/provenance_view.py` + route `/provenance`
   (mirror `components/taglines_view.py` / `/taglines`); link it from the site nav.
   - Verify: served under `/provenance` (HTTP 200); contested count matches
     `label_contested == True`; every field row shows a source + licence
-- [ ] **R-07** Extend `tests/test_legal.py` for the new page (no imagery/synopsis;
+- [x] **R-07** Extend `tests/test_legal.py` for the new page (no imagery/synopsis;
   attribution + footer present); document the page in `README.md`.
   - Verify: `uv run pytest tests/test_legal.py -q` → green
 
