@@ -15,6 +15,7 @@ from __future__ import annotations
 import logging
 import re
 import sqlite3
+import threading
 from typing import Any
 
 import pandas as pd
@@ -23,9 +24,16 @@ from spooky.values import is_missing
 
 log = logging.getLogger(__name__)
 
-# id weight 0 (never rank on the key), title weighted above logline so a title
-# hit sorts before a body-only hit. bm25 is ascending: lower == more relevant.
-_BM25_WEIGHTS = (0.0, 10.0, 1.0)
+# id is UNINDEXED (stored, not searchable) so a query token that prefixes an id
+# — "s01" — cannot match rows by their key; only title + logline are searched.
+# title is weighted above logline so a title hit sorts before a body-only hit.
+# bm25 is ascending: lower == more relevant.
+_BM25_WEIGHTS = (10.0, 1.0)
+
+# The in-memory connection is shared across request threads (check_same_thread
+# is off in build_index), so every query is serialized behind this lock — the
+# index is read-only after build and tiny, so contention is negligible.
+_LOCK = threading.Lock()
 
 _TOKEN = re.compile(r"[0-9A-Za-z]+")
 
@@ -49,8 +57,10 @@ def displayed_logline(record: Any) -> str:
 
 def build_index(df: pd.DataFrame) -> sqlite3.Connection:
     """Build an in-memory FTS5 index from a loaded episodes DataFrame."""
-    conn = sqlite3.connect(":memory:")
-    conn.execute("CREATE VIRTUAL TABLE episodes_fts USING fts5(id, title, logline)")
+    conn = sqlite3.connect(":memory:", check_same_thread=False)
+    conn.execute(
+        "CREATE VIRTUAL TABLE episodes_fts USING fts5(id UNINDEXED, title, logline)"
+    )
     rows = [
         (
             str(record["id"]),
@@ -90,12 +100,13 @@ def search(conn: sqlite3.Connection, query: str, limit: int | None = None) -> li
         return []
     sql = (
         "SELECT id FROM episodes_fts WHERE episodes_fts MATCH ? "
-        "ORDER BY bm25(episodes_fts, ?, ?, ?)"
+        "ORDER BY bm25(episodes_fts, ?, ?)"
     )
     params: list[Any] = [match, *_BM25_WEIGHTS]
     if limit is not None:
         sql += " LIMIT ?"
         params.append(limit)
-    ids = [row[0] for row in conn.execute(sql, params)]
+    with _LOCK:
+        ids = [row[0] for row in conn.execute(sql, params)]
     log.info("search %r → %d hits", query, len(ids))
     return ids

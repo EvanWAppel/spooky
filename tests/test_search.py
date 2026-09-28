@@ -123,6 +123,34 @@ def test_index_columns_are_only_id_title_logline(index):
     assert cols == ["id", "title", "logline"]
 
 
+def test_id_is_not_searchable(index):
+    # Review finding: an id-prefix token ("s01") must not match rows by their
+    # key — id is UNINDEXED, so only titles and loglines are searched.
+    assert search(index, "s01") == []
+    assert search(index, "s03e15") == []
+
+
+def test_search_works_from_another_thread(index):
+    # Review finding (high): the index is built on one thread and queried on
+    # request-handler threads; check_same_thread=False + a lock must make that
+    # safe rather than raising sqlite3.ProgrammingError.
+    import threading
+
+    out: dict[str, object] = {}
+
+    def worker():
+        try:
+            out["result"] = search(index, "piper")
+        except Exception as exc:  # noqa: BLE001 — record any error to assert on
+            out["error"] = exc
+
+    thread = threading.Thread(target=worker)
+    thread.start()
+    thread.join()
+    assert "error" not in out, out.get("error")
+    assert out["result"] == ["s03e15"]
+
+
 def test_ai_drafted_records_are_searchable_via_their_draft():
     # The real corpus: logline is null, the AI draft carries the words.
     df = _df(
