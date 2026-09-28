@@ -91,6 +91,11 @@ Engineering choices worth a look:
 - **Legal-shape tests in CI** — no synopses, no imagery, no IMDb ratings,
   every field attributed (`tests/test_legal.py`, `tests/test_provenance.py`).
   The what-and-why lives in [`DECISIONS.md`](DECISIONS.md).
+- **Full-text search with no runtime database** — the search box runs a
+  relevance-ranked FTS5 query over every episode's title and logline, site-wide.
+  The index is built in memory at startup from the JSON source of truth
+  (`spooky/search.py`), so no `*.sqlite` build artifact is ever a serving
+  dependency — the app still fetches nothing and opens no database at request time.
 
 ## Licensing
 

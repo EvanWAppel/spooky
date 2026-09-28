@@ -14,10 +14,16 @@ from components.table import _STYLE_DATA_CONDITIONAL, build_episode_table
 from components.taglines_view import build_taglines_view
 from spooky.loader import load_episodes
 from spooky.logging_config import setup_logging
+from spooky.search import build_index
+from spooky.search import search as fts_search
 
 setup_logging()
 
 EPISODES = load_episodes(Path(__file__).resolve().parent / "data" / "episodes")
+
+# Full-text index built in memory from the JSON source of truth at startup —
+# never a committed *.sqlite (CLAUDE.md). Drives the ?text= search (Group R.1).
+SEARCH_INDEX = build_index(EPISODES)
 
 SEASONS: list[int] = sorted(
     EPISODES.loc[EPISODES["season"].notna(), "season"].astype(int).unique().tolist()
@@ -104,19 +110,26 @@ def _filter_episodes(pathname: str | None, search: str | None) -> pd.DataFrame:
     """One season page — its episodes plus any film that follows it — with
     the search/category/contested filters applied, in airing order."""
     season = _current_season(pathname)
-    film_ids = [film_id for film_id, page in FILM_PAGE.items() if page == season]
-    df = EPISODES[
-        (EPISODES["season"] == season) | (EPISODES["id"].isin(film_ids))
-    ].sort_values("air_date")
-
     params = parse_qs((search or "").lstrip("?"))
+    text = params.get("text", [None])[0]
+
+    if text:
+        # Full-text search is site-wide (all 220 records), ranked by relevance,
+        # over titles + loglines — not the season-scoped substring-on-title it
+        # replaces. Preserve the bm25 order the index returns (Group R.1).
+        ranked = fts_search(SEARCH_INDEX, text)
+        rank = {record_id: position for position, record_id in enumerate(ranked)}
+        df = EPISODES[EPISODES["id"].isin(ranked)].copy()
+        df = df.sort_values("id", key=lambda ids: ids.map(rank))
+    else:
+        film_ids = [film_id for film_id, page in FILM_PAGE.items() if page == season]
+        df = EPISODES[
+            (EPISODES["season"] == season) | (EPISODES["id"].isin(film_ids))
+        ].sort_values("air_date")
+
     category = params.get("category", [None])[0]
     if category:
         df = df[df["label_derived"] == category]
-
-    text = params.get("text", [None])[0]
-    if text:
-        df = df[df["title"].str.contains(text, case=False, na=False)]
 
     if params.get("contested", [None])[0] == "1":
         df = df[df["label_contested"]]
@@ -167,7 +180,7 @@ def _filter_chip(pathname: str | None, search: str | None) -> html.Div | str:
     if category := _category_label(params.get("category", [None])[0]):
         parts.append(category)
     if params.get("text", [None])[0]:
-        parts.append(f"matching “{params['text'][0]}”")
+        parts.append(f"matching “{params['text'][0]}” across all seasons")
     if params.get("contested", [None])[0] == "1":
         parts.append("contested only")
     if params.get("tagline", [None])[0] == "variant":

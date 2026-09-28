@@ -5,3 +5,4 @@
 - [ ] 🔴 **Human logline review (F-07)** — review all 220 AI-drafted loglines through `tools/review.py`; approve/edit/reject each. Blocks J-05 and live deployment.
 - [ ] 🟡 **Episode classification spot-check (G-06)** — verify classification decisions against Fox DVD volumes; adjudicate contested episodes into `data/overrides/` where you disagree with the voting outcome.
 - [ ] 🟡 **Recruiter usability test (J-09)** — show the live site to someone unfamiliar with *The X-Files*; record what they say it does in 10 seconds. Note in `POSTMORTEM.md`.
+- [ ] 🟡 **Confirm decision D-29 (search index in memory, not committed SQLite)** — Group R.1 (FTS5 search) is built and green; the on-your-behalf call is recorded in `DECISIONS.md` §C as D-29. Read it and either check this box to confirm, or tell me to switch to serving the committed `data/dist/spooky.sqlite` instead. Low stakes, reversible.
