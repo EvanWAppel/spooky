@@ -289,6 +289,51 @@ list; the stock white filter/pagination controls replaced with a dark
 season pager and search input; episode descriptions surfaced from Group F
 (AI-drafted badge until human review). Recorded in TASKS.md Group UI.
 
+### D-29 — Search index built in memory from JSON, not the committed SQLite ⏳ *awaiting your sign-off*
+**Owner:** CLAUDE (drafted 2026-09-27) · **Confidence:** high · **Reversal cost:** low
+
+Alternatives considered: (a) ship the built `data/dist/spooky.sqlite` and open
+it read-only at request time; (b) build the FTS5 index in memory at startup from
+`data/episodes/*.json`; (c) keep the season-scoped substring-on-title match.
+
+Chose **(b)**. `*.sqlite` is gitignored (D-09: it is a regenerable build output,
+never committed as truth), so at deploy time on Railway a committed DB may not
+exist — (a) would couple serving to a build artifact and quietly break if it were
+stale or absent. (b) keeps JSON the single source of truth: the app already loads
+it into a DataFrame at startup, and `spooky/search.py::build_index` mirrors the
+exact `fts5(id, title, logline)` schema of `build/emit.py` over that same data,
+in `:memory:`. The index costs a few ms over 220 rows and holds no state. The
+`?text=` URL contract is unchanged; only recall (titles **and** loglines,
+site-wide, bm25-ranked) improves over (c). Recorded in TASKS.md Group R.1
+(R-01…R-04). **Confirm or redirect — this is an on-your-behalf call.**
+
+### D-30 — SEO: server-render content pages from Flask, keep Dash
+**Owner:** REC→ACCEPTED (2026-09-30) · **Confidence:** high · **Reversal cost:** medium
+
+Options offered: (A) server-render crawlable HTML per episode/season +
+provenance from Flask, keeping the Dash app; (D) minimal — meta/OG tags + one
+server-rendered episode index + sitemap; (B) full static-site migration
+(Next.js / Observable Framework on Cloudflare Pages).
+
+Chose **(A)**, with coverage spanning **every episode, every season, and the
+provenance dashboard**. It fixes the real §4.1 weakness — Dash renders
+client-side, so a crawler or a recruiter's Google result sees an empty shell —
+without a rewrite of the app just built, keeps the "Python end-to-end" portfolio
+narrative, and stays on the already-chosen Railway host. (B) was rejected as a
+full front-end rewrite with high reversal cost that discards the Python story;
+(D) as too thin for a data site whose value is per-episode.
+
+The content pages render from the same `data/episodes/*.json` the app reads, at
+their own canonical crawlable URLs, each carrying `<meta>` / Open Graph tags,
+JSON-LD (`TVEpisode`), the CC BY-SA footer, and a link into the interactive app;
+a `sitemap.xml` and `robots.txt` tie them together. Same legal posture as the
+app — plain text, no imagery, no synopses, no IMDb numbers.
+
+**Acceptance test:** a non-JS fetch (`curl`) of an episode URL returns the
+episode's title, classification, and logline **in the raw HTML**. Implementation
+is Group R.3; the *live-site* leg of the acceptance test is gated on the Railway
+deploy (`BLOCKED.md`), but the pages are built and curl-tested locally first.
+
 ## D. Open items needing your decision
 
 ### OPEN-01 — ✅ RESOLVED 2026-07-27: null = abstain

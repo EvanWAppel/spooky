@@ -25,6 +25,12 @@ breakdown instead of a quietly-picked winner.
 - **Click anything** — a chart segment filters the sortable, filterable
   episode table; a row opens the detail panel; every view state lives in
   the URL and survives a reload.
+- **Search everything** — the search box runs a relevance-ranked full-text
+  query over every episode's title and logline, site-wide.
+- **A provenance dashboard** ([`/provenance`](https://spooky.evanappel.me/provenance)) —
+  how much of the show each source covers, every contested episode with its
+  per-source split, and each field's source and licence — all recomputed from
+  the dataset, never hard-coded.
 - **220 records** — 218 episodes + both films, each with credits, TVmaze
   rating, air date, production code, the three source labels, the derived
   label with its written rationale, and links out to IMDb and TMDB's
@@ -91,6 +97,19 @@ Engineering choices worth a look:
 - **Legal-shape tests in CI** — no synopses, no imagery, no IMDb ratings,
   every field attributed (`tests/test_legal.py`, `tests/test_provenance.py`).
   The what-and-why lives in [`DECISIONS.md`](DECISIONS.md).
+- **Full-text search with no runtime database** — the search box runs a
+  relevance-ranked FTS5 query over every episode's title and logline, site-wide.
+  The index is built in memory at startup from the JSON source of truth
+  (`spooky/search.py`), so no `*.sqlite` build artifact is ever a serving
+  dependency — the app still fetches nothing and opens no database at request time.
+- **Crawlable, server-rendered content pages** — the Dash app renders
+  client-side, so a crawler (or a recruiter's Google result) would otherwise see
+  an empty shell. Plain Flask routes (`components/ssr.py`) serve semantic HTML for
+  every episode (`/episode/<id>`), season (`/seasons/<n>`), an index
+  (`/overview`), and a text provenance page — each with the episode text in the
+  raw markup, `<meta>`/Open Graph tags, `TVEpisode` JSON-LD, a `sitemap.xml` and
+  `robots.txt`, and a link into the interactive app. Same legal posture as the
+  app: plain text, no imagery, no synopses.
 
 ## Licensing
 

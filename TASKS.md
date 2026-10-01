@@ -377,19 +377,137 @@ D ─────► E ─────► G ────────────
 
 ---
 
+## Group R — Recruiter-facing v2 (Search · Provenance · Discoverability) *(requested by Evan 2026-09-27)*
+> Depends on: v1 code-complete (Groups A–H) + Group UI. Feature spec in
+> **PRD §7 → "v2 — recruiter-facing priority group"**. Build order is deliberate,
+> lowest-risk first: **Search (FTS5) → Provenance dashboard → Discoverability/SEO**.
+> Each sub-feature merges to the main line on its own, with independent adversarial
+> review (CLAUDE.md ROCRLL). **Semantic search and SEO carry human-only blockers**
+> (embeddings key guardrail; Railway deploy) — recorded in `BLOCKED.md` when those
+> tasks start, not before.
+
+### R.1 — Search, FTS5-first ✅ *(built 2026-09-27)*
+> Upgrades the existing `?text=` box (UI-03) in place: same URL contract, but
+> full-text over **titles + loglines across all 220 records**, ranked by bm25,
+> instead of a per-season substring match on `title`. The FTS index is built
+> **in-memory at startup from the JSON source of truth** — `*.sqlite` is gitignored
+> and is never a runtime dependency (CLAUDE.md: JSON is truth, SQLite is a build
+> output). Curated-tag and semantic layers (PRD §7 layers 2–3) are **not** in R.1.
+
+- [x] **R-01** Write `tests/test_search.py` first (TDD): an in-memory FTS5 index built
+  from a small fixture DataFrame returns the expected record ids for a title-token
+  query and a logline-token query; ranks a title hit above a body-only hit; returns
+  `[]` for no match and for an empty/whitespace query; and **does not raise** on
+  user input containing FTS5 syntax (`"`, `*`, `AND`, a lone `(`) — the query is
+  sanitized, not passed raw.
+  - Verify: `uv run pytest tests/test_search.py -q` → red (module absent), then green after R-02
+- [x] **R-02** Implement `spooky/search.py`: `build_index(df) -> sqlite3.Connection`
+  (an in-memory `fts5(id, title, logline)` mirroring `build/emit.py`, indexing the
+  **displayed** logline — `logline` if human-reviewed else `logline_generated`) and
+  `search(conn, query, limit=None) -> list[str]` returning ids ordered by bm25.
+  Sanitize the query (wrap bare terms; drop/escape stray FTS operators). Use
+  `logging` for the query and hit count; **do not wrap/hide sqlite errors** (CLAUDE.md).
+  - Verify: `uv run pytest tests/test_search.py -q` → green; ruff + ty clean on the new file
+- [x] **R-03** Wire into the app: build the index once at startup from the loaded
+  records; in `_filter_episodes`, when `?text=` is present route through
+  `search()` **across all records** (global, not season-scoped), then apply the
+  season/category/contested filters to the matched set. Update the filter chip to
+  say results are site-wide. Extend `tests/test_app_routing.py`: `?text=` returns a
+  cross-season match a substring-on-title query would have missed (e.g. a term that
+  appears only in a logline), and the URL contract is unchanged.
+  - Verify: `uv run pytest tests/test_app_routing.py -q -k text` → green; `uv run python app.py` serves and a logline-only term returns its episode
+- [x] **R-04** Legal + docs: extend `tests/test_legal.py` so the search surface
+  emits **no** synopsis/imagery/IMDb-number regressions (it renders the same rows),
+  and note the in-memory FTS index + upgraded `?text=` semantics in `README.md`
+  ("How it's built") and `docs/` if a search note fits. Draft the DECISIONS.md entry
+  (in-memory FTS from JSON vs. shipping the committed `.sqlite`; chose in-memory) —
+  **owner confirms** per ROCRLL Ledger.
+  - Verify: `uv run pytest tests/test_legal.py -q` → green; DECISIONS.md entry drafted for owner sign-off
+
+### R.2 — Provenance / pipeline dashboard ✅ *(built 2026-09-27)*
+> New read-only page (`/provenance`), PRD §7 feature 2. Presentation layer over
+> the `provenance` block + classification already on every record. **No new data,
+> no new fields.** Text + original SVG/CSS only (C2); same §11.2 footer.
+
+- [x] **R-05** Write `tests/test_provenance_view.py` first: a builder turns the
+  loaded records into (a) coverage counts per source, (b) the contested set with
+  per-source split, (c) a per-field source/licence/revid table — all **re-derived**,
+  no hard-coded counts (CLAUDE.md).
+  - Verify: `uv run pytest tests/test_provenance_view.py -q` → red then green
+- [x] **R-06** Implement `components/provenance_view.py` + route `/provenance`
+  (mirror `components/taglines_view.py` / `/taglines`); link it from the site nav.
+  - Verify: served under `/provenance` (HTTP 200); contested count matches
+    `label_contested == True`; every field row shows a source + licence
+- [x] **R-07** Extend `tests/test_legal.py` for the new page (no imagery/synopsis;
+  attribution + footer present); document the page in `README.md`.
+  - Verify: `uv run pytest tests/test_legal.py -q` → green
+
+### R.3 — Discoverability / SEO ⚙️ *(built 2026-09-30; live check R-13 pending deploy)*
+> PRD §7 feature 3, pulled forward from v3. **Approach decided (D-30, 2026-09-30):
+> server-render crawlable content pages from Flask and keep the Dash app** —
+> coverage spans every episode, every season, and the provenance dashboard. Pages
+> render from `data/episodes/*.json` at their own canonical URLs with meta/OG +
+> JSON-LD + the CC BY-SA footer, cross-linked into the app, tied together by
+> `sitemap.xml` + `robots.txt`. Same legal posture as the app (C1–C3).
+>
+> **Acceptance:** a non-JS `curl` of an episode URL returns its title,
+> classification, and logline in the raw HTML. Pages are built and curl-tested
+> locally; the *live-site* leg is gated on the Railway deploy (`BLOCKED.md`).
+
+- [x] **R-08** 📋 **SCOPING** — SEO approach chosen with the owner and recorded in
+  DECISIONS.md (D-30): Flask SSR content pages, keep Dash; coverage = episodes +
+  seasons + provenance; acceptance = episode text in raw HTML to a non-JS fetch.
+  - Verify: D-30 recorded; implementation tasks R-09…R-13 appended below
+- [x] **R-09** Write `tests/test_ssr.py` first (TDD): a pure `render_episode(record)`
+  returns HTML containing the title, derived classification, logline, air date,
+  credits, the IMDb/TMDB out-links, a `<link rel="canonical">`, Open Graph tags,
+  and a `TVEpisode` JSON-LD block — and **no** image tag, no synopsis, no IMDb
+  number (C1–C3). Cover a film record (nullable season/episode) and a contested
+  record (per-source split shown).
+  - Verify: `uv run pytest tests/test_ssr.py -q` → red, then green after R-10
+- [x] **R-10** Implement `components/ssr.py`: pure `render_episode`, `render_season`
+  (lists the season's episodes with classifications, links to each episode page
+  and into the app), `render_index` (text description of the project + the
+  mythology-disagreement story + full episode/season list), `render_provenance`
+  (the dashboard numbers from `spooky/provenance.py`, server-rendered), and
+  `render_sitemap`. Shared `<head>`/footer helper; reuse `spooky/links.py` and
+  `spooky/provenance.py`. Plain semantic HTML, original markup only (C2).
+  - Verify: `uv run pytest tests/test_ssr.py -q` → green; ruff + ty clean
+- [x] **R-11** Register Flask routes on `app.server` at crawlable paths that do
+  **not** collide with Dash client routes — `/episode/<id>`, `/seasons/<n>`, a
+  crawlable `/overview` + `/provenance-text`, plus `/sitemap.xml` and
+  `/robots.txt` (robots points at the sitemap). Each app view links to its
+  crawlable twin and vice-versa; canonical URLs are absolute (`spooky.evanappel.me`).
+  - Verify: `curl -s localhost:$PORT/episode/s03e15 | grep -i "piper maru"` hits in
+    the **raw** HTML (no JS); `/sitemap.xml` lists every episode + season URL; the
+    Dash routes (`/`, `/season/3`, `/taglines`, `/provenance`, `/about`) still 200
+- [x] **R-12** Legal + crawlability tests: extend `tests/test_legal.py` so every
+  SSR page carries the §11.2 footer + attribution and no imagery/synopsis/IMDb
+  number; add a test that an episode's text is present in the rendered HTML string
+  without any client-side rendering. Document the SSR layer in `README.md`
+  ("How it's built") and note the SEO fix closing PRD §4.1.
+  - Verify: `uv run pytest tests/test_legal.py tests/test_ssr.py -q` → green
+- [ ] **R-13** 📋 **OWNER / DEPLOY** — after the Railway deploy, confirm the live
+  acceptance test: `curl https://spooky.evanappel.me/episode/<id>` returns the
+  episode text in raw HTML, and the sitemap is reachable; submit the sitemap to
+  Google Search Console. Depends on the deploy blocker in `BLOCKED.md`.
+  - Verify: live `curl` shows episode text; `robots.txt` + `sitemap.xml` resolve on the domain
+
+---
+
 ## Deferred — do not build in v1
 
 Specified in PRD §7. Listed here so no agent starts them by accident.
 
 - [ ] **V2-01** Viewership charts — **gated on hand-QA**, every source claim failed verification
 - [ ] **V2-02** Keyword playlists — in-app queue, URL-encoded, CSV/Markdown export
-- [ ] **V2-03** Layered search — curated tags → FTS5 → semantic embeddings
+- [~] **V2-03** Layered search — curated tags → FTS5 → semantic embeddings. **FTS5 layer promoted to Group R.1** (in progress); curated-tag + semantic layers remain deferred (semantic blocked on the embeddings-key guardrail).
 - [ ] **V2-04** Trivia writeups — **Wikipedia only**, never Fandom or IMDb
 - [ ] **V2-05** 100% stacked chart toggle
 - [ ] **V2-06** Opening-title taglines — the intro-tagline variations. Full plan in **Group T** above and PRD §7.
 - [ ] **V3-01** People profiles — 343 recurring actors
 - [ ] **V3-02** Episode interconnection graph from ~1,217 Wikipedia wikilinks
 - [ ] **V3-03** Connections to outside works
-- [ ] **V3-04** Static-site migration if SEO matters
+- [ ] **V3-04** Static-site migration if SEO matters — **pulled forward to Group R.3** (discoverability/SEO); see that group and PRD §7.
 - [ ] **XX-01** ~~Video extras~~ — **dropped**, all claims failed verification
 - [ ] **XX-02** ~~Contemporary review sentiment~~ — **unassessed**; research agent errored. Redo the research before deciding.

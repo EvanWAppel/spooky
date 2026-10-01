@@ -401,6 +401,67 @@ Specified here so the v1 data model doesn't foreclose them.
   AI-drafted → human-reviewed pipeline as loglines.
 - **100% stacked toggle** on the season chart.
 
+### v2 — recruiter-facing priority group *(owner-requested 2026-09-27)*
+
+Three of the features above and below are pulled forward and built together as
+one group because they most directly serve **goal (1) — demonstrate data
+engineering judgment** — to a technical recruiter landing on the live site.
+They are specified individually in this section; this note states the grouping,
+the build order, and the one genuinely new feature. Execution plan: **Group R**
+in `TASKS.md`. Build order is deliberate — lowest-risk / no-new-dependency first.
+
+1. **Search — built FTS5-first.** This is the existing *Layered search* bullet,
+   sequenced so the two zero-dependency layers ship first:
+   - **Layer 1 (now): full-text over titles + loglines via SQLite FTS5**, ranked
+     by relevance (bm25), scoped **across all 220 records** rather than the
+     current per-season substring match on `title` only. The FTS5 schema already
+     exists in `build/emit.py` (`episodes_fts(id, title, logline)`); the app does
+     **not** ship a committed database (`*.sqlite` is gitignored), so the index is
+     **built in-memory at startup from the JSON source of truth** — no build
+     artifact is a runtime dependency, and JSON stays the single source of truth.
+     The existing `?text=` box and URL param are **upgraded in place**, not
+     replaced: same URL contract, better recall and ranking.
+   - **Layers 2–3 (later): curated tags, then semantic embeddings** — unchanged
+     from the *Layered search* spec above. Semantic search needs an embeddings
+     API key and therefore **cannot** ship until the personal-key guardrail is
+     satisfied (dedicated workspace, scoped + spend-capped key); that dependency
+     is recorded in `BLOCKED.md` when the tag/semantic layers are scheduled, not
+     before.
+
+2. **Provenance / pipeline dashboard *(new)*.** A read-only page (proposed route
+   `/provenance`) that surfaces, as the site's data-engineering centrepiece, what
+   the dataset already stores but currently buries in `data/README.md`:
+   - **The disagreement, quantified** — how many records each source covers, how
+     many are contested, and the exact set of contested episodes with their
+     per-source split, re-derived at build/load time (never a hard-coded count).
+   - **Per-field provenance and licence** — every field's `source` / `license` /
+     Wikipedia `revid`, rendered from the `provenance` block already on every
+     record. No new data, no new fields: this is a **presentation layer** over
+     §8.2 field ownership and the existing provenance.
+   - **Pipeline shape** — the 9 ingest steps and the sacred-edits guarantee,
+     stated so a reader sees the governance, not just the output.
+   - **Legal.** Text and original SVG/CSS only (C2). It republishes only data the
+     dataset already publishes under CC BY-SA, so it carries the same §11.2
+     footer and attribution.
+
+3. **Discoverability / SEO — Flask-rendered content pages *(pulled forward from
+   v3; approach decided 2026-09-30, DECISIONS D-30)*.** The documented §4.1
+   weakness: Dash renders client-side, so episode text is invisible to
+   non-rendering crawlers and a recruiter Googling the author finds nothing. The
+   fix keeps the Dash app and **adds server-rendered, crawlable HTML pages from
+   Flask** — one per episode, one per season, plus the index and a text
+   provenance page — rendered from the same `data/episodes/*.json` the app reads,
+   each at its own canonical URL with `<meta>` / Open Graph tags, `TVEpisode`
+   JSON-LD, the CC BY-SA footer, and a link into the interactive app; a
+   `sitemap.xml` and `robots.txt` tie them together. Rejected: a full static-site
+   migration to Next.js/Observable (a rewrite of the app just built, discards the
+   Python-end-to-end story), and a minimal meta-tags-only pass (too thin for a
+   per-episode data site). Same legal posture as the app (C1–C3). **Acceptance: a
+   non-JS fetch of an episode URL returns its title, classification, and logline
+   in the raw HTML.** Execution: Group R.3 (R-09…R-13); the live-site leg is gated
+   on the Railway deploy (`BLOCKED.md`). Still noted in v3's list below so the
+   roadmap has one home for it.
+
 ### v3
 
 - **People profiles** — writers, directors, and recurring guest actors, with
@@ -414,7 +475,9 @@ Specified here so the v1 data model doesn't foreclose them.
 - **Connections to outside works** — films, books, music, historical events.
   Least structured data in the whole brief; hand-curated or LLM-extracted from
   Wikipedia only.
-- **Static-site migration**, if SEO becomes a priority.
+- **Static-site migration**, if SEO becomes a priority. *(Pulled forward into
+  the v2 recruiter-facing priority group above as feature 3 — discoverability /
+  SEO — but sequenced last within it; see that subsection and Group R.)*
 
 ---
 

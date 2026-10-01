@@ -244,6 +244,62 @@ def test_category_links_preserve_search_but_clear_selection():
     assert target == {"text": ["duane"], "contested": ["1"], "category": ["mythology"]}
 
 
+def test_text_search_is_global_not_season_scoped():
+    # "piper" (Piper Maru, S3) must be found from the Season 1 page — the
+    # season-scoped substring-on-title filter it replaces never could (R-03).
+    df = app_module._filter_episodes("/season/1", "?text=piper")
+    assert "s03e15" in set(df["id"])
+
+
+def test_text_search_matches_a_logline_only_term():
+    # A term present in a displayed logline but not the title still finds the
+    # episode — the recall a title substring match would miss (PRD §7 / R-03).
+    import re
+
+    from spooky.search import displayed_logline
+
+    term = target = None
+    for rec in app_module.EPISODES.to_dict("records"):
+        title_words = set(re.findall(r"[a-z0-9]+", str(rec["title"]).lower()))
+        body_only = [
+            word
+            for word in re.findall(r"[a-z0-9]+", displayed_logline(rec).lower())
+            if len(word) >= 5 and word not in title_words
+        ]
+        if body_only:
+            term, target = body_only[0], rec["id"]
+            break
+    assert target is not None, "no logline-only term in the corpus to probe"
+    df = app_module._filter_episodes("/season/1", f"?text={term}")
+    assert target in set(df["id"])
+
+
+def test_provenance_route_shows_the_dashboard_and_hides_explore():
+    result = app_module.sync_view("/provenance", "")
+    explore_style, about_style, taglines_style, provenance_style = result[-4:]
+    assert provenance_style == {}
+    assert explore_style == {"display": "none"}
+    assert about_style == {"display": "none"}
+    assert taglines_style == {"display": "none"}
+
+
+def test_ssr_season_page_includes_its_film():
+    # The crawlable /seasons/<n> page must list the film the app places on that
+    # season page, so the SEO surface and the app agree (review finding 5).
+    client = app_module.server.test_client()
+    film_id, season = next(iter(app_module.FILM_PAGE.items()))
+    resp = client.get(f"/seasons/{season}")
+    assert resp.status_code == 200
+    assert f"/episode/{film_id}".encode() in resp.data
+
+
+def test_nav_marks_provenance_active_on_its_route():
+    # Nav order: explore, taglines, provenance, about.
+    classes = app_module.sync_navigation("/provenance")
+    assert classes[2] == "nav-link is-active"
+    assert classes[0] == "nav-link"
+
+
 def test_empty_index_offers_a_season_scoped_reset():
     _, count, empty, _ = app_module.sync_index("/season/3", "?text=no-such-episode")
     assert count == "00 cases in view"

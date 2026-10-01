@@ -1,23 +1,41 @@
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlencode
 
 import pandas as pd
 from dash import Dash, Input, Output, State, callback_context, dcc, html
+from flask import Response, abort
 
 from components.about import build_about
 from components.chart import build_season_chart, build_season_summary_table
 from components.panel import build_detail_panel
+from components.provenance_view import build_provenance_view
+from components.ssr import (
+    render_episode,
+    render_index,
+    render_provenance,
+    render_season,
+    render_sitemap,
+    robots_txt,
+)
 from components.table import _STYLE_DATA_CONDITIONAL, build_episode_table
 from components.taglines_view import build_taglines_view
 from spooky.loader import load_episodes
 from spooky.logging_config import setup_logging
+from spooky.search import build_index
+from spooky.search import search as fts_search
 
 setup_logging()
+log = logging.getLogger(__name__)
 
 EPISODES = load_episodes(Path(__file__).resolve().parent / "data" / "episodes")
+
+# Full-text index built in memory from the JSON source of truth at startup —
+# never a committed *.sqlite (CLAUDE.md). Drives the ?text= search (Group R.1).
+SEARCH_INDEX = build_index(EPISODES)
 
 SEASONS: list[int] = sorted(
     EPISODES.loc[EPISODES["season"].notna(), "season"].astype(int).unique().tolist()
@@ -104,19 +122,26 @@ def _filter_episodes(pathname: str | None, search: str | None) -> pd.DataFrame:
     """One season page — its episodes plus any film that follows it — with
     the search/category/contested filters applied, in airing order."""
     season = _current_season(pathname)
-    film_ids = [film_id for film_id, page in FILM_PAGE.items() if page == season]
-    df = EPISODES[
-        (EPISODES["season"] == season) | (EPISODES["id"].isin(film_ids))
-    ].sort_values("air_date")
-
     params = parse_qs((search or "").lstrip("?"))
+    text = params.get("text", [None])[0]
+
+    if text:
+        # Full-text search is site-wide (all 220 records), ranked by relevance,
+        # over titles + loglines — not the season-scoped substring-on-title it
+        # replaces. Preserve the bm25 order the index returns (Group R.1).
+        ranked = fts_search(SEARCH_INDEX, text)
+        rank = {record_id: position for position, record_id in enumerate(ranked)}
+        df = EPISODES[EPISODES["id"].isin(ranked)].copy()
+        df = df.sort_values("id", key=lambda ids: ids.map(rank))
+    else:
+        film_ids = [film_id for film_id, page in FILM_PAGE.items() if page == season]
+        df = EPISODES[
+            (EPISODES["season"] == season) | (EPISODES["id"].isin(film_ids))
+        ].sort_values("air_date")
+
     category = params.get("category", [None])[0]
     if category:
         df = df[df["label_derived"] == category]
-
-    text = params.get("text", [None])[0]
-    if text:
-        df = df[df["title"].str.contains(text, case=False, na=False)]
 
     if params.get("contested", [None])[0] == "1":
         df = df[df["label_contested"]]
@@ -167,7 +192,7 @@ def _filter_chip(pathname: str | None, search: str | None) -> html.Div | str:
     if category := _category_label(params.get("category", [None])[0]):
         parts.append(category)
     if params.get("text", [None])[0]:
-        parts.append(f"matching “{params['text'][0]}”")
+        parts.append(f"matching “{params['text'][0]}” across all seasons")
     if params.get("contested", [None])[0] == "1":
         parts.append("contested only")
     if params.get("tagline", [None])[0] == "variant":
@@ -225,6 +250,14 @@ footer = html.Footer(
             "This website uses TMDB and the TMDB APIs but is not endorsed, certified, "
             "or otherwise approved by TMDB."
         ),
+        html.P(
+            [
+                html.A("Text-only index", href="/overview"),
+                " · ",
+                html.A("Sitemap", href="/sitemap.xml"),
+            ],
+            className="footer-links",
+        ),
     ],
     className="site-footer",
 )
@@ -265,7 +298,13 @@ app.layout = html.Div(
                             className="nav-link",
                         ),
                         dcc.Link(
-                            "03 / About",
+                            "03 / Provenance",
+                            href="/provenance",
+                            id="nav-provenance",
+                            className="nav-link",
+                        ),
+                        dcc.Link(
+                            "04 / About",
                             href="/about",
                             id="nav-about",
                             className="nav-link",
@@ -514,6 +553,7 @@ app.layout = html.Div(
                     id="explore-view",
                 ),
                 build_taglines_view(EPISODES),
+                build_provenance_view(EPISODES),
                 build_about(),
             ]
         ),
@@ -526,13 +566,18 @@ app.layout = html.Div(
 @app.callback(
     Output("nav-explore", "className"),
     Output("nav-taglines", "className"),
+    Output("nav-provenance", "className"),
     Output("nav-about", "className"),
     Input("url", "pathname"),
 )
 def sync_navigation(pathname: str | None):
     route = (pathname or "/").rstrip("/")
-    active = 1 if route == "/taglines" else 2 if route == "/about" else 0
-    return tuple("nav-link is-active" if i == active else "nav-link" for i in range(3))
+    # index 0 is Explore ("/"); the rest map to their route in order.
+    routes = ["", "/taglines", "/provenance", "/about"]
+    active = routes.index(route) if route in routes else 0
+    return tuple(
+        "nav-link is-active" if i == active else "nav-link" for i in range(len(routes))
+    )
 
 
 @app.callback(
@@ -600,6 +645,7 @@ def sync_index(pathname: str | None, search: str | None):
     Output("explore-view", "style"),
     Output("about-section", "style"),
     Output("taglines-section", "style"),
+    Output("provenance-section", "style"),
     Input("url", "pathname"),
     Input("url", "search"),
 )
@@ -607,6 +653,7 @@ def sync_view(pathname: str | None, search: str | None):
     route = (pathname or "/").rstrip("/")
     on_about = route == "/about"
     on_taglines = route == "/taglines"
+    on_provenance = route == "/provenance"
     season = _current_season(pathname)
     filtered = _filter_episodes(pathname, search)
     data = _table_data(filtered)
@@ -618,9 +665,10 @@ def sync_view(pathname: str | None, search: str | None):
         _season_label(season),
         season == SEASONS[0],
         season == SEASONS[-1],
-        hidden if (on_about or on_taglines) else {},
+        hidden if (on_about or on_taglines or on_provenance) else {},
         {} if on_about else hidden,
         {} if on_taglines else hidden,
+        {} if on_provenance else hidden,
     )
 
 
@@ -711,6 +759,60 @@ def write_url(
         return pathname or "/", f"?{urlencode(params, doseq=True)}"
 
     return pathname or "/", search or ""
+
+
+# --- Server-rendered, crawlable content pages (Group R.3, SEO) ---------------
+# Plain Flask routes on the Dash server at paths that do not collide with the
+# app's client-side routes (/, /season/<n>, /taglines, /provenance, /about).
+# These are what crawlers and no-JS visitors get: episode text in the raw HTML.
+
+
+@server.route("/episode/<record_id>")
+def ssr_episode(record_id: str):
+    match = EPISODES[EPISODES["id"] == record_id]
+    if match.empty:
+        log.warning("SSR episode not found: %r", record_id)
+        abort(404)
+    log.info("SSR episode %s", record_id)
+    return render_episode(match.iloc[0].to_dict())
+
+
+@server.route("/seasons/<int:season>")
+def ssr_season(season: int):
+    # Include the film(s) placed on this season page, matching the app's
+    # season view (_filter_episodes / FILM_PAGE) so the two agree.
+    film_ids = [film_id for film_id, page in FILM_PAGE.items() if page == season]
+    rows = EPISODES[
+        (EPISODES["season"] == season) | (EPISODES["id"].isin(film_ids))
+    ].sort_values("air_date")
+    if rows.empty:
+        log.warning("SSR season has no episodes: %r", season)
+        abort(404)
+    log.info("SSR season %d (%d rows)", season, len(rows))
+    return render_season(season, rows.to_dict("records"))
+
+
+@server.route("/overview")
+def ssr_overview():
+    log.info("SSR overview")
+    return render_index(EPISODES)
+
+
+@server.route("/provenance-text")
+def ssr_provenance():
+    log.info("SSR provenance text")
+    return render_provenance(EPISODES)
+
+
+@server.route("/sitemap.xml")
+def ssr_sitemap():
+    log.info("SSR sitemap")
+    return Response(render_sitemap(EPISODES), mimetype="application/xml")
+
+
+@server.route("/robots.txt")
+def ssr_robots():
+    return Response(robots_txt(), mimetype="text/plain")
 
 
 if __name__ == "__main__":

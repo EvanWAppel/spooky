@@ -109,3 +109,71 @@ def test_every_record_has_the_full_label_set() -> None:
         }
         assert isinstance(record["label_contested"], bool)
         assert record["label_rationale"]
+
+
+def test_provenance_dashboard_ships_no_imagery_or_external_urls(render_text) -> None:
+    """C2: the provenance page (Group R.2) renders only labels, counts, short
+    rationales and licence text — never an image reference or a hotlinked URL —
+    and it surfaces the CC BY-SA attribution the data carries. Runs against the
+    real committed corpus, the data the page actually ships."""
+    from components.provenance_view import build_provenance_view
+    from spooky.loader import load_episodes
+
+    if not sorted(EPISODES_DIR.glob("*.json")):
+        pytest.skip("data/episodes/ is empty — run the merge first")
+    blob = render_text(build_provenance_view(load_episodes(EPISODES_DIR)))
+    assert "static.tvmaze.com" not in blob
+    assert "<img" not in blob.lower()
+    assert "http://" not in blob
+    assert "https://" not in blob
+    assert "CC BY-SA" in blob  # attribution/licence is surfaced, not hidden
+
+
+def test_ssr_pages_carry_attribution_and_no_imagery_or_synopsis() -> None:
+    """C2/C3 for the server-rendered SEO pages (Group R.3): every page carries
+    the CC BY-SA attribution footer and ships no imagery or synopsis. Runs
+    against the real committed corpus."""
+    from components.ssr import (
+        render_episode,
+        render_index,
+        render_provenance,
+        render_season,
+    )
+    from spooky.loader import load_episodes
+
+    if not sorted(EPISODES_DIR.glob("*.json")):
+        pytest.skip("data/episodes/ is empty — run the merge first")
+    df = load_episodes(EPISODES_DIR)
+    season_one = df[df["season"] == 1].to_dict("records")
+    pages = [
+        render_episode(df.iloc[0].to_dict()),
+        render_season(1, season_one),
+        render_index(df),
+        render_provenance(df),
+    ]
+    for page in pages:
+        assert "CC BY-SA 4.0" in page
+        assert "unofficial fan project" in page
+        assert "<img" not in page.lower()
+        assert "static.tvmaze.com" not in page
+        assert "synopsis" not in page.lower()
+
+
+def test_ssr_episode_text_is_in_the_raw_html() -> None:
+    """The whole point (PRD §4.1): a crawler sees the title and logline in the
+    server-rendered markup, with no client-side rendering."""
+    from components.ssr import render_episode
+    from spooky.loader import load_episodes
+    from spooky.search import displayed_logline
+
+    if not sorted(EPISODES_DIR.glob("*.json")):
+        pytest.skip("data/episodes/ is empty — run the merge first")
+    df = load_episodes(EPISODES_DIR)
+    for record in df.to_dict("records"):
+        logline = displayed_logline(record)
+        if logline:
+            page = render_episode(record)
+            assert str(record["title"]) in page
+            assert logline[:24] in page
+            return
+    pytest.skip("no record with a displayed logline")
