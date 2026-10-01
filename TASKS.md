@@ -442,7 +442,7 @@ D ─────► E ─────► G ────────────
   attribution + footer present); document the page in `README.md`.
   - Verify: `uv run pytest tests/test_legal.py -q` → green
 
-### R.3 — Discoverability / SEO
+### R.3 — Discoverability / SEO ⚙️ *(built 2026-09-30; live check R-13 pending deploy)*
 > PRD §7 feature 3, pulled forward from v3. **Approach decided (D-30, 2026-09-30):
 > server-render crawlable content pages from Flask and keep the Dash app** —
 > coverage spans every episode, every season, and the provenance dashboard. Pages
@@ -458,14 +458,14 @@ D ─────► E ─────► G ────────────
   DECISIONS.md (D-30): Flask SSR content pages, keep Dash; coverage = episodes +
   seasons + provenance; acceptance = episode text in raw HTML to a non-JS fetch.
   - Verify: D-30 recorded; implementation tasks R-09…R-13 appended below
-- [ ] **R-09** Write `tests/test_ssr.py` first (TDD): a pure `render_episode(record)`
+- [x] **R-09** Write `tests/test_ssr.py` first (TDD): a pure `render_episode(record)`
   returns HTML containing the title, derived classification, logline, air date,
   credits, the IMDb/TMDB out-links, a `<link rel="canonical">`, Open Graph tags,
   and a `TVEpisode` JSON-LD block — and **no** image tag, no synopsis, no IMDb
   number (C1–C3). Cover a film record (nullable season/episode) and a contested
   record (per-source split shown).
   - Verify: `uv run pytest tests/test_ssr.py -q` → red, then green after R-10
-- [ ] **R-10** Implement `components/ssr.py`: pure `render_episode`, `render_season`
+- [x] **R-10** Implement `components/ssr.py`: pure `render_episode`, `render_season`
   (lists the season's episodes with classifications, links to each episode page
   and into the app), `render_index` (text description of the project + the
   mythology-disagreement story + full episode/season list), `render_provenance`
@@ -473,7 +473,7 @@ D ─────► E ─────► G ────────────
   `render_sitemap`. Shared `<head>`/footer helper; reuse `spooky/links.py` and
   `spooky/provenance.py`. Plain semantic HTML, original markup only (C2).
   - Verify: `uv run pytest tests/test_ssr.py -q` → green; ruff + ty clean
-- [ ] **R-11** Register Flask routes on `app.server` at crawlable paths that do
+- [x] **R-11** Register Flask routes on `app.server` at crawlable paths that do
   **not** collide with Dash client routes — `/episode/<id>`, `/seasons/<n>`, a
   crawlable `/overview` + `/provenance-text`, plus `/sitemap.xml` and
   `/robots.txt` (robots points at the sitemap). Each app view links to its
@@ -481,7 +481,7 @@ D ─────► E ─────► G ────────────
   - Verify: `curl -s localhost:$PORT/episode/s03e15 | grep -i "piper maru"` hits in
     the **raw** HTML (no JS); `/sitemap.xml` lists every episode + season URL; the
     Dash routes (`/`, `/season/3`, `/taglines`, `/provenance`, `/about`) still 200
-- [ ] **R-12** Legal + crawlability tests: extend `tests/test_legal.py` so every
+- [x] **R-12** Legal + crawlability tests: extend `tests/test_legal.py` so every
   SSR page carries the §11.2 footer + attribution and no imagery/synopsis/IMDb
   number; add a test that an episode's text is present in the rendered HTML string
   without any client-side rendering. Document the SSR layer in `README.md`

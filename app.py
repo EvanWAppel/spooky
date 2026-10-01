@@ -6,11 +6,20 @@ from urllib.parse import parse_qs, urlencode
 
 import pandas as pd
 from dash import Dash, Input, Output, State, callback_context, dcc, html
+from flask import Response, abort
 
 from components.about import build_about
 from components.chart import build_season_chart, build_season_summary_table
 from components.panel import build_detail_panel
 from components.provenance_view import build_provenance_view
+from components.ssr import (
+    render_episode,
+    render_index,
+    render_provenance,
+    render_season,
+    render_sitemap,
+    robots_txt,
+)
 from components.table import _STYLE_DATA_CONDITIONAL, build_episode_table
 from components.taglines_view import build_taglines_view
 from spooky.loader import load_episodes
@@ -238,6 +247,14 @@ footer = html.Footer(
         html.P(
             "This website uses TMDB and the TMDB APIs but is not endorsed, certified, "
             "or otherwise approved by TMDB."
+        ),
+        html.P(
+            [
+                html.A("Text-only index", href="/overview"),
+                " · ",
+                html.A("Sitemap", href="/sitemap.xml"),
+            ],
+            className="footer-links",
         ),
     ],
     className="site-footer",
@@ -740,6 +757,48 @@ def write_url(
         return pathname or "/", f"?{urlencode(params, doseq=True)}"
 
     return pathname or "/", search or ""
+
+
+# --- Server-rendered, crawlable content pages (Group R.3, SEO) ---------------
+# Plain Flask routes on the Dash server at paths that do not collide with the
+# app's client-side routes (/, /season/<n>, /taglines, /provenance, /about).
+# These are what crawlers and no-JS visitors get: episode text in the raw HTML.
+
+
+@server.route("/episode/<record_id>")
+def ssr_episode(record_id: str):
+    match = EPISODES[EPISODES["id"] == record_id]
+    if match.empty:
+        abort(404)
+    return render_episode(match.iloc[0].to_dict())
+
+
+@server.route("/seasons/<int:season>")
+def ssr_season(season: int):
+    rows = EPISODES[EPISODES["season"] == season].sort_values("air_date")
+    if rows.empty:
+        abort(404)
+    return render_season(season, rows.to_dict("records"))
+
+
+@server.route("/overview")
+def ssr_overview():
+    return render_index(EPISODES)
+
+
+@server.route("/provenance-text")
+def ssr_provenance():
+    return render_provenance(EPISODES)
+
+
+@server.route("/sitemap.xml")
+def ssr_sitemap():
+    return Response(render_sitemap(EPISODES), mimetype="application/xml")
+
+
+@server.route("/robots.txt")
+def ssr_robots():
+    return Response(robots_txt(), mimetype="text/plain")
 
 
 if __name__ == "__main__":

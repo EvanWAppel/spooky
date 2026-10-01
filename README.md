@@ -102,6 +102,14 @@ Engineering choices worth a look:
   The index is built in memory at startup from the JSON source of truth
   (`spooky/search.py`), so no `*.sqlite` build artifact is ever a serving
   dependency — the app still fetches nothing and opens no database at request time.
+- **Crawlable, server-rendered content pages** — the Dash app renders
+  client-side, so a crawler (or a recruiter's Google result) would otherwise see
+  an empty shell. Plain Flask routes (`components/ssr.py`) serve semantic HTML for
+  every episode (`/episode/<id>`), season (`/seasons/<n>`), an index
+  (`/overview`), and a text provenance page — each with the episode text in the
+  raw markup, `<meta>`/Open Graph tags, `TVEpisode` JSON-LD, a `sitemap.xml` and
+  `robots.txt`, and a link into the interactive app. Same legal posture as the
+  app: plain text, no imagery, no synopses.
 
 ## Licensing
 
