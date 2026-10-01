@@ -26,7 +26,10 @@ _ALLOWED = {
     "wiki": {MYTHOLOGY, "not-flagged", None},
     "dom111": {MYTHOLOGY, "motw", None},
 }
-_SOURCE_NAMES = {"fox": "Fox DVDs", "wiki": "Wikipedia", "dom111": "dom111"}
+# Canonical display names for the three sources, shared with the provenance
+# dashboard so the two user-facing surfaces never name a source two ways.
+SOURCE_NAMES = {"fox": "Fox DVDs", "wiki": "Wikipedia", "dom111": "dom111"}
+_SOURCE_NAMES = SOURCE_NAMES
 
 
 def derive_label(

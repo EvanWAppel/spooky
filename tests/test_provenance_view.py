@@ -163,6 +163,30 @@ def test_field_provenance_is_sorted_and_deduped(labelled):
     assert len(fields) == len(set(fields))
 
 
+def test_field_provenance_skips_the_film_blanket_key():
+    # Films carry one "all_fields" blanket note instead of per-field entries;
+    # it is not a field and must not appear in the field dictionary (review).
+    df = _df(
+        [
+            {
+                "provenance": {
+                    "all_fields": {"source": "the owner", "license": "CC BY-SA 4.0"},
+                    "title": {"source": "Wikipedia", "license": "CC BY-SA 4.0"},
+                }
+            }
+        ]
+    )
+    fields = [row["field"] for row in field_provenance(df)]
+    assert "all_fields" not in fields
+    assert fields == ["title"]
+
+
+def test_field_provenance_tolerates_a_missing_provenance_column():
+    # A corpus loaded without a provenance column degrades to an empty table
+    # rather than raising KeyError (review).
+    assert field_provenance(_df([{"id": "s01e01", "title": "Pilot"}])) == []
+
+
 # --- the rendered Dash view ---
 
 

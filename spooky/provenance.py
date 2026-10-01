@@ -13,6 +13,7 @@ from typing import Any
 
 import pandas as pd
 
+from spooky.classify import MYTHOLOGY, SOURCE_NAMES
 from spooky.values import is_missing
 
 
@@ -26,12 +27,17 @@ class Source:
 
 # The three sources that vote on the mythology/MOTW split (PRD §5). A null in a
 # source column means the source does not cover the record — it abstains — and
-# is never counted as coverage (PRD §5.2).
+# is never counted as coverage (PRD §5.2). Display names come from classify so
+# the dashboard and the rationale text name each source identically.
 SOURCES: tuple[Source, ...] = (
-    Source("label_fox_dvd", "Fox Mythology DVDs"),
-    Source("label_wikipedia", "Wikipedia dagger flags"),
-    Source("label_dom111", "dom111 fan dataset"),
+    Source("label_fox_dvd", SOURCE_NAMES["fox"]),
+    Source("label_wikipedia", SOURCE_NAMES["wiki"]),
+    Source("label_dom111", SOURCE_NAMES["dom111"]),
 )
+
+# A blanket provenance key the film records use in place of per-field entries;
+# it is not a field, so the field dictionary skips it.
+_BLANKET_PROVENANCE_KEY = "all_fields"
 
 
 def source_coverage(df: pd.DataFrame) -> list[dict[str, Any]]:
@@ -46,7 +52,7 @@ def source_coverage(df: pd.DataFrame) -> list[dict[str, Any]]:
                 "label": source.label,
                 "covers": int(covered.sum()),
                 "abstains": int((~covered).sum()),
-                "mythology": int((values == "mythology").sum()),
+                "mythology": int((values == MYTHOLOGY).sum()),
             }
         )
     return rows
@@ -80,10 +86,14 @@ def field_provenance(df: pd.DataFrame) -> list[dict[str, Any]]:
     frame gives the complete field dictionary.
     """
     fields: dict[str, dict[str, Any]] = {}
+    if "provenance" not in df.columns:
+        return []
     for provenance in df["provenance"]:
         if not isinstance(provenance, dict):
             continue
         for field, meta in provenance.items():
+            if field == _BLANKET_PROVENANCE_KEY:
+                continue  # the films' blanket note, not a field
             if not isinstance(meta, dict):
                 continue  # e.g. the sample fixtures' free-text "fixture" note
             entry = fields.setdefault(

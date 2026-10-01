@@ -27,7 +27,7 @@ breakdown instead of a quietly-picked winner.
   the URL and survives a reload.
 - **Search everything** — the search box runs a relevance-ranked full-text
   query over every episode's title and logline, site-wide.
-- **A provenance dashboard** ([`/provenance`](spooky.evanappel.me/provenance)) —
+- **A provenance dashboard** ([`/provenance`](https://spooky.evanappel.me/provenance)) —
   how much of the show each source covers, every contested episode with its
   per-source split, and each field's source and licence — all recomputed from
   the dataset, never hard-coded.
