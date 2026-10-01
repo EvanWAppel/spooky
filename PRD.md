@@ -444,13 +444,23 @@ in `TASKS.md`. Build order is deliberate — lowest-risk / no-new-dependency fir
      dataset already publishes under CC BY-SA, so it carries the same §11.2
      footer and attribution.
 
-3. **Discoverability / SEO — static or prerendered *(pulled forward from v3)*.**
-   The documented §4.1 weakness: Dash renders client-side, so episode text is
-   invisible to non-rendering crawlers and a recruiter Googling the author finds
-   nothing. Escape hatch unchanged (Observable Framework or Next.js SSG, or an
-   SSR/prerender layer). **Largest change of the three and partly gated on the
-   Railway deploy** (`BLOCKED.md`); sequenced last. Kept in v3's list below with a
-   pointer here so the roadmap has one home for it.
+3. **Discoverability / SEO — Flask-rendered content pages *(pulled forward from
+   v3; approach decided 2026-09-30, DECISIONS D-30)*.** The documented §4.1
+   weakness: Dash renders client-side, so episode text is invisible to
+   non-rendering crawlers and a recruiter Googling the author finds nothing. The
+   fix keeps the Dash app and **adds server-rendered, crawlable HTML pages from
+   Flask** — one per episode, one per season, plus the index and a text
+   provenance page — rendered from the same `data/episodes/*.json` the app reads,
+   each at its own canonical URL with `<meta>` / Open Graph tags, `TVEpisode`
+   JSON-LD, the CC BY-SA footer, and a link into the interactive app; a
+   `sitemap.xml` and `robots.txt` tie them together. Rejected: a full static-site
+   migration to Next.js/Observable (a rewrite of the app just built, discards the
+   Python-end-to-end story), and a minimal meta-tags-only pass (too thin for a
+   per-episode data site). Same legal posture as the app (C1–C3). **Acceptance: a
+   non-JS fetch of an episode URL returns its title, classification, and logline
+   in the raw HTML.** Execution: Group R.3 (R-09…R-13); the live-site leg is gated
+   on the Railway deploy (`BLOCKED.md`). Still noted in v3's list below so the
+   roadmap has one home for it.
 
 ### v3
 

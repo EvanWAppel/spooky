@@ -443,16 +443,55 @@ D ─────► E ─────► G ────────────
   - Verify: `uv run pytest tests/test_legal.py -q` → green
 
 ### R.3 — Discoverability / SEO
-> PRD §7 feature 3, pulled forward from v3. **Largest change; sequenced last and
-> partly gated on the Railway deploy** — scope the approach (prerender vs. static
-> migration) with the owner before building, and record the deploy blocker in
-> `BLOCKED.md`. Left as a single planning task until the earlier sub-features land.
+> PRD §7 feature 3, pulled forward from v3. **Approach decided (D-30, 2026-09-30):
+> server-render crawlable content pages from Flask and keep the Dash app** —
+> coverage spans every episode, every season, and the provenance dashboard. Pages
+> render from `data/episodes/*.json` at their own canonical URLs with meta/OG +
+> JSON-LD + the CC BY-SA footer, cross-linked into the app, tied together by
+> `sitemap.xml` + `robots.txt`. Same legal posture as the app (C1–C3).
+>
+> **Acceptance:** a non-JS `curl` of an episode URL returns its title,
+> classification, and logline in the raw HTML. Pages are built and curl-tested
+> locally; the *live-site* leg is gated on the Railway deploy (`BLOCKED.md`).
 
-- [ ] **R-08** 📋 **SCOPING (owner + orchestrator)** — decide SEO approach
-  (server-side prerender of episode/season pages vs. Observable/Next.js SSG per
-  PRD §4.1) and its acceptance test (episode text present in raw HTML to a
-  non-JS fetch). Split into implementation tasks after the decision.
-  - Verify: approach chosen and recorded in DECISIONS.md; follow-on tasks appended here
+- [x] **R-08** 📋 **SCOPING** — SEO approach chosen with the owner and recorded in
+  DECISIONS.md (D-30): Flask SSR content pages, keep Dash; coverage = episodes +
+  seasons + provenance; acceptance = episode text in raw HTML to a non-JS fetch.
+  - Verify: D-30 recorded; implementation tasks R-09…R-13 appended below
+- [ ] **R-09** Write `tests/test_ssr.py` first (TDD): a pure `render_episode(record)`
+  returns HTML containing the title, derived classification, logline, air date,
+  credits, the IMDb/TMDB out-links, a `<link rel="canonical">`, Open Graph tags,
+  and a `TVEpisode` JSON-LD block — and **no** image tag, no synopsis, no IMDb
+  number (C1–C3). Cover a film record (nullable season/episode) and a contested
+  record (per-source split shown).
+  - Verify: `uv run pytest tests/test_ssr.py -q` → red, then green after R-10
+- [ ] **R-10** Implement `components/ssr.py`: pure `render_episode`, `render_season`
+  (lists the season's episodes with classifications, links to each episode page
+  and into the app), `render_index` (text description of the project + the
+  mythology-disagreement story + full episode/season list), `render_provenance`
+  (the dashboard numbers from `spooky/provenance.py`, server-rendered), and
+  `render_sitemap`. Shared `<head>`/footer helper; reuse `spooky/links.py` and
+  `spooky/provenance.py`. Plain semantic HTML, original markup only (C2).
+  - Verify: `uv run pytest tests/test_ssr.py -q` → green; ruff + ty clean
+- [ ] **R-11** Register Flask routes on `app.server` at crawlable paths that do
+  **not** collide with Dash client routes — `/episode/<id>`, `/seasons/<n>`, a
+  crawlable `/overview` + `/provenance-text`, plus `/sitemap.xml` and
+  `/robots.txt` (robots points at the sitemap). Each app view links to its
+  crawlable twin and vice-versa; canonical URLs are absolute (`spooky.evanappel.me`).
+  - Verify: `curl -s localhost:$PORT/episode/s03e15 | grep -i "piper maru"` hits in
+    the **raw** HTML (no JS); `/sitemap.xml` lists every episode + season URL; the
+    Dash routes (`/`, `/season/3`, `/taglines`, `/provenance`, `/about`) still 200
+- [ ] **R-12** Legal + crawlability tests: extend `tests/test_legal.py` so every
+  SSR page carries the §11.2 footer + attribution and no imagery/synopsis/IMDb
+  number; add a test that an episode's text is present in the rendered HTML string
+  without any client-side rendering. Document the SSR layer in `README.md`
+  ("How it's built") and note the SEO fix closing PRD §4.1.
+  - Verify: `uv run pytest tests/test_legal.py tests/test_ssr.py -q` → green
+- [ ] **R-13** 📋 **OWNER / DEPLOY** — after the Railway deploy, confirm the live
+  acceptance test: `curl https://spooky.evanappel.me/episode/<id>` returns the
+  episode text in raw HTML, and the sitemap is reachable; submit the sitemap to
+  Google Search Console. Depends on the deploy blocker in `BLOCKED.md`.
+  - Verify: live `curl` shows episode text; `robots.txt` + `sitemap.xml` resolve on the domain
 
 ---
 
