@@ -14,6 +14,7 @@ imagery, no synopses, no IMDb numbers (C1–C3). Flask serves these (see app.py)
 from __future__ import annotations
 
 import json
+import logging
 from html import escape
 from typing import Any
 
@@ -23,6 +24,8 @@ from spooky.links import imdb_url, tmdb_watch_url
 from spooky.provenance import SOURCES, contested_breakdown, source_coverage
 from spooky.search import displayed_logline
 from spooky.values import as_int, is_missing
+
+log = logging.getLogger(__name__)
 
 BASE_URL = "https://spooky.evanappel.me"
 
@@ -57,6 +60,15 @@ def _jsonld(data: dict) -> str:
         .replace(">", "\\u003e")
         .replace("&", "\\u0026")
     )
+
+
+def _text(value: Any) -> str:
+    """Escaped text for a record field, with a NaN-safe empty fallback.
+
+    `record.get(key) or ""` is wrong here: a pandas NaN is truthy, so the
+    fallback never fires and the literal 'nan' reaches the page (values.py).
+    """
+    return "" if is_missing(value) else escape(str(value))
 
 
 def _seasons(df: pd.DataFrame) -> set[int]:
@@ -113,15 +125,11 @@ def _credits(record: dict) -> str:
 def _source_split(record: dict) -> str:
     """The per-source verdicts and rationale for a contested record."""
     rows = []
-    for source, column in (
-        (SOURCES[0], "label_fox_dvd"),
-        (SOURCES[1], "label_wikipedia"),
-        (SOURCES[2], "label_dom111"),
-    ):
-        value = record.get(column)
+    for source in SOURCES:
+        value = record.get(source.column)
         verdict = "no data" if is_missing(value) else str(value)
         rows.append(f"<li>{escape(source.label)}: {escape(verdict)}</li>")
-    rationale = escape(str(record.get("label_rationale") or ""))
+    rationale = _text(record.get("label_rationale"))
     return (
         "<section><h2>Why it's contested</h2>"
         f"<ul>{''.join(rows)}</ul>"
@@ -139,7 +147,7 @@ def _app_link(record: dict) -> str:
 
 def render_episode(record: dict) -> str:
     title = str(record["title"])
-    category = str(record.get("category") or "")
+    category = "" if is_missing(record.get("category")) else str(record["category"])
     logline = displayed_logline(record)
     air = _date(record.get("air_date"))
     canonical = f"{BASE_URL}/episode/{record['id']}"
@@ -169,7 +177,7 @@ def render_episode(record: dict) -> str:
 
     body = (
         "<main>"
-        f"<p>{escape(str(record.get('season_episode') or ''))}</p>"
+        f"<p>{_text(record.get('season_episode'))}</p>"
         f"<h1>{escape(title)}</h1>"
         f"<p>Classification: {escape(category)}</p>"
         + (f"<p>{escape(logline)}</p>" if logline else "")
@@ -189,10 +197,10 @@ def render_episode(record: dict) -> str:
 def render_season(season: int, records: list[dict]) -> str:
     items = []
     for record in records:
-        href = f"{BASE_URL}/episode/{record['id']}"
-        se = escape(str(record.get("season_episode") or ""))
+        href = f"{BASE_URL}/episode/{escape(str(record['id']))}"
+        se = _text(record.get("season_episode"))
         title = escape(str(record["title"]))
-        category = escape(str(record.get("category") or ""))
+        category = _text(record.get("category"))
         items.append(f'<li><a href="{href}">{se} · {title}</a> — {category}</li>')
     body = (
         "<main>"
@@ -217,10 +225,10 @@ def render_index(df: pd.DataFrame) -> str:
         f'<li><a href="{BASE_URL}/seasons/{s}">Season {s}</a></li>' for s in seasons
     )
     episode_items = "".join(
-        f'<li><a href="{BASE_URL}/episode/{record["id"]}">'
-        f"{escape(str(record.get('season_episode') or ''))} · "
+        f'<li><a href="{BASE_URL}/episode/{escape(str(record["id"]))}">'
+        f"{_text(record.get('season_episode'))} · "
         f"{escape(str(record['title']))}</a> — "
-        f"{escape(str(record.get('category') or ''))}</li>"
+        f"{_text(record.get('category'))}</li>"
         for record in df.sort_values("air_date").to_dict("records")
     )
     body = (
@@ -256,8 +264,8 @@ def render_provenance(df: pd.DataFrame) -> str:
     )
     contested = contested_breakdown(df)
     contested_items = "".join(
-        f"<li>{escape(str(row['season_episode']))} · {escape(str(row['title']))} — "
-        f"{escape(str(row['label_rationale'] or ''))}</li>"
+        f"<li>{_text(row['season_episode'])} · {escape(str(row['title']))} — "
+        f"{_text(row['label_rationale'])}</li>"
         for row in contested
     )
     body = (

@@ -145,6 +145,28 @@ def test_season_page_lists_its_episodes_and_links_to_each():
     assert f"{BASE_URL}/season/3" in html  # link into the app's season view
 
 
+def test_season_page_can_list_a_film_row():
+    # Films are placed on a season page by air date (matching the app); the
+    # renderer must list one when the route passes it in (review finding 5).
+    html = render_season(5, [_episode(), _film()])
+    assert "Fight the Future" in html
+    assert f"{BASE_URL}/episode/film-1998" in html
+
+
+def test_text_helper_and_render_are_nan_safe():
+    # pandas NaN is truthy, so `or ""` would leak the literal 'nan'; _text uses
+    # is_missing instead (review finding 2).
+    import math
+
+    from components.ssr import _text
+
+    assert _text(math.nan) == ""
+    assert _text(None) == ""
+    assert _text("S03E15") == "S03E15"
+    page = render_episode(_episode() | {"category": math.nan, "season_episode": math.nan})
+    assert "Classification: nan" not in page
+
+
 def test_index_describes_the_project_and_lists_content(episodes_df):
     html = render_index(episodes_df)
     assert "mythology" in html.lower()

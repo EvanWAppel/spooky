@@ -283,6 +283,16 @@ def test_provenance_route_shows_the_dashboard_and_hides_explore():
     assert taglines_style == {"display": "none"}
 
 
+def test_ssr_season_page_includes_its_film():
+    # The crawlable /seasons/<n> page must list the film the app places on that
+    # season page, so the SEO surface and the app agree (review finding 5).
+    client = app_module.server.test_client()
+    film_id, season = next(iter(app_module.FILM_PAGE.items()))
+    resp = client.get(f"/seasons/{season}")
+    assert resp.status_code == 200
+    assert f"/episode/{film_id}".encode() in resp.data
+
+
 def test_nav_marks_provenance_active_on_its_route():
     # Nav order: explore, taglines, provenance, about.
     classes = app_module.sync_navigation("/provenance")

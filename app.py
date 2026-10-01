@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlencode
@@ -28,6 +29,7 @@ from spooky.search import build_index
 from spooky.search import search as fts_search
 
 setup_logging()
+log = logging.getLogger(__name__)
 
 EPISODES = load_episodes(Path(__file__).resolve().parent / "data" / "episodes")
 
@@ -769,30 +771,42 @@ def write_url(
 def ssr_episode(record_id: str):
     match = EPISODES[EPISODES["id"] == record_id]
     if match.empty:
+        log.warning("SSR episode not found: %r", record_id)
         abort(404)
+    log.info("SSR episode %s", record_id)
     return render_episode(match.iloc[0].to_dict())
 
 
 @server.route("/seasons/<int:season>")
 def ssr_season(season: int):
-    rows = EPISODES[EPISODES["season"] == season].sort_values("air_date")
+    # Include the film(s) placed on this season page, matching the app's
+    # season view (_filter_episodes / FILM_PAGE) so the two agree.
+    film_ids = [film_id for film_id, page in FILM_PAGE.items() if page == season]
+    rows = EPISODES[
+        (EPISODES["season"] == season) | (EPISODES["id"].isin(film_ids))
+    ].sort_values("air_date")
     if rows.empty:
+        log.warning("SSR season has no episodes: %r", season)
         abort(404)
+    log.info("SSR season %d (%d rows)", season, len(rows))
     return render_season(season, rows.to_dict("records"))
 
 
 @server.route("/overview")
 def ssr_overview():
+    log.info("SSR overview")
     return render_index(EPISODES)
 
 
 @server.route("/provenance-text")
 def ssr_provenance():
+    log.info("SSR provenance text")
     return render_provenance(EPISODES)
 
 
 @server.route("/sitemap.xml")
 def ssr_sitemap():
+    log.info("SSR sitemap")
     return Response(render_sitemap(EPISODES), mimetype="application/xml")
 
 
