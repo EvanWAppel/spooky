@@ -14,16 +14,24 @@ from pathlib import Path
 import pytest
 
 from tools.review import (
+    TAGLINE_NOTE_WORD_CAP,
     ReviewError,
     approve,
+    approve_tagline_note,
     edit,
+    edit_tagline_note,
     load_records,
     order_queue,
     pending,
     reject,
+    reject_tagline_note,
     reset,
+    reset_tagline_note,
     run_interactive,
+    run_tagline_interactive,
     status_line,
+    tagline_pending,
+    tagline_status_line,
 )
 
 
@@ -296,3 +304,178 @@ def test_reset_returns_a_record_to_the_queue(episodes_dir: Path) -> None:
     # The machine draft survives, so it can be reviewed again.
     assert record["logline_generated"]
     assert "s01e03" in [r["id"] for r in pending(load_records(episodes_dir))]
+
+
+# --- Tagline notes (TASKS T-07) -------------------------------------------
+
+
+def _tagline(**overrides) -> dict:
+    base = {
+        "text": "Apology is Policy",
+        "is_variant": True,
+        "broadcast_only": None,
+        "note_generated": "Carter swapped the line to echo the episode's cover-up.",
+        "note": None,
+        "review_status": "ai-drafted",
+        "reviewed_at": None,
+        "review_note": None,
+    }
+    return {**base, **overrides}
+
+
+@pytest.fixture
+def tagline_dir(tmp_path: Path) -> Path:
+    """Two variants awaiting review, one reviewed variant, one default."""
+    directory = tmp_path / "episodes"
+    directory.mkdir()
+    records = [
+        _record(id="s03e10", title="731", tagline=_tagline()),
+        _record(
+            id="s03e11",
+            title="Revelations",
+            tagline=_tagline(
+                text="Trust No One", note_generated=None, review_status="unreviewed"
+            ),
+        ),
+        _record(
+            id="s02e25",
+            title="Anasazi",
+            tagline=_tagline(note="Owner gloss.", review_status="human-reviewed"),
+        ),
+        _record(
+            id="s01e03",
+            tagline=_tagline(
+                text="The Truth Is Out There",
+                is_variant=False,
+                note_generated=None,
+                review_status="not-applicable",
+            ),
+        ),
+    ]
+    for record in records:
+        (directory / f"{record['id']}.json").write_text(json.dumps(record))
+    return directory
+
+
+def _tagline_of(directory: Path, record_id: str) -> dict:
+    return json.loads((directory / f"{record_id}.json").read_text())["tagline"]
+
+
+def test_tagline_pending_lists_only_unreviewed_variants(tagline_dir: Path) -> None:
+    ids = [r["id"] for r in tagline_pending(load_records(tagline_dir))]
+
+    assert ids == ["s03e10", "s03e11"]
+
+
+def test_tagline_pending_ignores_records_without_a_tagline(episodes_dir: Path) -> None:
+    assert tagline_pending(load_records(episodes_dir)) == []
+
+
+def test_tagline_status_line_counts_variants_only(tagline_dir: Path) -> None:
+    assert tagline_status_line(load_records(tagline_dir)) == (
+        "1 / 3 variant tagline notes human-reviewed"
+    )
+
+
+def test_approve_tagline_note_promotes_the_draft(tagline_dir: Path) -> None:
+    approve_tagline_note(tagline_dir, "s03e10", now="2026-10-17T00:00:00Z")
+
+    tagline = _tagline_of(tagline_dir, "s03e10")
+    assert tagline["note"] == tagline["note_generated"]
+    assert tagline["review_status"] == "human-reviewed"
+    assert tagline["reviewed_at"] == "2026-10-17T00:00:00Z"
+
+
+def test_approve_tagline_note_leaves_the_logline_alone(tagline_dir: Path) -> None:
+    """The gloss has its own lifecycle; the logline review status is separate."""
+    approve_tagline_note(tagline_dir, "s03e10", now="2026-10-17T00:00:00Z")
+
+    record = json.loads((tagline_dir / "s03e10.json").read_text())
+    assert record["review_status"] == "ai-drafted"
+    assert record["logline"] is None
+
+
+def test_approve_tagline_note_refuses_without_a_draft(tagline_dir: Path) -> None:
+    with pytest.raises(ReviewError, match="no tagline note draft"):
+        approve_tagline_note(tagline_dir, "s03e11")
+
+
+def test_tagline_actions_refuse_default_taglines(tagline_dir: Path) -> None:
+    with pytest.raises(ReviewError, match="default tagline"):
+        edit_tagline_note(tagline_dir, "s01e03", "Nothing changed here.")
+
+
+def test_edit_tagline_note_stores_the_owners_text(tagline_dir: Path) -> None:
+    edit_tagline_note(tagline_dir, "s03e11", "Deep Throat's dying words.")
+
+    tagline = _tagline_of(tagline_dir, "s03e11")
+    assert tagline["note"] == "Deep Throat's dying words."
+    assert tagline["review_status"] == "human-reviewed"
+
+
+def test_edit_tagline_note_enforces_the_word_cap(tagline_dir: Path) -> None:
+    too_long = " ".join(["word"] * (TAGLINE_NOTE_WORD_CAP + 1))
+    with pytest.raises(ReviewError, match=f"{TAGLINE_NOTE_WORD_CAP} words"):
+        edit_tagline_note(tagline_dir, "s03e10", too_long)
+
+    assert _tagline_of(tagline_dir, "s03e10")["note"] is None
+
+
+def test_tagline_note_cap_matches_the_legal_test() -> None:
+    from tests.test_legal import TAGLINE_NOTE_WORD_CAP as LEGAL_CAP
+
+    assert TAGLINE_NOTE_WORD_CAP == LEGAL_CAP
+
+
+def test_reject_tagline_note_keeps_it_pending(tagline_dir: Path) -> None:
+    reject_tagline_note(tagline_dir, "s03e10", "Cite the Production section.")
+
+    tagline = _tagline_of(tagline_dir, "s03e10")
+    assert tagline["review_status"] == "needs-work"
+    assert tagline["review_note"] == "Cite the Production section."
+    assert "s03e10" in [r["id"] for r in tagline_pending(load_records(tagline_dir))]
+
+
+def test_reset_tagline_note_returns_it_to_the_queue(tagline_dir: Path) -> None:
+    reset_tagline_note(tagline_dir, "s02e25")
+
+    tagline = _tagline_of(tagline_dir, "s02e25")
+    assert tagline["note"] is None
+    assert tagline["review_status"] == "ai-drafted"
+    assert tagline["note_generated"]
+
+
+def test_tagline_review_walks_the_queue(tagline_dir: Path) -> None:
+    # Approve 731, then write a note for the draftless Revelations.
+    run_tagline_interactive(
+        tagline_dir, ask=_answers("a", "e", "Deep Throat's dying words.")
+    )
+
+    assert _tagline_of(tagline_dir, "s03e10")["review_status"] == "human-reviewed"
+    assert _tagline_of(tagline_dir, "s03e11")["note"] == "Deep Throat's dying words."
+
+
+def test_tagline_review_bare_enter_never_approves(tagline_dir: Path) -> None:
+    run_tagline_interactive(tagline_dir, ask=_answers("", "q"))
+
+    assert _tagline_of(tagline_dir, "s03e10")["review_status"] == "ai-drafted"
+
+
+def test_tagline_review_approve_without_draft_reprompts(
+    tagline_dir: Path, capsys
+) -> None:
+    run_tagline_interactive(tagline_dir, ask=_answers("s", "a", "q"))
+
+    assert "no tagline note draft" in capsys.readouterr().out
+    assert _tagline_of(tagline_dir, "s03e11")["review_status"] == "unreviewed"
+
+
+def test_tagline_review_ctrl_c_exits_cleanly(tagline_dir: Path, capsys) -> None:
+    def _interrupt(_prompt: str) -> str:
+        raise KeyboardInterrupt
+
+    run_tagline_interactive(tagline_dir, ask=_interrupt)
+
+    out = capsys.readouterr().out
+    assert "variant tagline notes human-reviewed" in out
+    assert "--taglines" in out
