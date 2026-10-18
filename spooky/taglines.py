@@ -76,9 +76,10 @@ def is_variant_of(record: dict[str, Any]) -> bool:
 def note_of(record: dict[str, Any]) -> str | None:
     """The owner/AI gloss on why the tagline changed, if any (nested only).
 
-    The gloss lifecycle (draft → review) is deferred alongside the logline
-    review pass, so this is ``None`` until that work lands (PRD §7 tasks
-    T-06/T-07). The panel renders it when present and simply omits it otherwise.
+    Drafting the gloss (PRD §7 task T-06) is deferred alongside the logline
+    review pass, so this is ``None`` until a draft exists or the owner writes
+    one through ``tools/review.py --taglines`` (T-07). The panel renders it
+    when present and simply omits it otherwise.
     """
     nested = record.get("tagline")
     if not isinstance(nested, dict):

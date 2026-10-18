@@ -344,8 +344,9 @@ D ─────► E ─────► G ────────────
 >    `tagline` object + `provenance["tagline.text"]`, and preserves every other
 >    field — so taglines refresh without an (API-billed) logline regen.
 >
-> **T-06/T-07/T-13 (gloss drafting, review CLI, owner review) are deferred** — they
-> share the logline review pipeline Evan is handling later. The tagline *text* (the
+> **T-06/T-13 (gloss drafting, owner review) are deferred**: they share the
+> logline review pipeline Evan is handling later. T-07 (the review CLI) is built:
+> `tools/review.py --taglines` walks the variant glosses, `--status` counts them. The tagline *text* (the
 > community-meaningful part) ships now; the gloss fields are null until then.
 
 - [x] **T-01** Extend the episode schema with the nested `tagline` object (PRD §7 data model) and teach `spooky/loader.py` to read it (flattened to `tagline_text` / `tagline_is_variant` columns), defaulting the object for records that lack it. Add a schema test. *(Shared domain helpers in `spooky/taglines.py`.)*
@@ -360,8 +361,9 @@ D ─────► E ─────► G ────────────
   - Verify: all 220 records carry a `tagline`; `uv run pytest tests/test_review_guard.py tests/test_taglines.py -q` → green; the attach diff is purely additive (0 logline deletions)
 - [ ] **T-06** Draft `tagline.note_generated` for **variant episodes only**, via the Anthropic step, grounded in the fetched Wikipedia *Production* section, factual, capped, inline-cited; sets `tagline.review_status: "ai-drafted"`; **never writes `tagline.note` directly**; defaults stay `"not-applicable"`.
   - Verify: `uv run pytest tests/test_taglines.py -q -k gloss` → green; only variant records receive a draft
-- [ ] **T-07** Extend `tools/review.py` to also walk variant tagline notes needing review (approve / edit / reject-with-note), same lifecycle as loglines; `--status` reports tagline-note progress alongside loglines.
+- [x] **T-07** Extend `tools/review.py` to also walk variant tagline notes needing review (approve / edit / reject-with-note), same lifecycle as loglines; `--status` reports tagline-note progress alongside loglines.
   - Verify: `uv run pytest tests/test_review_cli.py -q -k tagline` → green; `uv run python tools/review.py --status` prints tagline-note counts
+  - Done: separate `--taglines` queue (keeps the in-progress logline session unchanged), 50-word cap shared with `tests/test_legal.py`, `--reset-tagline ID` undo. Variants with no draft yet stay in the queue; the owner can write a gloss with `e`.
 - [x] **T-08** Detail panel: variant records show an "Opening tagline" block with the line plus the default for contrast (and the note when present); default records omit it. **Plain site text only — no title-card styling, glow, or image (C2).**
   - Verify: `uv run pytest tests/test_panel.py -q -k tagline` → green; grep confirms 0 glow/`text-shadow` on any tagline element and 0 image refs in the tagline components
 - [x] **T-09** "Variant taglines only" filter, URL-encoded (`?tagline=variant`), mirroring the contested toggle.

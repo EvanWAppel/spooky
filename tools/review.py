@@ -22,6 +22,13 @@ command to resume.
     uv run python tools/review.py --season 5
     uv run python tools/review.py --reset s01e01   # undo a review
 
+The same lifecycle covers the opening-tagline gloss on variant episodes
+(TASKS T-07). The gloss lives in the nested ``tagline`` object, so it has
+its own queue, review status, and undo:
+
+    uv run python tools/review.py --taglines
+    uv run python tools/review.py --reset-tagline s02e25
+
 Writes ``data/episodes/*.json`` in place. Once a record is human-reviewed,
 no pipeline step may overwrite it (CLAUDE.md; build/merge.py guards it).
 """
@@ -46,6 +53,9 @@ if __package__ in (None, ""):
 from tools.triage import TRIAGE_PATH, load_triage
 
 WORD_CAP = 30
+# The gloss explains why the line changed, so it gets more room than a
+# logline. Must match TAGLINE_NOTE_WORD_CAP in tests/test_legal.py.
+TAGLINE_NOTE_WORD_CAP = 50
 EPISODES_DIR = Path(__file__).resolve().parent.parent / "data" / "episodes"
 
 # Worst grade first: review C's while attention is freshest, batch the A's
@@ -165,6 +175,98 @@ def reset(episodes_dir: Path, record_id: str) -> None:
     _write(path, record)
 
 
+def _tagline(record: dict[str, Any]) -> dict[str, Any]:
+    tagline = record.get("tagline")
+    return tagline if isinstance(tagline, dict) else {}
+
+
+def tagline_pending(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Variant episodes whose gloss still awaits the owner, in air order.
+
+    Default-tagline records have nothing to gloss and never enter the queue.
+    """
+    return [
+        r
+        for r in records
+        if _tagline(r).get("is_variant")
+        and _tagline(r).get("review_status") != "human-reviewed"
+    ]
+
+
+def tagline_status_line(records: list[dict[str, Any]]) -> str:
+    variants = [r for r in records if _tagline(r).get("is_variant")]
+    reviewed = sum(
+        1 for r in variants if _tagline(r).get("review_status") == "human-reviewed"
+    )
+    return f"{reviewed} / {len(variants)} variant tagline notes human-reviewed"
+
+
+def _load_variant(episodes_dir: Path, record_id: str) -> tuple[Path, dict[str, Any]]:
+    path, record = _load_one(episodes_dir, record_id)
+    if not _tagline(record).get("is_variant"):
+        raise ReviewError(f"{record_id}: default tagline — there is no gloss to review")
+    return path, record
+
+
+def _mark_tagline_reviewed(
+    path: Path, record: dict[str, Any], note: str, now: str | None
+) -> None:
+    tagline = record["tagline"]
+    tagline["note"] = note
+    tagline["review_status"] = "human-reviewed"
+    tagline["reviewed_at"] = now or _now()
+    tagline["review_note"] = None
+    _write(path, record)
+
+
+def approve_tagline_note(
+    episodes_dir: Path, record_id: str, *, now: str | None = None
+) -> None:
+    """Promote the machine-drafted gloss to the owner's ``tagline.note``."""
+    path, record = _load_variant(episodes_dir, record_id)
+    draft = record["tagline"].get("note_generated")
+    if not draft:
+        raise ReviewError(f"{record_id}: no tagline note draft to approve")
+    _mark_tagline_reviewed(path, record, draft, now)
+
+
+def edit_tagline_note(
+    episodes_dir: Path, record_id: str, text: str, *, now: str | None = None
+) -> None:
+    """Store the owner's own gloss; the word cap binds the owner too."""
+    cleaned = text.strip()
+    if not cleaned:
+        raise ReviewError(f"{record_id}: tagline note is empty")
+    words = len(cleaned.split())
+    if words > TAGLINE_NOTE_WORD_CAP:
+        raise ReviewError(
+            f"{record_id}: {words} words — the cap is {TAGLINE_NOTE_WORD_CAP} words"
+        )
+    path, record = _load_variant(episodes_dir, record_id)
+    _mark_tagline_reviewed(path, record, cleaned, now)
+
+
+def reject_tagline_note(episodes_dir: Path, record_id: str, note: str) -> None:
+    """Send the gloss back with a note; the record stays in the queue."""
+    path, record = _load_variant(episodes_dir, record_id)
+    record["tagline"]["review_status"] = "needs-work"
+    record["tagline"]["review_note"] = note.strip() or None
+    _write(path, record)
+
+
+def reset_tagline_note(episodes_dir: Path, record_id: str) -> None:
+    """Return a gloss to the queue; the machine draft survives."""
+    path, record = _load_variant(episodes_dir, record_id)
+    tagline = record["tagline"]
+    tagline["note"] = None
+    tagline["review_status"] = (
+        "ai-drafted" if tagline.get("note_generated") else "unreviewed"
+    )
+    tagline["reviewed_at"] = None
+    tagline["review_note"] = None
+    _write(path, record)
+
+
 _GRADE_COLOR = {"A": _GREEN, "B": _AMBER, "C": "\033[31m"}  # C is red
 
 
@@ -201,12 +303,42 @@ def _render(
     return "\n".join(lines)
 
 
-def _sign_off(episodes_dir: Path, season: int | None) -> None:
+def _render_tagline(record: dict[str, Any], position: str) -> str:
+    where = (
+        f"S{int(record['season']):02d}E{int(record['episode']):02d}"
+        if record.get("season") is not None
+        else "Film"
+    )
+    tagline = _tagline(record)
+    draft = tagline.get("note_generated") or "(no draft — use e to write one)"
+    lines = [
+        "",
+        f"{_DIM}{position}{_RESET}",
+        f"{_BOLD}{record['title']}{_RESET}  "
+        f"{_DIM}{where} · {record.get('air_date')}{_RESET}",
+        f"  tagline: {_BOLD}{tagline.get('text')}{_RESET}",
+        "",
+        f"  {_CYAN}{draft}{_RESET}",
+        "",
+    ]
+    if tagline.get("review_note"):
+        lines.append(f"  {_AMBER}previous note: {tagline['review_note']}{_RESET}\n")
+    return "\n".join(lines)
+
+
+def _sign_off(episodes_dir: Path, season: int | None, *, taglines: bool = False) -> None:
     """Closing status plus the exact command to pick up where you left off."""
     records = load_records(episodes_dir)
-    print(f"\n{status_line(records)}")
-    if pending(records):
+    if taglines:
+        print(f"\n{tagline_status_line(records)}")
+        remaining = tagline_pending(records)
+    else:
+        print(f"\n{status_line(records)}")
+        remaining = pending(records)
+    if remaining:
         resume = "uv run python tools/review.py"
+        if taglines:
+            resume += " --taglines"
         if season is not None:
             resume += f" --season {season}"
         print(f"{_DIM}resume with: {resume}{_RESET}")
@@ -276,8 +408,64 @@ def run_interactive(
     _sign_off(episodes_dir, season)
 
 
+def run_tagline_interactive(
+    episodes_dir: Path,
+    season: int | None = None,
+    ask: Callable[[str], str] = input,
+) -> None:
+    """Walk the variant-tagline gloss queue (T-07). Same keys and the same
+    write-immediately, quit-anytime guarantees as the logline review."""
+    records = load_records(episodes_dir)
+    queue = tagline_pending(records)
+    if season is not None:
+        queue = [r for r in queue if r.get("season") == season]
+    if not queue:
+        print(f"Nothing pending. {tagline_status_line(records)}")
+        return
+
+    print(f"{_BOLD}spooky tagline note review{_RESET}")
+    print(f"{tagline_status_line(records)} · {len(queue)} in this queue")
+    print(f"{_DIM}[a]pprove  [e]dit  [r]eject  [s]kip  [q]uit (or Ctrl-C){_RESET}")
+
+    try:
+        for index, record in enumerate(queue, start=1):
+            record_id = record["id"]
+            print(_render_tagline(record, f"{index}/{len(queue)}"))
+            while True:
+                choice = ask("  > ").strip().lower()
+                try:
+                    if choice == "a":
+                        approve_tagline_note(episodes_dir, record_id)
+                        print(f"  {_GREEN}approved{_RESET}")
+                        break
+                    if choice == "e":
+                        edit_tagline_note(episodes_dir, record_id, ask("  new note: "))
+                        print(f"  {_GREEN}saved{_RESET}")
+                        break
+                except ReviewError as error:
+                    print(f"  {_AMBER}{error}{_RESET}")
+                    continue
+                if choice == "r":
+                    reject_tagline_note(episodes_dir, record_id, ask("  what's wrong: "))
+                    print(f"  {_AMBER}marked needs-work{_RESET}")
+                    break
+                if choice == "s":
+                    break
+                if choice == "q":
+                    _sign_off(episodes_dir, season, taglines=True)
+                    return
+                # As with loglines, a bare Enter must never approve.
+                print(f"  {_DIM}a / e / r / s / q{_RESET}")
+    except (KeyboardInterrupt, EOFError):
+        print()
+
+    _sign_off(episodes_dir, season, taglines=True)
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Review AI-drafted loglines.")
+    parser = argparse.ArgumentParser(
+        description="Review AI-drafted loglines and tagline notes."
+    )
     parser.add_argument(
         "--status", action="store_true", help="print review progress and exit"
     )
@@ -286,6 +474,16 @@ def main() -> None:
         "--reset",
         metavar="ID",
         help="undo a review (e.g. s01e01) and return it to the queue",
+    )
+    parser.add_argument(
+        "--taglines",
+        action="store_true",
+        help="review variant-tagline notes instead of loglines",
+    )
+    parser.add_argument(
+        "--reset-tagline",
+        metavar="ID",
+        help="undo a tagline-note review and return it to the queue",
     )
     parser.add_argument(
         "--dir", type=Path, default=EPISODES_DIR, help="records directory"
@@ -298,6 +496,12 @@ def main() -> None:
         print(status_line(load_records(arguments.dir)))
         return
 
+    if arguments.reset_tagline:
+        reset_tagline_note(arguments.dir, arguments.reset_tagline)
+        print(f"{arguments.reset_tagline} tagline note returned to the queue.")
+        print(tagline_status_line(load_records(arguments.dir)))
+        return
+
     if arguments.status:
         records = load_records(arguments.dir)
         print(status_line(records))
@@ -305,6 +509,17 @@ def main() -> None:
         if remaining:
             needs_work = [r for r in remaining if r["review_status"] == "needs-work"]
             print(f"{len(remaining)} pending ({len(needs_work)} marked needs-work)")
+        print(tagline_status_line(records))
+        remaining = tagline_pending(records)
+        if remaining:
+            needs_work = [
+                r for r in remaining if _tagline(r).get("review_status") == "needs-work"
+            ]
+            print(f"{len(remaining)} pending ({len(needs_work)} marked needs-work)")
+        return
+
+    if arguments.taglines:
+        run_tagline_interactive(arguments.dir, arguments.season)
         return
 
     run_interactive(arguments.dir, arguments.season)
