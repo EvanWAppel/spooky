@@ -53,9 +53,9 @@
   "review_note": null
  },
  "logline_generated": "Cassandra Spender's return forces an emergency Syndicate meeting, as Mulder and the Smoking Man clash over her fate and the alien colonization deal.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "Cassandra Spender's return forces an emergency Syndicate meeting, as Mulder and the Smoking Man clash over her fate and the alien colonization deal.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:32:18Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {

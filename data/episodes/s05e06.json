@@ -59,9 +59,9 @@
   "review_note": null
  },
  "logline_generated": "On Christmas Eve, a mysterious call leads Scully to a dead woman and her orphaned child, unraveling buried family secrets she never suspected.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "On Christmas Eve, a mysterious call leads Scully to a dead woman and her orphaned child, unraveling buried family secrets she never suspected.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:32:07Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {
