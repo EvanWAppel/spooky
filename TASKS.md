@@ -132,6 +132,19 @@ D ─────► E ─────► G ────────────
   - Verify: `curl -s localhost:8050 | grep -c "unofficial fan project"` → at least 1
 - [ ] **C-19** Deploy to Railway, always-on. **Sleep/serverless must be OFF** (PRD §4.1).
   - Verify: `curl -s -o /dev/null -w "%{http_code}" https://spooky.evanappel.me` → 200. Wait 15 minutes idle, repeat — still 200, not 502.
+  - Evidence (2026-10-23T04:49Z, W-02, read-only curl):
+    ```
+    $ curl -s -o /dev/null -w "%{http_code}" https://spooky.evanappel.me
+    200
+    $ curl -sv -o /dev/null https://spooky.evanappel.me/ 2>&1 | grep -E "SSL connection|subject:|issuer:|expire date|verify|server:"
+    * SSL connection using TLSv1.3 / AEAD-AES256-GCM-SHA384 / [blank] / UNDEF
+    *  subject: CN=spooky.evanappel.me
+    *  expire date: Jan  8 15:01:59 2027 GMT
+    *  issuer: C=US; O=Let's Encrypt; CN=YR2
+    *  SSL certificate verify ok.
+    < server: railway-hikari
+    ```
+    First half of Verify passes (200 on the real domain). The 15-minute idle repeat is not done here — it is W-03 (I-01 / J-08) — so the box stays open.
 - [ ] **C-20** ⚡ **VERTICAL SLICE COMPLETE** — chart → click → table → panel → out-links, live on the real domain with 12 records.
   - Verify: `uv run pytest -m "not network" -q` green; `uv run ruff check .` clean; `uv run ty check` clean; site loads. Paste all four outputs.
 
@@ -273,8 +286,17 @@ D ─────► E ─────► G ────────────
 
 - [ ] **I-01** Confirm Railway always-on; sleep/serverless disabled
   - Verify: leave idle 20 minutes, then `curl -s -o /dev/null -w "%{http_code}"` → 200, not 502. Paste the result.
-- [ ] **I-02** Point `spooky.evanappel.me` at the Railway service; TLS valid
+- [x] **I-02** Point `spooky.evanappel.me` at the Railway service; TLS valid
   - Verify: `curl -sI https://spooky.evanappel.me | head -1` → 200
+  - Evidence (2026-10-23T04:49Z, W-02):
+    ```
+    $ curl -sI https://spooky.evanappel.me | head -1
+    HTTP/2 200
+    $ curl -sv -o /dev/null https://spooky.evanappel.me/ 2>&1 | grep -E "subject:|issuer:|verify"
+    *  subject: CN=spooky.evanappel.me
+    *  issuer: C=US; O=Let's Encrypt; CN=YR2
+    *  SSL certificate verify ok.
+    ```
 - [x] **I-03** ~~Add GitHub Actions secrets~~ — **none needed.** The refresh runs spine→emit only; every source is keyless. Set `WIKI_USER_AGENT` as a repo *variable* (not a secret — it is a public contact string). Anthropic is only used by the local logline step.
   - Verify: `gh secret list --repo EvanWAppel/spooky` → all three present
 - [x] **I-04** Implement `.github/workflows/refresh.yml` — monthly, re-runs `01`–`07`, opens a PR with the data diff
@@ -501,6 +523,24 @@ D ─────► E ─────► G ────────────
   episode text in raw HTML, and the sitemap is reachable; submit the sitemap to
   Google Search Console. Depends on the deploy blocker in `BLOCKED.md`.
   - Verify: live `curl` shows episode text; `robots.txt` + `sitemap.xml` resolve on the domain
+  - Evidence (2026-10-23T04:49Z, W-02). Live acceptance test passes on the domain;
+    the Search Console submission is still Evan's, so the box stays open.
+    ```
+    $ curl -s https://spooky.evanappel.me/episode/s03e15 | grep -o "<title>[^<]*</title>"
+    <title>Piper Maru · spooky</title>
+    $ curl -s https://spooky.evanappel.me/episode/s03e15 | grep -o '<link rel="canonical"[^>]*>'
+    <link rel="canonical" href="https://spooky.evanappel.me/episode/s03e15">
+    $ curl -s -o /dev/null -w "%{http_code} %{content_type}\n" https://spooky.evanappel.me/robots.txt
+    200 text/plain; charset=utf-8
+    $ curl -s https://spooky.evanappel.me/robots.txt
+    User-agent: *
+    Allow: /
+    Sitemap: https://spooky.evanappel.me/sitemap.xml
+    $ curl -s -o /dev/null -w "%{http_code} %{content_type}\n" https://spooky.evanappel.me/sitemap.xml
+    200 application/xml; charset=utf-8
+    $ curl -s https://spooky.evanappel.me/sitemap.xml | grep -c "<loc>"
+    233
+    ```
 
 ---
 

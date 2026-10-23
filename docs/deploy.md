@@ -1,5 +1,7 @@
 # Deploying spooky to Railway
 
+**Status: deployed** — live at <https://spooky.evanappel.me> (Railway, TLS via Let's Encrypt; read-only `curl` evidence 2026-10-23 under C-19 / I-02 / R-13 in `TASKS.md`).
+
 The app is a Plotly Dash app served by gunicorn. It reads only committed JSON
 (`data/episodes/`) at startup — **no runtime API keys, no database, no network
 fetch**. A fresh clone can serve immediately.
