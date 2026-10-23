@@ -130,7 +130,7 @@ D ─────► E ─────► G ────────────
   - Verify: load `/season/5?category=mythology`, confirm the filter is pre-applied on first paint
 - [x] **C-18** Add the footer with the verbatim attribution text from PRD §11.2, including the TMDB clause
   - Verify: `curl -s localhost:8050 | grep -c "unofficial fan project"` → at least 1
-- [x] **C-19** Deploy to Railway, always-on. **Sleep/serverless must be OFF** (PRD §4.1).
+- [ ] **C-19** Deploy to Railway, always-on. **Sleep/serverless must be OFF** (PRD §4.1).
   - Verify: `curl -s -o /dev/null -w "%{http_code}" https://spooky.evanappel.me` → 200. Wait 15 minutes idle, repeat — still 200, not 502.
   - Evidence (2026-10-23T04:49Z, W-02, read-only curl):
     ```
@@ -144,7 +144,7 @@ D ─────► E ─────► G ────────────
     *  SSL certificate verify ok.
     < server: railway-hikari
     ```
-    First half of Verify passes (200 on the real domain).
+    First half of Verify passes (200 on the real domain). Box left open for Evan: the sleep/serverless setting is unconfirmed (see `BLOCKED.md`).
   - Idle repeat (W-03, read-only curl): 21 minutes idle, then 200 — see the I-01 evidence and caveat below.
 - [ ] **C-20** ⚡ **VERTICAL SLICE COMPLETE** — chart → click → table → panel → out-links, live on the real domain with 12 records.
   - Verify: `uv run pytest -m "not network" -q` green; `uv run ruff check .` clean; `uv run ty check` clean; site loads. Paste all four outputs.
@@ -285,7 +285,7 @@ D ─────► E ─────► G ────────────
 ## Group I — Deploy Hardening & Scheduled Refresh
 > Depends on: Group H.
 
-- [x] **I-01** Confirm Railway always-on; sleep/serverless disabled
+- [ ] **I-01** Confirm Railway always-on; sleep/serverless disabled
   - Verify: leave idle 20 minutes, then `curl -s -o /dev/null -w "%{http_code}"` → 200, not 502. Paste the result.
   - Evidence (W-03, read-only curl):
     ```

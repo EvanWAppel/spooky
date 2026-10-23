@@ -166,7 +166,8 @@ Evan's own checkout sits on `feat/fts5-search` (WIP `e6f6f70`); leave it alone.
 - **Owner tasks (📋):** F-07 logline review (done in data, box unticked),
   G-06 classification spot-check, J-09 recruiter legibility, J-10 C1–C7 walk,
   T-13 tagline-gloss review, R-13 Search Console submission.
-- **Check-phase boxes:** C-20 (vertical-slice gate), J-05 (220/220, Evan to
+- **Check-phase boxes:** C-19 / I-01 (always-on; curl evidence in, Railway sleep
+  setting unconfirmed), C-20 (vertical-slice gate), J-05 (220/220, Evan to
   tick), J-08 (curl evidence in; the fresh-browser-profile load is Evan's).
 - **Gated:** T-06 tagline glosses (needs a scoped, capped `ANTHROPIC_API_KEY`;
   see the key item in `BLOCKED.md`). I-06 edits `../projects.toml`, outside this repo.
