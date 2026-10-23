@@ -130,7 +130,7 @@ D ─────► E ─────► G ────────────
   - Verify: load `/season/5?category=mythology`, confirm the filter is pre-applied on first paint
 - [x] **C-18** Add the footer with the verbatim attribution text from PRD §11.2, including the TMDB clause
   - Verify: `curl -s localhost:8050 | grep -c "unofficial fan project"` → at least 1
-- [ ] **C-19** Deploy to Railway, always-on. **Sleep/serverless must be OFF** (PRD §4.1).
+- [x] **C-19** Deploy to Railway, always-on. **Sleep/serverless must be OFF** (PRD §4.1).
   - Verify: `curl -s -o /dev/null -w "%{http_code}" https://spooky.evanappel.me` → 200. Wait 15 minutes idle, repeat — still 200, not 502.
   - Evidence (2026-10-23T04:49Z, W-02, read-only curl):
     ```
@@ -144,7 +144,8 @@ D ─────► E ─────► G ────────────
     *  SSL certificate verify ok.
     < server: railway-hikari
     ```
-    First half of Verify passes (200 on the real domain). The 15-minute idle repeat is not done here — it is W-03 (I-01 / J-08) — so the box stays open.
+    First half of Verify passes (200 on the real domain).
+  - Idle repeat (W-03, read-only curl): 21 minutes idle, then 200 — see the I-01 evidence and caveat below.
 - [ ] **C-20** ⚡ **VERTICAL SLICE COMPLETE** — chart → click → table → panel → out-links, live on the real domain with 12 records.
   - Verify: `uv run pytest -m "not network" -q` green; `uv run ruff check .` clean; `uv run ty check` clean; site loads. Paste all four outputs.
 
@@ -284,8 +285,17 @@ D ─────► E ─────► G ────────────
 ## Group I — Deploy Hardening & Scheduled Refresh
 > Depends on: Group H.
 
-- [ ] **I-01** Confirm Railway always-on; sleep/serverless disabled
+- [x] **I-01** Confirm Railway always-on; sleep/serverless disabled
   - Verify: leave idle 20 minutes, then `curl -s -o /dev/null -w "%{http_code}"` → 200, not 502. Paste the result.
+  - Evidence (W-03, read-only curl):
+    ```
+    # quiet window: no request sent by this run from 2026-10-23T05:06:34Z (last W-02 curl was ~04:49Z)
+    $ sleep 1260   # 21 minutes idle
+    # 2026-10-23T05:27:34Z
+    $ curl -s -o /dev/null -w "%{http_code} %{time_total}\n" https://spooky.evanappel.me/
+    200 0.376280
+    ```
+    Caveat: "idle" means idle from this run only. The site is public, so other traffic (crawlers, uptime probes, visitors) during the window can't be ruled out, and a single 200 in 0.38 s doesn't prove the service never sleeps. Railway's sleep setting was not inspected (no dashboard access this run).
 - [x] **I-02** Point `spooky.evanappel.me` at the Railway service; TLS valid
   - Verify: `curl -sI https://spooky.evanappel.me | head -1` → 200
   - Evidence (2026-10-23T04:49Z, W-02):
@@ -334,6 +344,15 @@ D ─────► E ─────► G ────────────
   - Verify: key sets match programmatically; paste the diff (must be empty)
 - [ ] **J-08** No 502 on a cold first request
   - Verify: idle 20 minutes, then load in a fresh browser profile. Paste the status code.
+  - Evidence (W-03, curl stand-in for the browser load; box left for Evan, who does the fresh-browser-profile check):
+    ```
+    # quiet window: no request sent by this run from 2026-10-23T05:06:34Z (last W-02 curl was ~04:49Z)
+    $ sleep 1260   # 21 minutes idle
+    # 2026-10-23T05:27:34Z
+    $ curl -s -o /dev/null -w "%{http_code} %{time_total}\n" https://spooky.evanappel.me/
+    200 0.376280
+    ```
+    Caveat: "idle" means idle from this run only. The site is public, so other traffic (crawlers, uptime probes, visitors) during the window can't be ruled out, and a single 200 in 0.38 s doesn't prove the service never sleeps. Railway's sleep setting was not inspected (no dashboard access this run).
 - [ ] **J-09** 📋 **OWNER TASK — recruiter legibility.** Show it to someone who has never seen *The X-Files*. Ask what it does. Ten seconds.
   - Verify: write down what they actually said, verbatim, in POSTMORTEM.md
 - [ ] **J-10** 📋 **OWNER TASK** — confirm no constraint C1–C7 is violated anywhere in the shipped site
