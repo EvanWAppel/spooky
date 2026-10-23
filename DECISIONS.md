@@ -289,8 +289,8 @@ list; the stock white filter/pagination controls replaced with a dark
 season pager and search input; episode descriptions surfaced from Group F
 (AI-drafted badge until human review). Recorded in TASKS.md Group UI.
 
-### D-29 — Search index built in memory from JSON, not the committed SQLite ⏳ *awaiting your sign-off*
-**Owner:** CLAUDE (drafted 2026-09-27) · **Confidence:** high · **Reversal cost:** low
+### D-29 — Search index built in memory from JSON, not the committed SQLite
+**Owner:** REC→ACCEPTED (2026-10-01) · **Confidence:** high · **Reversal cost:** low
 
 Alternatives considered: (a) ship the built `data/dist/spooky.sqlite` and open
 it read-only at request time; (b) build the FTS5 index in memory at startup from
@@ -305,7 +305,7 @@ exact `fts5(id, title, logline)` schema of `build/emit.py` over that same data,
 in `:memory:`. The index costs a few ms over 220 rows and holds no state. The
 `?text=` URL contract is unchanged; only recall (titles **and** loglines,
 site-wide, bm25-ranked) improves over (c). Recorded in TASKS.md Group R.1
-(R-01…R-04). **Confirm or redirect — this is an on-your-behalf call.**
+(R-01…R-04). Approved by Evan 2026-10-01.
 
 ### D-30 — SEO: server-render content pages from Flask, keep Dash
 **Owner:** REC→ACCEPTED (2026-09-30) · **Confidence:** high · **Reversal cost:** medium

@@ -46,9 +46,9 @@
   "review_note": null
  },
  "logline_generated": "A string of men die skinned alive across decades, forcing Doggett and Reyes to confront a killer whose crimes echo an ancient, recurring cycle of vengeance.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "A string of men die skinned alive across decades, forcing Doggett and Reyes to confront a killer whose crimes echo an ancient, recurring cycle of vengeance.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:32:58Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {

@@ -45,9 +45,9 @@
   "review_note": null
  },
  "logline_generated": "A rookie agent reopens a cold case tied to a shape-shifting, invisible killer, pulling a reluctant Doggett and eager Agent Harrison into the field alone.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "A rookie agent reopens a cold case tied to a shape-shifting, invisible killer, pulling a reluctant Doggett and eager Agent Harrison into the field alone.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:29:31Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {

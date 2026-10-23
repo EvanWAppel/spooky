@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/EvanWAppel/spooky/actions/workflows/ci.yml/badge.svg)](https://github.com/EvanWAppel/spooky/actions/workflows/ci.yml)
 
-**Live demo:** _link added after deploy — see [`docs/deploy.md`](docs/deploy.md)_
+**Live demo:** <https://spooky.evanappel.me> (deploy notes: [`docs/deploy.md`](docs/deploy.md))
 
 **An episode data explorer for *The X-Files* — built around the fact that
 nobody agrees which episodes are "mythology."**

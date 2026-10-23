@@ -44,9 +44,9 @@
   "review_note": null
  },
  "logline_generated": "A skittish agent joins Doggett and Reyes to investigate a boy whose vivid imagination conjures terrifying creatures that kill those who refuse to believe.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "A skittish agent joins Doggett and Reyes to investigate a boy whose vivid imagination conjures terrifying creatures that kill those who refuse to believe.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:33:00Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {

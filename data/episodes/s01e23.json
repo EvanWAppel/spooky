@@ -46,9 +46,9 @@
   "review_note": null
  },
  "logline_generated": "Mulder and Scully investigate mysterious deaths at a research facility, drawn to a mentally disabled janitor whose deceased twin brother's genius may be reaching from beyond the grave.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "Mulder and Scully investigate mysterious deaths at a research facility, drawn to a mentally disabled janitor whose deceased twin brother's genius may be reaching from beyond the grave.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:31:24Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {

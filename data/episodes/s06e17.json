@@ -53,9 +53,9 @@
   "review_note": null
  },
  "logline_generated": "An escaped convict emerges from a tornado-flattened prison with the eerie ability to pass through solid walls, desperate to reunite with the son who was given away.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "An escaped convict emerges from a tornado-flattened prison with the eerie ability to pass through solid walls, desperate to reunite with the son who was given away.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:32:21Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {

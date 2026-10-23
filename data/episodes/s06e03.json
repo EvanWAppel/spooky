@@ -58,9 +58,9 @@
   "review_note": null
  },
  "logline_generated": "Mulder boards a stranded 1939 ocean liner tangled with Nazis, and only real-time chaos back home can save him before the past repeats itself.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "Mulder boards a stranded 1939 ocean liner tangled with Nazis, and only real-time chaos back home can save him before the past repeats itself.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:30:46Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {

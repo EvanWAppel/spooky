@@ -52,9 +52,9 @@
   "review_note": null
  },
  "logline_generated": "A magician dies mid-trick with his head twisted backward, pulling Mulder and Scully into a world where illusion, bank heists, and rival performers blur the line between trick and murder.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "A magician dies mid-trick with his head twisted backward, pulling Mulder and Scully into a world where illusion, bank heists, and rival performers blur the line between trick and murder.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:32:37Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {

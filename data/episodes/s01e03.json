@@ -49,9 +49,9 @@
   "review_note": null
  },
  "logline_generated": "A string of impossible murders leads Mulder and Scully to a mutant killer who slips through tiny spaces and harvests his victims' livers to survive.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "A string of impossible murders leads Mulder and Scully to a mutant killer who slips through tiny spaces and harvests his victims' livers to survive.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:31:07Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {

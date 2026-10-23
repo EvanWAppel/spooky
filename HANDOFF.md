@@ -1,32 +1,49 @@
 # spooky — Handoff
 
 > Cold-start context for a different agent, a different model, or Evan in three
-> months. Written 2026-07-26 at the end of the RECL **Requirements** phase;
-> **updated 2026-07-27** — the Execute phase has begun and Group A is complete.
+> months. First written 2026-07-26 at the end of the Requirements phase;
+> **refreshed 2026-10-22** (weekend branch `weekend-2026-10-24`, W-04). v1 code
+> is complete and **live at <https://spooky.evanappel.me>**; what remains is
+> owner checks (the Check phase) plus a few gated items. `TASKS.md` is the
+> source of truth for task status. If this file disagrees with it, `TASKS.md` wins.
 
 ## Read these, in this order
 
-1. **`CLAUDE.md`** — standing rules. The "Project-specific rules" section is
-   legal constraints, not style. Violating them is a real problem.
-2. **`PRD.md`** — the full spec. §2 (constraints), §5 (classification), §8
-   (pipeline landmines), and §13 (known unknowns) are the load-bearing sections.
-3. **`TASKS.md`** — the execution plan. Groups A and C-01…C-18 are done and
-   verified; next up are **Group B/D** (the ingest pipeline) and **C-19** (deploy).
-4. **`DECISIONS.md`** — the decision register: who decided what, what else was
-   considered, and which calls Claude made on Evan's behalf. §D's blocking
-   items are all resolved as of 2026-07-27; OPEN-03 and OPEN-04 remain open
-   but block nothing.
-5. This file — the *why* behind decisions that look arbitrary.
+1. **`CLAUDE.md`** — standing rules (and `AGENTS.md`, its agent-neutral
+   pointer). The "Project-specific rules" section is legal constraints, not
+   style. Violating them is a real problem. The ROCRLL block governs how work
+   is orchestrated, checked and reviewed.
+2. **`PRD.md`** — the full spec. §2 (constraints), §5 (classification), §7 (v2
+   groups T and R), §8 (pipeline landmines), and §13 (known unknowns) are the
+   load-bearing sections.
+3. **`TASKS.md`** — the execution plan, with real Verify output pasted under each
+   item. Groups A–I, UI, T and R are built. The remaining open boxes (owner
+   checks, C-20, I-06, T-06, R-13's Search Console step) are listed under
+   *State of the world* below.
+4. **`BLOCKED.md`** — everything waiting on Evan, each item with exact unblock steps.
+5. **`DECISIONS.md`** — the decision register: who decided what, what else was
+   considered, and which calls Claude made on Evan's behalf. OPEN-01, -02 and
+   -05 are resolved; D-29 (in-memory search) and D-30 (Flask SSR) are accepted.
+   OPEN-03 and OPEN-04 remain open but block nothing.
+6. **`docs/deploy.md`** (Railway setup) and **`docs/ai-pipeline.md`** (the
+   Anthropic-backed logline steps).
+7. This file — the *why* behind decisions that look arbitrary.
 
 ## The 60-second version
 
 `spooky` is a public X-Files episode data explorer and a portfolio piece. The
-headline chart shows mythology vs. monster-of-the-week vs. standalone episodes
-per season; clicking a bar segment filters a sortable table; clicking a row opens
-a detail panel with a logline, credits, and out-links to IMDb and TMDB.
+headline chart stacks one block per episode per season, colored mythology vs.
+monster-of-the-week vs. standalone. Clicking a block opens that season's list
+with the episode selected, and the episode information below the list shows a
+logline, credits, the per-source classification split, and out-links to IMDb
+and TMDB. Around that: site-wide FTS5 search (`?text=`), a `/taglines`
+catalogue of the opening-title variants, a `/provenance` dashboard, and
+server-rendered crawlable pages (`/episode/<id>`, `/seasons/<n>`,
+`sitemap.xml`) for SEO.
 
-220 records (218 episodes + 2 films). Python/Dash on Railway, always-on. Data is
-built offline by a committed pipeline and never fetched at request time.
+220 records (218 episodes + 2 films). Python/Dash + Flask on Railway, always-on.
+Data is built offline by a committed pipeline and never fetched at request
+time. The deployed app reads no API keys.
 
 ## Non-obvious decisions and why
 
@@ -109,59 +126,77 @@ The feasibility study lost 13 of 57 agents to network errors. These areas are
 - **All viewership claims failed verification** — hence viewership is v2, gated
   on full hand-QA of the Wikipedia column.
 - **All video-extras claims failed verification** — hence the feature is dropped.
-- **Contemporary review sentiment research produced nothing** — that agent
-  errored outright. Redo the research before designing this feature.
+- **Contemporary review sentiment** — the original agent errored; the research
+  was redone 2026-10-22 (`docs/research/xx-02-review-sentiment.md`). Researched,
+  awaiting Evan's decision (TASKS XX-02).
 - The Wikipedia 217-row parse and its field-population rates were never
   independently confirmed. Re-derive and count.
 
 ## State of the world right now
 
-*Verified against disk 2026-07-27.*
+*Verified against disk 2026-10-22 (W-04). Re-derive task counts with
+`grep -c "^- \[x\]" TASKS.md` rather than trusting a number here.*
 
-**Done — Groups A and C-01…C-18 verified, 31 of 123 tasks.**
+**Built and verified.** Groups A–I, UI, T and R, apart from the open boxes
+listed below. The full pipeline (`build/` spine → emit, run via
+`uv run python -m build`) has produced all 220 `data/episodes/*.json`, and the
+monthly `refresh.yml` workflow opens a PR with any data diff. On `main`
+(`427eb99`), `uv run pytest -m "not network" -q` is green (the 10 warnings are
+Dash `DataTable` deprecations; that migration is a deferred design call), and
+ruff, ty and prek are clean.
 
-- Branch **`init-scaffold`**, remote `github.com/EvanWAppel/spooky.git`. Do not
-  push to `main`. Commits: *Initialize spooky scaffold*, *Vertical slice…*.
-- The vertical slice **works and was verified in a live browser**: chart-click
-  → season+category filter, row-click → detail panel, URL routing pre-applies
-  on first paint. 29 tests passing, ruff/ty clean, prek hooks green.
-- `tests/conftest.py` exists (app-layer fixtures: `sample_data_dir`,
-  `episodes_df`, `contested_record`, `render_text`); suite passes from any cwd.
-- `spooky/values.py` holds the null-handling layer — **read its docstring
-  before writing any pipeline code.** JSON `null` arrives as `NaN`/`pd.NA`
-  through pandas, never `None`; three bugs came from that this session.
+**Live.** `https://spooky.evanappel.me/` returns 200 over valid TLS (Railway).
+SSR episode text is present in the raw HTML, and `robots.txt` and `sitemap.xml`
+resolve. A 21-minute-idle curl returned 200. Evidence is pasted under C-19, I-01,
+I-02, R-13 and J-08 in `TASKS.md`. Railway's sleep setting itself has not been
+inspected; that confirmation is in `BLOCKED.md`.
 
-**Open — C-19/C-20:** deploy to Railway (always-on approved — the account
-already hosts mccoy), then the Group C gate.
+**Loglines.** Evan's review is finished: `uv run python tools/review.py --status`
+→ `220 / 220 human-reviewed`. It was ported from WIP commit `e6f6f70` onto the
+weekend branch (W-01). F-07 and J-05 stay unticked until Evan ticks them. The 15
+variant tagline notes are `0 / 15` because T-06 (drafting them) needs the
+Anthropic key.
 
-**Not started**
+**Branches.** `main` is the deploy branch: Railway deploys from it, so **a merge
+is a deploy**. Weekend work (W-01…W-05) is on `weekend-2026-10-24`, for a PR.
+Evan's own checkout sits on `feat/fts5-search` (WIP `e6f6f70`); leave it alone.
 
-- `build/` and `tools/` are **empty**. The entire ingest pipeline (Groups D–G)
-  is unwritten. Module names are `build/spine.py` … `build/emit.py` with run
-  order in `build/__main__.py` (task D-15) — **not** the old `01_`-prefixed
-  names, which tests cannot import.
-- No real data — everything runs on the 12 sample records.
+**Still open** (see `TASKS.md` for Verify lines, `BLOCKED.md` for unblock steps):
 
-**Rulings already made — do not re-open** (full detail in `DECISIONS.md` §D):
+- **Owner tasks (📋):** F-07 logline review (done in data, box unticked),
+  G-06 classification spot-check, J-09 recruiter legibility, J-10 C1–C7 walk,
+  T-13 tagline-gloss review, R-13 Search Console submission.
+- **Check-phase boxes:** C-19 / I-01 (always-on; curl evidence in, Railway sleep
+  setting unconfirmed), C-20 (vertical-slice gate), J-05 (220/220, Evan to
+  tick), J-08 (curl evidence in; the fresh-browser-profile load is Evan's).
+- **Gated:** T-06 tagline glosses (needs a scoped, capped `ANTHROPIC_API_KEY`;
+  see the key item in `BLOCKED.md`). I-06 edits `../projects.toml`, outside this repo.
+- **Deferred:** V2/V3 items; XX-02 review sentiment (researched, awaiting
+  Evan's decision; see `docs/research/xx-02-review-sentiment.md`).
+
+**Rulings already made — do not re-open** (full detail in `DECISIONS.md`):
 
 - **Classification nulls abstain** (OPEN-01). PRD §5.3 is vote-based; films
   carry one Wikipedia vote; <3 votes ⇒ contested; zero votes ⇒ build fails.
 - **Railway always-on approved** (OPEN-02).
 - **The 175-finding review batch is retired** (OPEN-05). Confirmed items are
   fixed; do not re-litigate the rest.
+- **Search index is built in memory from JSON** (D-29), not from the committed
+  SQLite. **SEO is Flask SSR pages alongside Dash** (D-30), not a static-site rewrite.
 
-**API keys needed:** **TMDB** and **Anthropic**. OMDb and YouTube are *not*
-needed — don't let anyone re-add them. Note that no task yet creates a populated
-local `.env`; only `.env.example` exists — Group F (loglines) will stall on the
-Anthropic key without an owner step.
+**API keys.** Only **Anthropic**, and only for the local logline/triage/gloss
+steps (`build/loglines.py`, `build/rewrite.py`, `tools/triage.py`). The running
+app and the refresh workflow need no keys. TMDB, OMDb and YouTube keys are *not*
+needed; don't let anyone add them. Whether the local Anthropic key is a scoped,
+capped workspace key is still an open question in `BLOCKED.md`.
 
 ## Ground rules for whoever continues
 
 - **CLAUDE.md prime directive: don't do anything you're unclear about — ask.**
 - Execute prompt is *"Work on the next tasks. Check them off as completed. Stop
-  if you have questions."*
-- TDD: write the failing test first. Group B is deliberately all red.
-- Do not push to `main`.
+  if you have questions."* Never tick a 📋 OWNER box on Evan's behalf.
+- TDD: write the failing test first.
+- Do not push to or merge into `main`. A merge deploys.
 - Every task has a `Verify:` line. Run it and paste real output — the Check phase
   belongs to the human, so leave evidence.
 - If you find yourself repeating a correction, update `CLAUDE.md` (that's the
