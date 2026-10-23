@@ -1,0 +1,39 @@
+# Drafted by the 2026-10-24 weekend prep session on 2026-10-22; NOT yet verified
+# (PLAT-REG-01). Format: ~/Documents/_system/docs/project-toml.md
+
+[project]
+name = "spooky"
+group = "portfolio"
+kind = "app"
+status = "active"
+repo = "EvanWAppel/spooky"
+visibility = "public"
+on_site = true              # enki data/projects.ts + public/assets/logos/projects/spooky.svg
+verified = false
+
+[deploy]
+host = "railway"
+services = []               # unknown: Railway service name not checked (origin is web-production-61a00.up.railway.app)
+domain = "spooky.evanappel.me"
+origin_urls_closed = false  # web-production-61a00.up.railway.app returned HTTP 200 on 2026-10-22
+
+[auth]
+scheme = "none"
+access_list = ""
+target = "none"             # public portfolio site; no auth planned in PRD
+
+[data]
+db = "files"                # committed JSON (data/episodes/); FTS5 index built in memory (D-29); SQLite is a build output only
+
+[demo]
+status = "live"             # whole app is public
+url = "https://spooky.evanappel.me/"
+path = "/"
+
+[keys]
+paid = ["anthropic"]        # local build steps only (build/loglines.py, build/rewrite.py, tools/triage.py); the deployed app reads no keys (docs/deploy.md)
+isolated = "unknown"
+spend_cap = "unknown"
+
+[platform]
+done = []
