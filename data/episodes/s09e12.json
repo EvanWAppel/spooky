@@ -52,9 +52,9 @@
   "review_note": null
  },
  "logline_generated": "A convict's exoneration reopens Doggett's old NYPD case, as DNA evidence suggests his violent alter ego survives, committing new murders while he sleeps.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "A convict's exoneration reopens Doggett's old NYPD case, as DNA evidence suggests his violent alter ego survives, committing new murders while he sleeps.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:32:59Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {

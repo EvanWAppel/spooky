@@ -53,9 +53,9 @@
   "review_note": null
  },
  "logline_generated": "A prison outbreak of a grotesque insect-borne pathogen escapes containment, drawing Mulder and Scully into a cover-up involving convicts, a pharmaceutical company, and shadowy government interests.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "A prison outbreak of a grotesque insect-borne pathogen escapes containment, drawing Mulder and Scully into a cover-up involving convicts, a pharmaceutical company, and shadowy government interests.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:31:37Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {

@@ -53,9 +53,9 @@
   "review_note": null
  },
  "logline_generated": "Doggett and Reyes investigate a wave of spontaneous combustions, forcing Reyes to confront unsettling visions tied to a violent entity from her past.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "Doggett and Reyes investigate a wave of spontaneous combustions, forcing Reyes to confront unsettling visions tied to a violent entity from her past.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:32:50Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {

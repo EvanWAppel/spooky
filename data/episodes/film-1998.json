@@ -37,9 +37,9 @@
   "review_note": null
  },
  "logline_generated": "Mulder and Scully uncover a global conspiracy linking a bombed building, an alien virus, and shadowy government collaborators, forcing them to risk everything to expose the truth.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "Mulder and Scully uncover a global conspiracy linking a bombed building, an alien virus, and shadowy government collaborators, forcing them to risk everything to expose the truth.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:29:45Z",
  "review_note": null,
  "provenance": {
   "all_fields": {

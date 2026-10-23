@@ -48,9 +48,9 @@
   "review_note": null
  },
  "logline_generated": "Mulder and Scully pose as a married couple in a pristine gated community, where residents who defy the strict rules vanish, guarded by something monstrous.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "Mulder and Scully pose as a married couple in a pristine gated community, where residents who defy the strict rules vanish, guarded by something monstrous.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:32:20Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {

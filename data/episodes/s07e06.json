@@ -50,9 +50,9 @@
   "review_note": null
  },
  "logline_generated": "Mulder and Scully investigate a man whose impossible luck keeps others alive while endangering those around him, unraveling a debt tied to a dying child.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "Mulder and Scully investigate a man whose impossible luck keeps others alive while endangering those around him, unraveling a debt tied to a dying child.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:32:36Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {

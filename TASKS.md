@@ -299,6 +299,13 @@ D ─────► E ─────► G ────────────
   - Verify: paste the output
 - [ ] **J-05** All 220 loglines `human-reviewed`
   - Verify: `uv run python tools/review.py --status` → `220 / 220`
+  - Evidence (2026-10-22, W-01 — Evan's review ported verbatim from WIP commit `e6f6f70`; box left for Evan to tick along with F-07):
+    ```
+    $ uv run python tools/review.py --status
+    220 / 220 human-reviewed
+    0 / 15 variant tagline notes human-reviewed
+    15 pending (0 marked needs-work)
+    ```
 - [x] **J-06** Footer attribution present and **verbatim** per PRD §11.2, including the TMDB clause
   - Verify: diff the rendered footer against PRD §11.2 character by character
 - [x] **J-07** Published dataset + `data/README.md` field dictionary accurate

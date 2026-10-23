@@ -45,9 +45,9 @@
   "review_note": null
  },
  "logline_generated": "Mulder and Scully investigate a rancher's fatal shooting near tribal land, where ancient legends of a shapeshifting predator collide with modern prejudice and grief.",
- "logline": null,
- "review_status": "ai-drafted",
- "reviewed_at": null,
+ "logline": "Mulder and Scully investigate a rancher's fatal shooting near tribal land, where ancient legends of a shapeshifting predator collide with modern prejudice and grief.",
+ "review_status": "human-reviewed",
+ "reviewed_at": "2026-10-02T02:31:21Z",
  "review_note": null,
  "provenance": {
   "tvmaze_id": {
