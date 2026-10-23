@@ -578,4 +578,4 @@ Specified in PRD §7. Listed here so no agent starts them by accident.
 - [ ] **V3-03** Connections to outside works
 - [ ] **V3-04** Static-site migration if SEO matters — **pulled forward to Group R.3** (discoverability/SEO); see that group and PRD §7.
 - [ ] **XX-01** ~~Video extras~~ — **dropped**, all claims failed verification
-- [ ] **XX-02** ~~Contemporary review sentiment~~ — **unassessed**; research agent errored. Redo the research before deciding.
+- [ ] **XX-02** Contemporary review sentiment — **researched, awaiting decision** (2026-10-22). Memo: [`docs/research/xx-02-review-sentiment.md`](docs/research/xx-02-review-sentiment.md). Recommendation: cited critic grades taken from Wikipedia Reception sections, human-reviewed, no quotes and no aggregator scores. Evan decides (open questions in §5 of the memo).

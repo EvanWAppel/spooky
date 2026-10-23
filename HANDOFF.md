@@ -126,8 +126,9 @@ The feasibility study lost 13 of 57 agents to network errors. These areas are
 - **All viewership claims failed verification** — hence viewership is v2, gated
   on full hand-QA of the Wikipedia column.
 - **All video-extras claims failed verification** — hence the feature is dropped.
-- **Contemporary review sentiment research produced nothing** — that agent
-  errored outright. Redo the research before designing this feature (TASKS XX-02).
+- **Contemporary review sentiment** — the original agent errored; the research
+  was redone 2026-10-22 (`docs/research/xx-02-review-sentiment.md`). Researched,
+  awaiting Evan's decision (TASKS XX-02).
 - The Wikipedia 217-row parse and its field-population rates were never
   independently confirmed. Re-derive and count.
 
@@ -169,8 +170,8 @@ Evan's own checkout sits on `feat/fts5-search` (WIP `e6f6f70`); leave it alone.
   tick), J-08 (curl evidence in; the fresh-browser-profile load is Evan's).
 - **Gated:** T-06 tagline glosses (needs a scoped, capped `ANTHROPIC_API_KEY`;
   see the key item in `BLOCKED.md`). I-06 edits `../projects.toml`, outside this repo.
-- **Deferred:** V2/V3 items; XX-02 review sentiment (unresearched, see *What we
-  do NOT know*).
+- **Deferred:** V2/V3 items; XX-02 review sentiment (researched, awaiting
+  Evan's decision; see `docs/research/xx-02-review-sentiment.md`).
 
 **Rulings already made — do not re-open** (full detail in `DECISIONS.md`):
 
