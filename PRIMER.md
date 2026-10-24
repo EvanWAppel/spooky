@@ -6,69 +6,40 @@
 Railway) whose headline feature is that sources disagree on which episodes are "mythology":
 three verdicts per episode, a voted label, and the disagreement shown openly.
 
-**You are unattended.** Work in the worktree on branch `weekend-2026-10-24`, never in
-`~/Documents/portfolio/spooky` (Evan's checkout, on `feat/fts5-search`). Open a PR when done;
+**You are unattended.** Work on a feature branch cut from `origin/main` (the `weekend-2026-10-24`
+branch merged as PR #8), never in `~/Documents/portfolio/spooky` (Evan's checkout). Open a PR when done;
 **never merge, never deploy, never push to `main`.** Prime directive (CLAUDE.md): if anything
 is unclear, stop and write the question into `BLOCKED.md` instead of guessing.
 
-### Current state (checked 2026-10-22)
+### Current state (checked 2026-10-24)
 
-- `main` @ `427eb99` — v1 code complete + Group UI + Group T (taglines, minus T-06/T-13) +
-  Group R (FTS5 search, provenance dashboard, SSR/SEO pages). No open PRs.
-- Default-branch checks: `uv run pytest -m "not network" -q` → **295 passed, 1 skipped,
-  1 deselected, 10 warnings** (warnings = Dash `DataTable` deprecation). `ruff check`,
-  `ty check`, `prek run --all-files` all clean.
-- **Live:** `https://spooky.evanappel.me/` → 200 over TLS (Railway, `server: railway-hikari`);
-  `/sitemap.xml` → 200; `/episode/s03e15` serves "Piper Maru" in raw HTML. The Railway origin
-  `https://web-production-61a00.up.railway.app/` also → 200. `BLOCKED.md` and TASKS.md
-  (C-19, I-02, R-13) still describe the deploy as pending — they are stale.
-- **Unmerged in-flight work:** `origin/feat/fts5-search` carries WIP commit `e6f6f70`
-  (2026-10-17 backup sweep) on top of `fa692a2`. It holds **Evan's finished logline review —
-  all 220 records `human-reviewed`** (main has 1), plus `AGENTS.md`, the ROCRLL block in
-  `CLAUDE.md`, D-29 marked accepted in `DECISIONS.md`, and refreshed `BLOCKED.md` items.
-  None of those paths changed on `main` since `fa692a2`, so they port cleanly. The WIP
-  commit's diffs to `tools/review.py` / `tests/test_review_cli.py` are just "before T-07":
-  **do not take them.**
+- `main` @ `e0be3e5` (2026-10-23) — v1 code complete + Group UI + Group T (taglines, minus T-06/T-13) +
+  Group R (FTS5 search, provenance dashboard, SSR/SEO pages). The weekend batch W-01..W-05 merged
+  as PR #8: Evan's logline review ported from `e6f6f70` (220/220 `human-reviewed`, plus
+  `AGENTS.md`, the ROCRLL block in `CLAUDE.md`, D-29 accepted), live-deploy curl evidence under
+  C-19/I-02/R-13 and the README **Live demo** URL, the 21-minute idle check under I-01/J-08,
+  the refreshed `HANDOFF.md`, and the XX-02 research memo
+  (`docs/research/xx-02-review-sentiment.md`, "researched, awaiting decision"). PR #9 synced the
+  blocker protocol. No open PRs.
+- Default-branch checks, re-run 2026-10-24 on a fresh clone: `uv run pytest -m "not network" -q` →
+  **296 passed, 1 skipped, 1 deselected, 10 warnings** (warnings = Dash `DataTable` deprecation).
+  `ruff check` and `ty check` clean (`prek` not re-run).
+- **Live:** `https://spooky.evanappel.me/` (I-02 ticked). C-19 and I-01 stay unticked until Evan
+  confirms App Sleeping is off in Railway; J-05/F-07 wait on Evan to confirm the ported review.
+- `origin/feat/fts5-search` still exists with WIP commit `e6f6f70`; its useful content is now on
+  main. Leave the branch alone.
 
 ### Autonomous tasks, in order
 
-1. **W-01 Port the reviewed loglines + docs from `e6f6f70` (M).**
-   `git checkout e6f6f70 -- AGENTS.md CLAUDE.md DECISIONS.md data/episodes`, then hand-merge
-   `BLOCKED.md`: take the WIP's reworded deploy/R-13 items, drop the D-29 item (accepted),
-   **keep every item this branch added**. Copy the files verbatim and don't edit any
-   episode JSON: human-reviewed content is sacred. Don't touch `tools/` or `tests/`.
-   - Done: `uv run python tools/review.py --status` → `220 / 220` loglines;
-     `git diff origin/main --stat -- tools tests` is empty; full suite green. Paste the
-     output under J-05 in TASKS.md. Leave the box unticked: F-07 and J-05 are Evan's to tick.
-2. **W-02 Record deploy evidence + de-stale docs (S).** Paste real `curl` output under
-   C-19, I-02 and R-13 in TASKS.md (domain 200 + TLS; SSR text in raw HTML; sitemap/robots
-   resolve). Fill the README **Live demo** line with `https://spooky.evanappel.me`. Add a
-   one-line "deployed" status to `docs/deploy.md`. Only tick boxes whose Verify line you
-   actually ran. Leave R-13's Search Console submission and every 📋 OWNER box unticked.
-   - Done: `grep -n "Live demo" README.md` shows the URL; `uv run prek run --all-files` clean.
-3. **W-03 Always-on check, I-01 / J-08 (S).** Don't send any request for ≥20 min (use
-   `Monitor`/a background `sleep 1260 && curl …`), then
-   `curl -s -o /dev/null -w "%{http_code} %{time_total}\n" https://spooky.evanappel.me/`.
-   Paste the result under I-01 and J-08. You can't rule out other traffic, so say so. Tick
-   I-01 only if the result is 200. J-08 says "fresh browser profile": record the curl
-   evidence and leave the box for Evan.
-   - Done: evidence pasted, with the caveat noted.
-4. **W-04 Refresh `HANDOFF.md` (S).** It still says "Execute phase has begun, Group A
-   complete" (2026-07-27). Rewrite the status and "read these" sections to match today.
-   Keep the "non-obvious decisions" content, which is still true.
-   - Done: no claim in HANDOFF.md contradicts TASKS.md; prek clean.
-5. **W-05 XX-02 research memo (M, optional, last).** The "contemporary review sentiment"
-   research errored and was never redone. Write `docs/research/xx-02-review-sentiment.md`
-   covering candidate sources, their licences, whether quoting or scoring is lawful under
-   CLAUDE.md, and a recommendation. **Research only. Build nothing, add no deps, and never
-   touch Fandom, TV Tropes, IMDb, Pluto TV or insidethex.co.uk.** Mark XX-02 "researched,
-   awaiting decision"; Evan decides.
-   - Done: memo exists, cites sources with URLs, ends in a recommendation + open questions.
+**None left.** W-01..W-05 all merged in PR #8. What remains is Evan's, and every item is in
+`BLOCKED.md`: the scoped `ANTHROPIC_API_KEY` and `[keys]` facts, the Railway always-on setting
+(C-19/I-01), ticking F-07/J-05, G-06, J-09, the R-13 Search Console submission, branch
+protection on `main`, and the XX-02 build/decline call. If nothing new has been added to
+TASKS.md or BLOCKED.md, stop.
 
-Finish: run the full Check once (`uv run pytest -m "not network" -q && uv run ruff check . &&
-uv run ty check && uv run prek run --all-files`). Do an independent fresh-context review of
-the diff (ROCRLL), then `git push -u origin weekend-2026-10-24` and `gh pr create` with the
-evidence in the body. Put the PR link last in your report.
+Before any PR, run the full Check (`uv run pytest -m "not network" -q && uv run ruff check . &&
+uv run ty check && uv run prek run --all-files`), do an independent fresh-context review of the
+diff (ROCRLL), and put the PR link last in your report.
 
 ### House rules that bite (from CLAUDE.md)
 
@@ -99,4 +70,5 @@ evidence in the body. Put the PR link last in your report.
   silence the warnings either.
 - **V2/V3 deferred items**, browser automation, reading any `.env*` file, and touching
   `~/Documents/portfolio/spooky` or the `feat/fts5-search` branch itself.
+- **XX-02 build:** research is done; build nothing until Evan picks an option.
 - Flipping `verified = true` in `project.toml`: that is Evan's/the project session's call.
