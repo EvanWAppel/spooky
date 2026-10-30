@@ -37,3 +37,13 @@ spend_cap = "unknown"
 
 [platform]
 done = []
+
+[commands]
+dev = "uv run python app.py"
+test = "uv run pytest"
+lint = "uv run ruff check . && uv run ty check"
+
+[meta]
+description = "X-Files episode data explorer"
+language = "python"
+tags = ["portfolio"]
