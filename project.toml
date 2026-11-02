@@ -40,10 +40,18 @@ done = []
 
 [commands]
 dev = "uv run python app.py"
-test = "uv run pytest"
+test = "uv run pytest -q"
 lint = "uv run ruff check . && uv run ty check"
+setup = "uv sync --locked --all-groups"
 
 [meta]
 description = "X-Files episode data explorer"
 language = "python"
 tags = ["portfolio"]
+
+[fleet]                     # joined 2026-11-01 (_system D-051); also has the `fleet` topic
+component = "spooky"
+agents = ["claude", "codex"]
+default_model = "sonnet"
+default_branch = "main"
+max_minutes = 45
